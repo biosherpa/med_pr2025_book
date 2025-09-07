@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jesús Esteban Hernández">
+<meta name="dcterms.date" content="2022-02-12">
+
+<title>Apuntes Prácticas de la asignatura de Bioestadística - 3&nbsp; PR2-Importación de datos.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./PR_3_lect.html" rel="next">
+<link href="./PR_1_lect.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">PR2-Importación de datos.</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes Prácticas de la asignatura de Bioestadística</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_0_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">PR0-Buenas prácticas en recopilación de datos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_1_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">PR1-Introducción a R y RStudio.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_2_lect.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">PR2-Importación de datos.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_3_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PR3-Manipulación de datos.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_4_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">PR4-Estadística Descriptiva.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#importación-de-datos-en-r." id="toc-importación-de-datos-en-r." class="nav-link active" data-scroll-target="#importación-de-datos-en-r."><span class="toc-section-number">4</span>  Importación de datos en R.</a>
+  <ul class="collapse">
+  <li><a href="#importación-desde-archivo-.csv-comma-separated-values." id="toc-importación-desde-archivo-.csv-comma-separated-values." class="nav-link" data-scroll-target="#importación-desde-archivo-.csv-comma-separated-values."><span class="toc-section-number">4.0.1</span>  Importación desde archivo .csv (Comma Separated Values).</a></li>
+  <li><a href="#importación-desde-archivo-.xlsx-excel." id="toc-importación-desde-archivo-.xlsx-excel." class="nav-link" data-scroll-target="#importación-desde-archivo-.xlsx-excel."><span class="toc-section-number">4.0.2</span>  Importación desde archivo .xlsx (Excel).</a></li>
+  <li><a href="#guardar-los-datos-para-la-siguiente-sesión." id="toc-guardar-los-datos-para-la-siguiente-sesión." class="nav-link" data-scroll-target="#guardar-los-datos-para-la-siguiente-sesión."><span class="toc-section-number">4.1</span>  Guardar los datos para la siguiente sesión.</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">PR2-Importación de datos.</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jesús Esteban Hernández </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 12, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+<style type="text/css">
+<style type="text/css">
+  
+  .TOC {
+    left:0;
+    width:200px;
+    margin-left: 0px;
+    right: 2px;
+    margin: 2px 20px 20px 0px;
+    color: red;
+    font-size: 2px;
+  }
+
+  .main-container {
+  
+  width:1800px !important;
+  margin-left: 10px;
+  margin-right: 10px;
+  
+}
+
+body {
+  font-size: 14pt;
+  font-family: Helvetica;
+  <!-- color: red; -->
+  <!-- background-color: olive; -->
+  
+}
+
+h1 {
+  font-size: 34px;
+}
+
+h2 {
+  font-size: 20px;
+  color: red;
+  text-indent:10px;
+
+}
+
+h3 {
+  font-size: 20px;
+  color: blue;
+  text-indent:15px;
+
+}
+
+
+h4 {
+  font-size: 20px;
+  color: green;
+  text-indent:20px;
+
+}
+
+tocify-header {
+    text-indent: initial;
+}
+
+.gt_table {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  width: auto !important;
+  
+}
+
+
+</style></style>
+
+
+</div>
+<p>Recuerda siempre cómo <em>“piensa”</em> R.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pics/como_piensa_R.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Cómo piensa R</figcaption><p></p>
+</figure>
+</div>
+<section id="importación-de-datos-en-r." class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Importación de datos en R.</h1>
+<p>En la sección anterior hemos visto lo fundamental sobre estructuras y hemos comentado las características de una estructura clave en el manejo de datos en R: <strong>dataframe</strong>.</p>
+<p>En esta práctica vamos a ver cómo importar datos utilizando diferentes funciones dependiendo del origen.</p>
+<p>Como comentábamos, la importación consiste en construir un objeto, generalmente de tipo dataframe a partir de un archivo externo.</p>
+<p>Para hacerlo necesitamos que el archivo externo tenga una estructura matricial (.xlsx) o que pueda convertirse en matricial (.csv) porque incluya caracteres de separación que le indiquen al programa que lo importa, en nuestro caso R, cuando cambiamos de columna o de fila.</p>
+<p>Se han incorporado muchas funciones a R que realizan la importación de forma casi automática, pero entender sus fundamentos puede ayudar a entender y resolver problemas de importación.</p>
+<p>Nos vamos a centrar en dos estructuras desde las que con frecuencia vamos a importar datos.</p>
+<section id="importación-desde-archivo-.csv-comma-separated-values." class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="importación-desde-archivo-.csv-comma-separated-values."><span class="header-section-number">4.0.1</span> Importación desde archivo .csv (Comma Separated Values).</h3>
+<p>Una de las más sencillas si el archivo .csv está bien construido. Un archivo .csv no es más que un archivo de texto en el que el carácter coma (“,”) separa campos (variables) y el salgo de línea separa registros (individuos/elementos).</p>
+<blockquote class="blockquote">
+<p>En realidad cualquier estructura de texto que utilice un separador de campos (variables) y de registros (líneas) es susceptible de ser importada. R tiene una función muy básica para hacerlo (<em>read.table</em>), a la que le indicamos el carácter separador de campos (“,”, “;”,“/”,“/tab”…), si el archivo contiene encabezado (header), una primera línea en la que se almacenan los nombres de las variables, o el carácter que utiliza como separador decimal. En realidad tiene muchos otros argumentos, pero no son necesarios para realizar importaciones sencillas. Por ejemplo, la función que utilizaremos a continuación en realida es una adaptación de esta en la que por defecto se establece que el separador de campos es la coma (“,”), entre otros argumentos.</p>
+</blockquote>
+<p>Como comentábamos, el .csv es un formato estándar, que pesa poco y hay funciones diseñadas para leer este tipo de archivos.</p>
+<p>Entre los archivos de trabajo, hemos incluido un archivo llamado myiam2. Es un archivo con extensión .csv que contiene una base de datos de pacientes que habían padecido un infarto.</p>
+<p>Vamos a crear un dataframe importándola y como sabemos que se trata de un csv, vamos a utilizar al función <em>read.csv</em> del paquete <em>utils</em>. En este caso no hace falta cargarla porque este paquete se carga al iniciar R.</p>
+<p>Recuerde que hay que indicar el dirección en la que está el archivo. En este ejemplo, que explicaremos en clase, vamos a utilizar direccionamiento relativo al directorio en el que está el archivo desde mi directorio de trabajo.</p>
+<blockquote class="blockquote">
+<p>Importante. La dirección de las barras de dirección (las que separan directorios y subdirectorios) en R vienen del mundo UNIX (un sistema operativo diferente a Windows), por eso las barras se inclinan hacia el lado contrario. En clase veremos alguna función que facilita copiar y pegar las direcciones desde Windows adaptándolas al lenguaje de R. Se puede hacer invirtiendo las barras que vienen de Windows, o duplicándolas manteniendo la dirección.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>iam<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">'_data/myiam2.csv'</span>) <span class="co"># Utilizando relative path.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La salidas de las funciones read suele ser un dataframe, y por ello podemos asignarlo directamente a un objeto, en el ejemplo el objeto (dataframe) llamado iam.</p>
+<p>Pedimos las primeras filas del dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Id      Age Sex Height Weight Smoke ami
+1  1 65.24100   1   1.62  74.56     0   0
+2  2 62.45461   0   1.56  60.89     0   0
+3  3 64.68328   0   1.69  74.20     0   0
+4  4 65.36045   0   1.34  43.92     0   0
+5  5 70.71094   0   1.81  80.86     1   0
+6  6 65.42030   0   1.78  80.56     0   0</code></pre>
+</div>
+</div>
+<p>También podemos pedir la estructura que nos da mucha información sobre el contenido del dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   100 obs. of  7 variables:
+ $ Id    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Age   : num  65.2 62.5 64.7 65.4 70.7 ...
+ $ Sex   : int  1 0 0 0 0 0 1 0 0 0 ...
+ $ Height: num  1.62 1.56 1.69 1.34 1.81 1.78 1.79 1.44 1.56 1.87 ...
+ $ Weight: num  74.6 60.9 74.2 43.9 80.9 ...
+ $ Smoke : int  0 0 0 0 1 0 0 1 0 0 ...
+ $ ami   : int  0 0 0 0 0 0 0 1 0 0 ...</code></pre>
+</div>
+</div>
+<p>En realidad esta estructura también está visible si desplegamos el dataframe en la pestaña Environment, ventana data del panel superior derecho.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pics/iam_en_vent_data.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">vent_data</figcaption><p></p>
+</figure>
+</div>
+<p>Esta función nos informa del contenido del objeto. Al tratarse de un dataframe, nos muestra las variables, el tipo de dato que almacena cada una (en este ejemplo solo hay numérico y enteros) y las primeras observaciones. Es el primer punto de control en el que podemos observar si la importación ha ido como esperábamos.</p>
+</section>
+<section id="importación-desde-archivo-.xlsx-excel." class="level3" data-number="4.0.2">
+<h3 data-number="4.0.2" class="anchored" data-anchor-id="importación-desde-archivo-.xlsx-excel."><span class="header-section-number">4.0.2</span> Importación desde archivo .xlsx (Excel).</h3>
+<p>El concepto de importación es el mismo independientemente de la fuente de los datos, pero las funciones a utilizar cambian para responder a las especificidades del tipo de archivo.</p>
+<p>R no cuenta con función propia para leer un archivo xlsx, pero otras librerías lo han incorporado.</p>
+<p>El siguiente ejemplo crea el mismo dataframe, pero en esta ocasión desde un archivo .xlsx. Utilizaremos la librería <em>readxl</em> (si no la tiene instalada, hágalo antes de ejecutar el siguiente código).</p>
+<p>Podríamos cargar la librería con library(readxl), pero vamos a aprovechar para mostrar cómo podemos llamar a una biblioteca (library) sin cargarla en memoria. La clave es anteceder el nombre de la función con el nombre de la biblioteca seguido de <em>“::”</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>iam2<span class="ot">&lt;-</span>readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">'_data/myiam3.xlsx'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pedimos la estructura</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iam2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [100 × 8] (S3: tbl_df/tbl/data.frame)
+ $ Id    : num [1:100] 1 2 3 4 5 6 7 8 9 10 ...
+ $ Sex   : chr [1:100] "1" "0" "0" "0" ...
+ $ Height: num [1:100] 1.62 1.56 1.69 1.34 1.81 1.78 1.79 1.44 1.56 1.87 ...
+ $ Weight: num [1:100] 74.6 60.9 74.2 43.9 80.9 ...
+ $ Smoke : chr [1:100] "0" "0" "0" "0" ...
+ $ Ami   : chr [1:100] "0" "0" "0" "0" ...
+ $ fecing: POSIXct[1:100], format: "2015-03-18 21:05:08" "2015-08-07 04:23:18" ...
+ $ fnac  : POSIXct[1:100], format: "1949-12-20 14:28:28" "1953-02-21 15:15:57" ...</code></pre>
+</div>
+</div>
+<p>En realidad vemos que la nueva base de datos no es exactamente la anterior. Las variables Sex, Smoke y Ami son de tipo carácter. Además no incluye la edad, pero sí la fecha de ingreso y la fecha de nacimiento.</p>
+<p>No es infrecuente que nuestros datos procedan de otro paquete estadístico o tipo de fichero. La biblioteca <em>foreign</em> incluye funciones para acometer esta tarea desde varias fuentes, incluyendo los tres software de análisis más habituales en nuestro contexto (SAS,SPSS,Stata).</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+<strong>Programa</strong><br>
+&nbsp;&nbsp;&nbsp;<br>
+</th>
+<th style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+<strong>Paquete</strong></th>
+<th style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+<strong>Función</strong></th>
+<th style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+<strong>Argumentos y opciones más&nbsp;&nbsp;&nbsp;frecuentes/predefinidas</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+SPSS</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+foreign</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+read.spss()</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+read.spss(file,&nbsp;&nbsp;&nbsp;use.value.labels = TRUE,&nbsp;&nbsp;&nbsp;to.data.frame = FALSE, max.value.labels = Inf, trim.factor.names = FALSE,&nbsp;&nbsp;&nbsp;trim_values = TRUE, reencode = NA, use.missings = to.data.frame)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+Stata</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+foreign</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+read.dta()</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+read.dta(file, convert.dates = TRUE,&nbsp;&nbsp;&nbsp;convert.factors = TRUE, missing.type = FALSE, convert.underscore = FALSE,&nbsp;&nbsp;&nbsp;warn.missing.labels = TRUE)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+SAS</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+haven</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+read_sas()</td>
+<td style="text-align: left;">&nbsp;&nbsp;&nbsp;<br>
+read_sas(data_file,&nbsp;&nbsp;&nbsp;catalog_file = NULL, encoding = NULL, cols_only = NULL)</td>
+</tr>
+</tbody>
+</table>
+<p>También existen paquetes más específicos para importar desde alguno de ellos, como <em>readstata13</em>, que permiten opciones adicionales.</p>
+</section>
+<section id="guardar-los-datos-para-la-siguiente-sesión." class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="guardar-los-datos-para-la-siguiente-sesión."><span class="header-section-number">4.1</span> Guardar los datos para la siguiente sesión.</h2>
+<p>Una vez hemos trabajado los datos en R, no tendría mucho sentido volver a exportarlos con las nuevas variables creadas, salvo que deseemos enviárselo a alguien que no utilice R o no pueda importar su formato de datos.</p>
+<p>Podríamos guardar toda la imagen del espacio de trabajo (Workspace) y cargarla antes de trabajar con el nuevo dataframe en la siguiente sesión.</p>
+<p>Sin embargo, y aunque cueste entenderlo al principio, es preferible guadar la menor cantidad de objetos posibles y tratar de que sea el código el que lo construya cada vez.</p>
+<p>Si el objeto es muy grande o lleva mucho tiempo volver a generarlo con código, puede estar justificado guardar el o los objetos concretos.</p>
+<p>En el caso del dataframe tenemos una estructura de datos que le sirve a R para gestionar esta parte. Son los archivos .RDS.</p>
+<p>En este vínculo explican las dos opciones, pero de momento prefiero utilizar un archivo .RDS. Solo necesita un par de argumentos, el nombre del objeto dataframe que queremos guardar y el nombre del archivo en el que queremos guardarlo.</p>
+<p>El dataframe que nos interesa es iam, porque contiene las nuevas variables y las transformaciones que hemos realizado. Incluyo los nombres de los argumentos, pero dado que son los dos primeros en realidad no haría falta<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object=</span>iam,<span class="at">file=</span><span class="st">'iam.RDS'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Es importante que aprendáis a salvarlo (ahora y tras el capítulo de manipulación de datos), porque lo utilizaremos en futuras sesiones.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Recordad lo que comenté en la sesión anterior sobre las <em>posiciones relevantes</em> al llamar a las funciones<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./PR_1_lect.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">PR1-Introducción a R y RStudio.</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./PR_3_lect.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PR3-Manipulación de datos.</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

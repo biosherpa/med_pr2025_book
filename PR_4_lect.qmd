@@ -1,0 +1,442 @@
+---
+title: "PR4-Estadística Descriptiva. "
+author: "Jesús Esteban Hernández"
+date: "2/12/2022"
+output:
+  html_document: 
+    theme: cosmo
+    code_folding: show
+    toc: yes
+    number_sections: yes
+    toc_depth: 5
+    toc_float: yes
+   
+  # html_notebook:
+  #   # theme: readable
+  #   code_folding: show
+  #   toc: true
+  #   toc_float: 
+  #     collapsed: false
+  #   toc_depth: 5
+  #   # toc-title: Table of contents #toc-title no me funciona.
+    # number_sections: yes
+  # Opciones aquí https://garrettgman.github.io/rmarkdown/html_document_format
+  pdf_document:
+    toc: yes
+    toc_depth: 5
+    latex_engine: lualatex
+lan: es-ES
+editor_options:
+bibliography: MasterUE.bib
+biblio-style: apalike
+link-citations: true
+#csl: biomed-central.csl
+chunk_output_type: inline
+---
+
+```{css label=css, echo = FALSE}
+<style type="text/css">
+  
+  .TOC {
+    left:0;
+    width:200px;
+    margin-left: 0px;
+    right: 2px;
+    margin: 2px 20px 20px 0px;
+    color: red;
+    font-size: 2px;
+  }
+
+  .main-container {
+  
+  width:1800px !important;
+  margin-left: 10px;
+  margin-right: 10px;
+  
+}
+
+body {
+  font-size: 14pt;
+  font-family: Helvetica;
+  <!-- color: red; -->
+  <!-- background-color: olive; -->
+  
+}
+
+h1 {
+  font-size: 34px;
+}
+
+h2 {
+  font-size: 20px;
+  color: red;
+  text-indent:10px;
+
+}
+
+h3 {
+  font-size: 20px;
+  color: blue;
+  text-indent:15px;
+
+}
+
+
+h4 {
+  font-size: 20px;
+  color: green;
+  text-indent:20px;
+
+}
+
+tocify-header {
+    text-indent: initial;
+}
+
+.gt_table {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  width: auto !important;
+  
+}
+
+
+</style>
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+Recuerda siempre cómo *"piensa"* R.
+
+![Cómo piensa R](pics/como_piensa_R.png)
+
+# Estadística descriptiva con R.
+
+En la sección anterior hemos visto como importar y gestionar variables de un **dataframe**.
+En esta práctica vamos a ver cómo obtener los descriptivos básicos.
+Es lo que se llama Análisis Exploratorio de los Datos (Exploratory Data Analysis [EDA])
+
+Lo primero que debemos hacer es cargar los datos de iam que habíamos importado y modificado en la sesión anterior.
+
+No indico ruta porque estoy en el directorio de trabajo y es donde está el archivo.
+
+```{r}
+iam <- readRDS('iam.RDS')
+```
+
+Si no fuese así, debería indicar la ruta entre las comillas.
+Por ejemplo, si estuviese en un subdirectorio del de trabajo, debería hacerlo así.
+
+```{r, eval=FALSE}
+readRDS('_data/iam.RDS')
+
+```
+
+Este código debería devolveros un error salvo que efectivamnte hayáis colocado el archivo en ese subdirectorio[^1]
+
+## Descriptivo inicial y depuración.
+
+Entre los objetivos del llamado Análisis Exploratorio de los Datos (EDA o Exploratory Data Analysis) destacaría tres:
+
+-   Obtener una visión general de la distribución de tus variables tanto mediante los descriptivos como los gráficos adecuados para el tipo de variable.
+-   Detectar valores anómalos por ser extremos (outliers), por no constar (missing) o por ser imposibles (error de medida o de introducción).
+-   Visualizar relaciones bivariadas (también hay técnicas multivariadas, pero no las veremos en esta introducción) entre las variables del dataframe.
+-   Una vez identificado todo lo anterior, podremos construir una primera foto de nuestra muestra.
+
+Respecto a los valores anómalos, a veces podrán ser eliminados (errores de introducción), pero en otras ocasiones tendremos que lidiar con ellos en la construcción de los modelos y en la presentación de los resultados.
+
+Aunque no es una regla exacta, se suele decir que no te puedes fiar de una variable que tenga más de un 10% de valores perdidos (missing), pero en ocasiones no te queda más remedio que utilizarlas.
+En estos casos hay diversas técnicas de imputación de valores perdidos que escapan a los objetivos de este curso.
+
+Como habremos visto durante la clase, los descriptivos y gráficos adecuados dependen de la escala de medida de la variable a describir.
+
+R tiene algunos criterios para decidir que devolver cuando le pedimos que haga un resumen (función *summary*), pero para ello necesita que la variable sea de la clase adecuada (numéric, integer, logical, factor)
+
+Utilizaremos el dataframe iam.
+Recordemos su estructura.
+
+```{r}
+str(iam)
+```
+
+Como se puede apreciar, algunas variables que deberían ser categóricas están como tipo entero (int o integer), así que lo primero que vamos a hacer es convertirlas en factores.
+
+```{r}
+iam$Sex<-factor(iam$Sex,labels=c('Men','Women'))
+
+```
+
+Podríamos ir cambiando una a una, pero R cuenta con algunas funciones que permiten cambiar simultáneamente varias variables que se van a etiquetar de la misma manera.
+En nuestro caso son ami (Acute Myocardial Infarction) y Smoke (Fuma sí/no) que van con 0 (No) y 1 (Yes).
+
+```         
+Es recomendable utilizar una estrategia homogénea de etiquetado de valores de variable para facilitar conversiones posteriores.
+```
+
+La familia de funciones *apply* (*apply, lapply, sapply, tapply, mapply...*) no son demasiado intuitivas, y se han desarrollado funciones que permiten realizar los mismo ocn código más intuitivo.
+Aunque incluya aquí un ejemplo, no es esencial conocerlas para poder realizar este tipo de modificación.
+
+```{r}
+iam[,c('ami','Smoke')]<-lapply(iam[,c('ami','Smoke')],factor,labels=c('No','Yes'))
+str(iam)
+```
+
+Como podemos observar, en la nueva estructura (hemos modificado el dataframe) las variables que antes eran de tipo entero, ahora son factores.
+
+Si ahora pedimos un primer resumen, observamos una serie de descriptivos básicos.
+
+```{r}
+summary(iam)
+```
+
+El paquete *psych* ofrece más posibilidades.
+Recuerde que si no lo tienen instalado debe instalarlo antes de llamar al paquete.
+
+```{r}
+psych::describe(iam)
+```
+
+Desgraciadamente, aunque identifica las variables categóricas, utiliza el valor numérico subyacente.
+Fíjese en la media de la variable Sex (1.42).
+
+A no olvidar:
+
+-   Echar un vistazo al mínimo y máximo. Esto nos permite detectar valores imposibles (por ejemplo una edad de 130 años, o un peso de 999).
+-   Identificar si hay valores perdidos.
+-   Estadísticos que nos dan una primera visión sobre la distribución.
+    -   Cercanía de la media a la mediana, desviación típica (recuerde que el coeficiente de variación es $\frac{sd}{\overline{x}})$ expresado en %).
+    -   Media recortada (trimmed, por defecto recorta el 10%) nos permite evaluar la influencia de los valores extremos.
+    -   Asimetría (Skewness) y curtosis (Kurtosis) que nos permiten evaluar su parecido con una distribución normal, aunque solo con la estimación no es suficiente para llegar a una conclusión.
+    -   MAD o Median Absolute Deviation, una medida robusta de la variabilidad que no es más que la mediana de los valores absolutos de distancias de cada valor a la mediana del conjunto. $MAD=median([X_i-median{X}])$. b
+    -   También aparece el error estándar (standard error o $se(X)$) que como veremos es importante en inferencia y que no se debe confundir con la desviación típica (standar deviation o $(sd)$).
+    -   No aparecen por defecto pero se pueden solicitar los cuartiles, en realidad los percentiles que deseemos. Recuerde que estas son medidas de posición, que también ayudan a describir nuestros datos.
+
+```{r}
+psych::describe(iam,quant=c(.1,.25,.5,.75,.9))
+```
+
+Con frecuencia necesitamos obtener los descriptivos en función de los grupos que establezca una variable categórica.
+Para ello podemos recurrir a la función *by*, en la que indicamos cotjunto de datos a describir (argumento en posición 1), índice o variable que establece los grupos (argumento en posición 2) y función que queremos aplicar a cada grupo establecido por la funcion índice sobre las variables incluidas en el objeto que contiene los datos *iam*.
+
+No todas las funciones son aceptadas por by, pero *psych::describe* si lo es.
+
+```{r}
+by(iam,iam$Sex,psych::describe)
+```
+
+Como se puede observar, la salida no está para ser publicada.
+
+Como también habremos comentado en las clases de teoría, las variables categóricas ofrecen menos posibilidades descriptivas (contienen menos información) y su descripción univariada se va a reducir a dar las frecuencias absolutas y relativas.
+
+La obtención de una tabla de contingencia es relativamente fácil.
+
+```{r}
+table(iam$Sex,iam$Smoke)
+```
+
+Y la de las frecuencias relativas por (condicionadas a) fila o columna, también.
+
+```{r}
+t1<-table(iam$Sex,iam$Smoke)
+prop.table(t1,1) # 1 le indca que son los % sobre el total de fila, por eso suman 100%.
+```
+
+Los de la tabla anterior son las proporciones de fumadores en el grupo de mujeres (31%) y de hombres (52%).
+
+Los de la siguiente son la proporción de hombres dentro de cada nivel de la variable fumador (sí/no).
+
+Entre los no fumadores el 66.7% fueron hombres y el 33.3% fueron mujeres.
+
+```{r}
+prop.table(t1,2) # 2 le indca que son los % sobre el total de fila, por eso suman 100%.
+
+```
+
+Existen funciones para ver los márgenes.
+
+```{r}
+addmargins (table(iam$Sex,iam$Smoke))
+```
+
+Ir variable a variable no es lo que necesitamos cuando queremos resumir muchas variables, por lo que algunos paquetes facilitan obtener esta información de varias variables a la vez.
+
+```{r}
+tableone::CreateCatTable(data=iam,vars=c('Smoke','ami','age5'),strata = 'Sex',test = F)
+```
+
+Incluso son capaces de distinguir el tipo de variable para utilizar el descriptor adecuado.
+
+```{r}
+tableone::CreateTableOne (data=iam[,-1],strata = 'Sex',test = F)
+```
+
+Algunos incluso devuelven información gráfica.
+
+```{r}
+print(summarytools::dfSummary(iam[,-1],
+                        plain.ascii  = FALSE,
+          style        = 'grid',
+          graph.magnif = 0.85,
+          varnumbers = FALSE,
+          valid.col    = FALSE,
+          # tmp.img.dir  = "/tmp"
+          ),method = 'render')
+```
+
+En cualquier caso siguen siendo tablas que no están listas para ser publicadas.
+
+Si dio tiempo, en la última clase deberíamos haber visto una tabla construida como *"publication-ready tables"*.
+
+Aquí incluyo un ejemplo, con los datos utilizados en esta sesión.
+
+```{r,echo=FALSE}
+
+gtsummary::tbl_summary(iam[,-1],
+                       by='Sex',
+                       label = list(ami~'AMI',
+                                    age5~'Age group',
+                                    bmi~'BMI')) %>% 
+  gtsummary::as_gt() %>% 
+  gt::tab_header('Table 1. Descriptive statistics of the sample by Sex' )
+```
+
+### Gráficos simples.
+
+Incluyo aquí algunos gráficos elaborados con las opciones gráficas en lo que he denominado *base R*.
+No serán los que utilizaremos para publicar, pero son perfectamente correctos.
+
+#### Gráficos. Variables categóricas.
+
+##### Gráficos de columnas.
+
+Curiosamente es uno de los gráficos más sencillos y sin embargo en base R su personalización es laboriosa, entre otras cosas porque necesita construir previamente una tabla.
+
+```{r}
+t2<-100*prop.table(table(iam$Smoke,iam$Sex),2)
+p<-barplot(t2,beside=T,col=c('cadetblue','red'),
+        ylim=c(0,100),
+        ylab='%',
+        xlab='Sex')
+text(x = c('uno','dos'))
+
+
+```
+
+#### Gráficos. Variables continuas.
+
+Algo similar va a ocurrir con respecto a las posibilidades gráficas en la descripción univariada.
+
+Desarrollamos aquí los gráficos vistos durante las clases.
+
+##### Histograma
+
+```{r}
+
+hist(iam$Age) # las opciones ayudan a mejorar la presentación. 
+hist(iam$Age,freq=F,col="blue",xlab="Edad") #prob=T es lo mismo que freq=F
+lines(density(iam$Age)) # para que dibuje la función de densidad. Necesita prob=T (*)
+```
+
+Se puede sofisticar algo más.
+
+Esta representación fusiona los dos histogramas y juega con la transparencia para comparar su distribuciones.
+
+```{r}
+hist(iam$Age[iam$Sex=="Men"],freq=F,col=rgb(1,0,0,1/5),xlab='Age',main='Histogram of Age by Sex')
+hist(iam$Age[iam$Sex=="Women"],freq=F,col=rgb(0,0,1,1/5),add=T,xlab='Age')
+#Es necesario usar freq=T porque si saca las absolutas el grupo más grande destacará sobre el grupo más pequeño.
+
+```
+
+##### Boxplot
+
+###### Una variable.
+
+```{r}
+boxplot(iam$Age)
+boxplot(iam$Age,col="red")
+text(1.25,median(iam$Age),round(median(iam$Age),2)) # función gráfica de bajo nivel.
+```
+
+###### Por grupos de otra variable categórica.
+
+Incluimos algunas ociones de configuración.
+
+Las etiquetas salen porque las hemos deficido en el factor, de otra forma saldrían los valores (0,1)
+
+```{r}
+boxplot(formula=Age~Sex,data=iam,
+        col=c('orange','purple')
+        )
+
+```
+
+##### Stem&Leaf
+
+Lo incluyo por cuestiones históricas y porque realmente aporta información que el histograma no, pero es raro ya ver este gráfico.
+
+```{r}
+stem(iam$Age)
+```
+
+##### Gráfico Q-Q.
+
+Gráfica cuantil-cuantil frente a distribución normal.
+
+Este gráfico es muy útil y sirve para analizar visualmente si una distribución empírica (nuestros datos observados) sigue razonablemente bien una distribución normal[^2].
+Cuando la sigue, los puntos se distribuyen cerca de la línea.
+
+Para ello enfrentan los datos observados frente a los cuantiles que ocuparían en una distribución, en este caso normal.
+
+Las coordenadas en cada eje para cada punto se construyen de la siguiente manera[^3].
+
+En el eje de ordenadas (eje y) representa la posición que ocupan los valores observados expresada en cuantiles desde el centro de la distribución empírica.
+En el eje de abscisas (eje x) se representa la posición que ocuparían dichos valores en una distribución teórica normal perfecta con la misma media y desviación típica que la distribución empírica.
+
+Si la distancia (expresada en cuantiles) a la que está un punto observado en la distribución empírica coincidiese perfectamente con la distancia (expresada en cuantiles) a la que estaría ese mismo punto en una distribución normal perfecta con la misma media y desviación típica que la de la distribución empírica, todos los puntos se colocarían en la diagonal diagonal.
+Si se apartan, es que los puntos no están donde se les espera, informando de asimetrías en las colas, distribuciones bimodales, existencia de valores atípicos...
+
+Hace falta cierta experiencia para interpretar los detalles finos, pero es un gráfico bastante intuitivo para identificar problemas con la normalidad de la variable incluso al ojo menos experimentado.
+
+```{r}
+qqnorm #(Gráfico cuantil-cuantil de distribución de variable problema frente a distribución normal con misma media y desviación típica que la de la variable problema).
+qqnorm(iam$Age)
+qqline(iam$Age)
+```
+
+### Gráfico de dispersión o scatter plot.
+
+En este representamos la relación bivariada entre dos variables cuantitativas, preferentemente continuas.
+
+```{r}
+plot(iam$Age,iam$bmi,main='Scatter plot BMI by Age',
+     xlab='Age [yrs.]',
+     ylab=expression(paste('Body Mass Index [',Kg/m^2,']')) #Es posible insertar fórmulas, aunque no siempre es fácil.
+)
+```
+
+Si tuviésemos que ir una a una, supondría mucho trabajo.
+Existen funciones que nos pueden devolver múltiples tipos de relación simultáneamente.
+
+```{r}
+pairs(iam[,c('Age','Height','Weight','bmi')])
+```
+
+Como pasaba con las tablas, estos gráficos no son aún *'Publication-ready Graphs'*.
+Dado que este tipo de gráficos no son necesarios para superar el bloque, si da tiempo hablaremos de cómo crearlos en la última sesión.
+
+```{r,echo=FALSE,message=FALSE,fig.width=25,fig.height=20}
+GGally::ggpairs(iam[,c('Age','bmi','Height','Weight','Sex','ami')],
+                aes(color=Sex))
+```
+
+
+[^1]: Recordad que siempre es mejor utilizar direccionamiento relativo (/_data/iam.RDS) en vez de absoluto ('C:/Users/Usuario/Documents/SUB1/SUB2/SUB3/SUB4/SUB5/SUB6/dataiam.RDS') - atención a la dirección de la barra si copiasteis el path desde Windows
+
+[^2]: En realidad se puede comparar con otras distribuciones teóricas, pero la que nos interesa aquí es la distribución normal
+
+[^3]: Si no recuerdo mal, SPSS representa este gráfico invirtiendo los ejes, pero la interpretación es muy similar.

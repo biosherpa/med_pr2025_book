@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jesús Esteban Hernández">
+<meta name="dcterms.date" content="2023-06-09">
+
+<title>Apuntes Prácticas de la asignatura de Bioestadística - 1&nbsp; PR0-Buenas prácticas en recopilación de datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./PR_1_lect.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">PR0-Buenas prácticas en recopilación de datos</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes Prácticas de la asignatura de Bioestadística</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_0_lect.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">PR0-Buenas prácticas en recopilación de datos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_1_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">PR1-Introducción a R y RStudio.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_2_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">PR2-Importación de datos.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_3_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PR3-Manipulación de datos.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_4_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">PR4-Estadística Descriptiva.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#criterios-de-buena-praxis-en-la-recopilación-de-datos." id="toc-criterios-de-buena-praxis-en-la-recopilación-de-datos." class="nav-link active" data-scroll-target="#criterios-de-buena-praxis-en-la-recopilación-de-datos."><span class="toc-section-number">2</span>  Criterios de buena praxis en la recopilación de datos.</a>
+  <ul class="collapse">
+  <li><a href="#buenas-prácticas-sobre-gestión-de-datos." id="toc-buenas-prácticas-sobre-gestión-de-datos." class="nav-link" data-scroll-target="#buenas-prácticas-sobre-gestión-de-datos."><span class="toc-section-number">2.1</span>  Buenas prácticas sobre gestión de datos.</a>
+  <ul class="collapse">
+  <li><a href="#recomendaciones." id="toc-recomendaciones." class="nav-link" data-scroll-target="#recomendaciones."><span class="toc-section-number">2.1.1</span>  Recomendaciones.</a></li>
+  </ul></li>
+  <li><a href="#referencias." id="toc-referencias." class="nav-link" data-scroll-target="#referencias."><span class="toc-section-number">2.2</span>  Referencias.</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">PR0-Buenas prácticas en recopilación de datos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jesús Esteban Hernández </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 9, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+<style type="text/css">
+<style type="text/css">
+  
+  .TOC {
+    left:0;
+    width:200px;
+    margin-left: 0px;
+    right: 2px;
+    margin: 2px 20px 20px 0px;
+    color: red;
+    font-size: 2px;
+  }
+
+  .main-container {
+  
+  width:1800px !important;
+  margin-left: 10px;
+  margin-right: 10px;
+  
+}
+
+body {
+  font-size: 14pt;
+  font-family: Helvetica;
+  <!-- color: red; -->
+  <!-- background-color: olive; -->
+  
+}
+
+h1 {
+  font-size: 34px;
+}
+
+h2 {
+  font-size: 20px;
+  color: red;
+  text-indent:10px;
+
+}
+
+h3 {
+  font-size: 20px;
+  color: blue;
+  text-indent:15px;
+
+}
+
+
+h4 {
+  font-size: 20px;
+  color: green;
+  text-indent:20px;
+
+}
+
+tocify-header {
+    text-indent: initial;
+}
+
+.gt_table {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  width: auto !important;
+  
+}
+
+
+</style></style>
+
+
+</div>
+<p style="font-weight:600; font-size:36px">
+</p><p>Antes de comenzar…</p>
+<p></p>
+<p style="font-weight:450; font-size:24px">
+</p><p>La crisis de la reproducibilidad..</p>
+<p></p>
+<p>Aunque con frecuencia se utilizan como sinónimos, en investigación <strong>reproducibilidad</strong> y <strong>replicabilidad</strong> no significan lo mismo.</p>
+<blockquote class="blockquote">
+<p>Un estudio de investigación es <strong>reproducible</strong> si al repetir el análisis utilizando los mismos métodos de investigación (no solo el mismo análisis estadístico, pero también dicho análisis) <strong>sobre los mismos datos</strong> obtenemos los mismos resultados. Indica que el estudio fue realizado conforme se indica, incluyendo el análisis.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Un estudio de investigación es <strong>replicable</strong> si repitiendo el proceso de investigación con la misma metodología, pero <strong>sobre nuevos datos</strong> obtenemos los mismos resultados, lo que indica que podemos confiar en sus conclusiones. Las razones para la falta de replicabilidad no son solo achacables</p>
+</blockquote>
+<ul>
+<li><strong>Reproducibilidad (reproducibility)</strong> y <strong>replicabilidad (replicability)</strong> condicionan la <strong>fiabilidad (reliability)</strong> de nuestros hallazgos.</li>
+<li>La <strong>reproducibilidad</strong> es condición necesaria pero no suficiente para la <strong>replicabilidad</strong>.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pics/tips_repro_res_gandrupbook.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Imagen tomada de <span class="citation" data-cites="gandrudReproducibleResearchRStudio2020">Gandrud (<a href="#ref-gandrudReproducibleResearchRStudio2020" role="doc-biblioref">2020</a>)</span></figcaption><p></p>
+</figure>
+</div>
+<p>Este documento no aborda aspectos como la instalación de R y RStudio, aspectos bien cubiertos en muchos otros recursos, algunos mencionados en la bibliografía.</p>
+<p>El siguiente esquema trata de representar el flujo de trabajo habitual en cualquier proyecto de data science independientemente de su envergadura.</p>
+<p>En la preparación de cualquier trabajo de investigación en el que nosotros nos encarguemos del análisis pasaremos por todas o casi todas estas fases.</p>
+<p>En sentido estricto, el análisis estadístico sería el ciclo Transform-Visualise-Model, pero es imposible llegar a estas fases si no se completan los pasos anteriores. De igual manera, sería extraño realizar un análisis para no comunicarlo, por lo que, aunque las siguientes notas no siguen exactamente este esquema, es importante tratar de pensar a qué fase corresponde todo lo que veremos en los seminarios prácticos, por lo que con frecuencia recurriremos a este esquema.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pics/datascience_proj.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Data Science WorkFlow</figcaption><p></p>
+</figure>
+</div>
+<section id="criterios-de-buena-praxis-en-la-recopilación-de-datos." class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Criterios de buena praxis en la recopilación de datos.</h1>
+<p>Como veremos al termina la sección, no siempre contamos con la mejor solución a la hora de recoger los datos, pero esto no evita la necesidad de recogerlos con la mayor calidad posible, tarea que comienza incluso antes de su recogida. Siendo esencial, en esta sesión no hablaremos de la importancia de la definición adecuada de las variables, algunos de cuyos aspectos habrán sido ya comentados en las clases presenciales. En este texto solo daremos algunas pautas para mejorar su introducción en el primero soporte disponible antes a su importación al software de análisis.</p>
+<section id="buenas-prácticas-sobre-gestión-de-datos." class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="buenas-prácticas-sobre-gestión-de-datos."><span class="header-section-number">2.1</span> Buenas prácticas sobre gestión de datos.</h2>
+<p>Poco textos sobre estadística incluyen un apartado sobre buenas prácticas en la introducción de datos, posiblemente porque asumen que el análisis empieza cuando los datos están <em>listos</em>.</p>
+<p>Sin embargo, cualquier persona dedicada al análisis de datos le dirá que el 75% de su trabajo consiste en <em>“limpiar los datos”</em> <span class="citation" data-cites="ruiz8020Data2017">Ruiz (<a href="#ref-ruiz8020Data2017" role="doc-biblioref">2017</a>)</span>. Aquí no estamos hablando del diseño del estudio, de la ausencia de sesgos, de la calidad (errores de medida) con la que se recogen las variables, o de si el tamaño muestral es o no el adecuado para nuestro fin. Hablamos de la cantidad de trabajo que hay que dedicar porque la base de datos que recibimos no sigue algunos principios básicos para poder analizarla con la mínima intervención.</p>
+<p>Nunca será suficiente el tiempo invertido a esta cuestión, por eso incluyo aquí algunos principios recogidos en este artículo <span class="citation" data-cites="wickhamTidyData2014">Wickham (<a href="#ref-wickhamTidyData2014" role="doc-biblioref">2014</a>)</span> y por supuesto en el libro <span class="citation" data-cites="grolemundDataScience2017">Grolemund and Wickham (<a href="#ref-grolemundDataScience2017" role="doc-biblioref">2017</a>)</span> de <a href="https://www.rstudio.com/authors/garrett-grolemund/">Grolemund</a> y <a href="https://hadley.nz/">Hadley Wickham</a>, cofundador y científico jefe de RStudio™ (ahora Posit™).</p>
+<section id="recomendaciones." class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="recomendaciones."><span class="header-section-number">2.1.1</span> Recomendaciones.</h3>
+<p>Puede ampliar la información en el artículo de <span class="citation" data-cites="bromanDataOrganizationSpreadsheets2018">Broman and Woo (<a href="#ref-bromanDataOrganizationSpreadsheets2018" role="doc-biblioref">2018</a>)</span> y en la web de datacarpentry <span class="citation" data-cites="thecarpentriesFormattingProblemsData">The Carpentries (<a href="#ref-thecarpentriesFormattingProblemsData" role="doc-biblioref">n.d.</a>)</span>, donde encontrará multitud de consejos sobre cómo no utilizar las hojas de cálculo para recoger datos.</p>
+<section id="spreadsheets" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="spreadsheets"><span class="header-section-number">2.1.1.1</span> Spreadsheets</h4>
+<ul>
+<li>Be consistent</li>
+<li>Choose good names for things</li>
+<li>Write dates as YYYY-MM-DD</li>
+<li>No empty cells</li>
+<li>Put just one thing in a cell</li>
+<li>Don’t use font color or highlighting as data</li>
+<li>Save the data as plain text files</li>
+</ul>
+<p>Carrie Wright, Shannon Ellis, Stephanie Hicks and Roger D. Peng. Tidyverse Skills for Data Science in R (Posición en Kindle124-126). leanpub.com.</p>
+<section id="be-consistent-concretamente" class="level5" data-number="2.1.1.1.1">
+<h5 data-number="2.1.1.1.1" class="anchored" data-anchor-id="be-consistent-concretamente"><span class="header-section-number">2.1.1.1.1</span> <em>Be consistent</em>, concretamente…</h5>
+<ul>
+<li>“Use consistent codes for categorical variables”-&gt; avoid m, male, Male, mal…</li>
+<li>“Use a consistent fixed code for any missing values.” -&gt; NA. Avoide numbers (999), do not insert notes.</li>
+<li>“Use consistent variable names”: Chol_1mth, then Chol_6mth…</li>
+<li>“Use consistent subject identifiers.”: (histclin, specimenid,…) KeyField!</li>
+<li>“Use a consistent data layout in multiple files.” : Evita trabajo extra al analista al combinarlos.</li>
+<li>“Use consistent file names.” Ejemplo “hiv_tfgm_2022_03_01.csv”, * “hiv_tfgm_2022_04_03.csv”</li>
+<li>“Use a consistent format for all dates” ‘YYYY-MM-DD’ ISO8601 (si otro, siempre igual. Cuidado con Excel)</li>
+<li>“Use consistent phrases in your notes” (Si las tienes, puede que quieras analizarla.</li>
+<li>“Be careful about extra spaces within cells.”</li>
+</ul>
+</section>
+<section id="good-variable-names." class="level5" data-number="2.1.1.1.2">
+<h5 data-number="2.1.1.1.2" class="anchored" data-anchor-id="good-variable-names."><span class="header-section-number">2.1.1.1.2</span> <em>Good variable names</em>.</h5>
+<p><img src="pics/Recom1.png" class="img-fluid"></p>
+</section>
+<section id="date-formatsnot-empty-cells." class="level5" data-number="2.1.1.1.3">
+<h5 data-number="2.1.1.1.3" class="anchored" data-anchor-id="date-formatsnot-empty-cells."><span class="header-section-number">2.1.1.1.3</span> Date formats+not empty cells.</h5>
+<p><img src="pics/Recom2.png" class="img-fluid"></p>
+</section>
+<section id="just-one-thing-in-a-cell-dont-use-highlighting-as-data." class="level5" data-number="2.1.1.1.4">
+<h5 data-number="2.1.1.1.4" class="anchored" data-anchor-id="just-one-thing-in-a-cell-dont-use-highlighting-as-data."><span class="header-section-number">2.1.1.1.4</span> Just one thing in a cell + don´t use highlighting as data.</h5>
+<p><img src="pics/Recom3.png" class="img-fluid"></p>
+</section>
+<section id="save-as-.csv." class="level5" data-number="2.1.1.1.5">
+<h5 data-number="2.1.1.1.5" class="anchored" data-anchor-id="save-as-.csv."><span class="header-section-number">2.1.1.1.5</span> Save as <em>.csv</em>.</h5>
+<p>Aunque es posiblemente uno de los tipos de archivo más usados para recopilar datos, en realidad Excel está lejos de ser un programa diseñado para este fin, y recientemente el uso de su antiguo formato (.xls) produjo un importante error en Reino Unido al ser utilizado en la recopilación de datos durante la pandemia por SARS-Cov2 <span class="citation" data-cites="kelionExcelWhyUsing2020">Kelion (<a href="#ref-kelionExcelWhyUsing2020" role="doc-biblioref">2020</a>)</span>. Aunque la culpa no era de MSExcel, cuyo formato desde 2007 (.xlsx) no tiene la limitación del antiguo, lo cierto es que se suele recomendar evitar su uso para recopilar datos.</p>
+<p>Las bases de datos profesionales utilizan otros lenguajes y formatos. En R existen paquetes que permiten importar datos de la mayoría de estas fuentes, incluso de otros programas de análisis (SPSS, Stata, SAS…) pero, aunque no existiesen, cualquiera de ellos es capaz de exportarlos a un pequeño archivo .csv (comma separated values), que es a su vez importable desde todos ellos, también por R. Esto convierte al formato <strong>.csv</strong> en un formato frecuente en el intercambio de datos cuando no existe otro camino.</p>
+<p><img src="pics/Recom_save_as_csv.png" class="img-fluid"></p>
+<p>Aunque podríamos “crear” y editar los datos en el propio R<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, esto no es recomendable, entre otras cosas por la pérdida de reproducibilidad que conlleva, y por la ausencia de controles de entrada que sí están disponibles en las bases de datos que utilizan formularios que permiten asegurar cierta calidad durante su introducción, por ejemplo mediante listas desplegables que impiden introducir valores no incluidos en ellas o mediante filtros de valor que evitan introducir valores imposibles (p.ej. edad =999).</p>
+<p>Dicho esto, es obvio que muchos usuarios que sabrían rellenar una hoja de Excel (en el fondo una estructura tabular), no cuentan con conocimientos suficientes para crear una base de datos utilizando una estructura de tablas relacionadas, asociadas a formularios con controles de entrada sobre consultas SQL, y tampoco cuentan con apoyo técnico para poder hacerlo, por lo que muchos no tendrán más remedio que recurrir a archivos .xlsx. De hacerlo, <strong>es aún más importante seguir las recomendaciones anteriores</strong> de cara a facilitar su importación y reducir los errores de introducción.</p>
+<p>Por todo lo expuesto, lo más frecuente es que los datos crudos hayan sido recogidos en alguno de estos formatos (también en Excel), por nosotros mismos o por terceros, y por lo tanto debemos ser capaces de importarlos. Esto lo veremos en siguientes sesiones.</p>
+<p>Por último, algunos de los paquetes de R (ya veremos qué es esto) incluyen datos que permiten seguir los ejemplos. En la siguiente sesión también veremos cómo cargarlos (en este caso no es una importación) de forma sencilla.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="referencias." class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="referencias."><span class="header-section-number">2.2</span> Referencias.</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-bromanDataOrganizationSpreadsheets2018" class="csl-entry" role="doc-biblioentry">
+Broman, Karl W., and Kara H. Woo. 2018. <span>“Data Organization in Spreadsheets.”</span> <em>The American Statistician</em> 72 (1): 2–10. <a href="https://doi.org/10.1080/00031305.2017.1375989">https://doi.org/10.1080/00031305.2017.1375989</a>.
+</div>
+<div id="ref-gandrudReproducibleResearchRStudio2020" class="csl-entry" role="doc-biblioentry">
+Gandrud, Christopher. 2020. <em>Reproducible Research with R and RStudio</em>. Boca Raton, FL.
+</div>
+<div id="ref-grolemundDataScience2017" class="csl-entry" role="doc-biblioentry">
+Grolemund, Garrett, and Hadley Wickham. 2017. <em>R for Data Science</em>. 1st edition. Sebastopol, CA: O’Reilly Media. <a href="http://r4ds.had.co.nz/">http://r4ds.had.co.nz/</a>.
+</div>
+<div id="ref-kelionExcelWhyUsing2020" class="csl-entry" role="doc-biblioentry">
+Kelion, Leo. 2020. <span>“Excel: Why Using Microsoft’s Tool Caused Covid-19 Results to Be Lost.”</span> <em>BBC News</em>, October. <a href="https://www.bbc.com/news/technology-54423988">https://www.bbc.com/news/technology-54423988</a>.
+</div>
+<div id="ref-ruiz8020Data2017" class="csl-entry" role="doc-biblioentry">
+Ruiz, Armand. 2017. <span>“The 80/20 Data Science Dilemma.”</span> <em>InfoWorld</em>. <a href="https://www.infoworld.com/article/3228245/the-80-20-data-science-dilemma.html">https://www.infoworld.com/article/3228245/the-80-20-data-science-dilemma.html</a>.
+</div>
+<div id="ref-thecarpentriesFormattingProblemsData" class="csl-entry" role="doc-biblioentry">
+The Carpentries. n.d. <span>“Formatting Problems Data Organization in Spreadsheets for Ecologists.”</span> Accessed December 1, 2022. <a href="https://datacarpentry.org/spreadsheet-ecology-lesson/02-common-mistakes.html">https://datacarpentry.org/spreadsheet-ecology-lesson/02-common-mistakes.html</a>.
+</div>
+<div id="ref-wickhamTidyData2014" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley. 2014. <span>“Tidy Data.”</span> <em>Journal of Statistical Software</em> 59 (September): 1–23. <a href="https://doi.org/10.18637/jss.v059.i10">https://doi.org/10.18637/jss.v059.i10</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Con crear y editar, me estoy refiriendo a introducir y modificar los datos crudos, no a las modificaciones posteriores para construir nuevas variables mediante transformación, cálculo o recodificación<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./PR_1_lect.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">PR1-Introducción a R y RStudio.</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,110 @@
+---
+title: " Práctica de repaso <br> R y RStudio."
+author: "Jesús Esteban Hernández"
+date: "2/12/2022"
+output:
+  # html_notebook:
+  #   # theme: readable
+  #   code_folding: show
+  #   toc: true
+  #   toc_float: 
+  #     collapsed: false
+  #   toc_depth: 5
+  #   # toc-title: Table of contents #toc-title no me funciona.
+    # number_sections: yes
+  html_document:
+    theme: cosmo
+    code_folding: show
+    toc: true #su funcionamiento parece depender de toc_float
+    # toc-title: "TOC-TITLE"
+    number_sections: true
+    toc_depth: 5
+    toc_float: true
+      # collapsed: false #bajo toc_float y como son opts quitar del principal. >default es true< y por eso false la deja desplatada desde el principio
+      # smooth_scroll: false #en vez de saltar, scrolling. default is true.
+    # highlight: tango
+  # Opciones aquí https://garrettgman.github.io/rmarkdown/html_document_format
+  pdf_document:
+    toc: yes
+    toc_depth: 5
+    latex_engine: lualatex
+lan: es-ES
+editor_options:
+bibliography: MasterUE.bib
+biblio-style: apalike
+link-citations: true
+#csl: biomed-central.csl
+chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+Este documento recoge lo explicado sobre R y RStudio en la primera sesión.
+No aborda aspectos como la instalación de R y RStudio, aspectos bien cubiertos en muchos otros recursos, algunos mencionados en la bibliografía.
+
+# Antes de comenzar.
+
+![Data Science WorkFlow](pics/datascience_proj.png)
+
+# Sesión 2.
+
+## Repaso de importación de datos y obtención de descriptivos.
+
+## Inferencia con proporciones.
+
+## Test de conformidad sobre valor teórico. Una proporción.
+
+## Tablas de contingencia (test de homogeneidad de proporciones).
+
+### 2 o más Proporciones: Grupos independientes (medidas no relacionadas).
+
+### 2 o más Proporciones: Grupos no independientes o emparejados (medidas relacionadas)
+
+## Inferencia con medias.
+
+### Una proporción:
+
+## Tablas de contingencia (test de homogeneidad de medias).
+
+### 2 o más medias: Grupos independientes (medidas no relacionadas).
+
+### 2 o más medias: Grupos no independientes o emparejados (medidas relacionadas)
+
+## Statistical Golem-Ubica tu análisis.
+
+#Sesión 3.
+## Descripción avanzada de datos.
+### Tidyverse.
+### Paquetes gt y gtsummary \### Gráficos con ggplot2.
+## Inferencia con medias.
+ANOVA (una vía).
+## Correlación y regresión lineal simple.
+## Inferencia con proporciones.
+Regresión logística binaria simple.
+
+## Si da tiempo.
+
+### ANOVA medidas repetidas (una vía).
+
+### Regresión lineal múltiple.
+
+### Regresión logística binaria múltiple.
+
+## Manipulación avanzada.
+
+### merge dataframe.
+
+### pivot data long format.
+
+## Para otras sesiones.
+
+### Tiempo a evento.
+
+#### Análisis de supervivencia.
+
+#### Regresión de Cox.
+
+# Referencias.

@@ -1,0 +1,27 @@
+project:
+  type: book
+
+book:
+  title: "Apuntes Prácticas de la asignatura de Bioestadística"
+  subtitle: "Grado de Medicina - URJC. Primer curso"
+  author: "Jesús Esteban Hernández y Jesús Martín Fernández"
+  date: "4/9/2025"
+  chapters:
+    - index.qmd
+    - PR_0_lect.qmd
+    - PR_1_lect.qmd
+    - PR_2_lect.qmd
+    - PR_3_lect.qmd
+    - PR_4_lect.qmd
+    - references.qmd
+
+bibliography: MasterUE.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+
