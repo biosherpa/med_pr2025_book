@@ -1,30 +1,37 @@
-
-name: Publish book
+name: Deploy Quarto book to Pages
 
 on:
   push:
-    branches:
-      - main   # cambia si tu rama principal no es "main"
+    branches: ["main"]   # o la rama principal de tu repo
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up R
-        uses: r-lib/actions/setup-r@v2
-
-      - name: Install bookdown
-        run: Rscript -e "install.packages('bookdown')"
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render book
-        run: Rscript -e "bookdown::render_book('index.Rmd')"
+        run: quarto render
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_book'
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_book
-
+        id: deployment
+        uses: actions/deploy-pages@v4
