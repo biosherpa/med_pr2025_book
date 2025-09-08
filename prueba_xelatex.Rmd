@@ -1,6 +1,0 @@
----
-title: "Prueba XeLaTeX"
-output:
-  pdf_document:
-    latex_engine: xelatex
----
