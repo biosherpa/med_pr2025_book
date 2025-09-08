@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jesús Esteban Hernández">
+<meta name="dcterms.date" content="2022-02-12">
+
+<title>Apuntes Prácticas de la asignatura de Bioestadística - 4&nbsp; PR3-Manipulación de datos.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./PR_4_lect.html" rel="next">
+<link href="./PR_2_lect.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PR3-Manipulación de datos.</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Apuntes Prácticas de la asignatura de Bioestadística</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_0_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">PR0-Buenas prácticas en recopilación de datos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_1_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">PR1-Introducción a R y RStudio.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_2_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">PR2-Importación de datos.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_3_lect.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PR3-Manipulación de datos.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./PR_4_lect.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">PR4-Estadística Descriptiva.</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#importación-y-manipulación-de-datos-en-r." id="toc-importación-y-manipulación-de-datos-en-r." class="nav-link active" data-scroll-target="#importación-y-manipulación-de-datos-en-r."><span class="toc-section-number">5</span>  Importación y manipulación de datos en R.</a>
+  <ul class="collapse">
+  <li><a href="#importación-de-datos." id="toc-importación-de-datos." class="nav-link" data-scroll-target="#importación-de-datos."><span class="toc-section-number">5.1</span>  Importación de datos.</a></li>
+  <li><a href="#manipulación-de-datos." id="toc-manipulación-de-datos." class="nav-link" data-scroll-target="#manipulación-de-datos."><span class="toc-section-number">5.2</span>  Manipulación de datos.</a>
+  <ul class="collapse">
+  <li><a href="#operadores." id="toc-operadores." class="nav-link" data-scroll-target="#operadores."><span class="toc-section-number">5.2.1</span>  Operadores.</a></li>
+  <li><a href="#funciones-básicas." id="toc-funciones-básicas." class="nav-link" data-scroll-target="#funciones-básicas."><span class="toc-section-number">5.2.2</span>  Funciones básicas.</a></li>
+  <li><a href="#manipulaciones-más-frecuentes." id="toc-manipulaciones-más-frecuentes." class="nav-link" data-scroll-target="#manipulaciones-más-frecuentes."><span class="toc-section-number">5.2.3</span>  Manipulaciones más frecuentes.</a></li>
+  </ul></li>
+  <li><a href="#guardar-los-datos-para-la-siguiente-sesión." id="toc-guardar-los-datos-para-la-siguiente-sesión." class="nav-link" data-scroll-target="#guardar-los-datos-para-la-siguiente-sesión."><span class="toc-section-number">5.3</span>  Guardar los datos para la siguiente sesión.</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PR3-Manipulación de datos.</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jesús Esteban Hernández </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 12, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+<style type="text/css">
+<style type="text/css">
+  
+  .TOC {
+    left:0;
+    width:200px;
+    margin-left: 0px;
+    right: 2px;
+    margin: 2px 20px 20px 0px;
+    color: red;
+    font-size: 2px;
+  }
+
+  .main-container {
+  
+  width:1800px !important;
+  margin-left: 10px;
+  margin-right: 10px;
+  
+}
+
+body {
+  font-size: 14pt;
+  font-family: Helvetica;
+  <!-- color: red; -->
+  <!-- background-color: olive; -->
+  
+}
+
+h1 {
+  font-size: 34px;
+}
+
+h2 {
+  font-size: 20px;
+  color: red;
+  text-indent:10px;
+
+}
+
+h3 {
+  font-size: 20px;
+  color: blue;
+  text-indent:15px;
+
+}
+
+
+h4 {
+  font-size: 20px;
+  color: green;
+  text-indent:20px;
+
+}
+
+tocify-header {
+    text-indent: initial;
+}
+
+.gt_table {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  width: auto !important;
+  
+}
+
+
+</style>
+
+
+</div>
+<p>Recuerda siempre cómo <em>“piensa”</em> R.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pics/como_piensa_R.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Cómo piensa R</figcaption><p></p>
+</figure>
+</div>
+<section id="importación-y-manipulación-de-datos-en-r." class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Importación y manipulación de datos en R.</h1>
+<p>En la sección anterior hemos visto cómo importar datos y como transformarlos usando <em>base R</em>.</p>
+<p>Si tienes problemas con la importación, echa un vistazo a las notas de la sesión anterior.</p>
+<p>En esta sesión aprenderemos a manipular los datos para, por ejemplo, construir nuevas variables a partir de las originales. Lo haremos utilizando <em>base R</em>, pero también incluiremos al final cómo hacer lo mismo con <em>modern R</em>.</p>
+<section id="importación-de-datos." class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="importación-de-datos."><span class="header-section-number">5.1</span> Importación de datos.</h2>
+<p>Antes de hablar de transformaciones, vamos a repasar las funciones que utilizamos para construir el dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>iam<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">'_data/myiam2.csv'</span>) <span class="co"># Utilizando relative path.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Recuerde que la salidas de las funciones “read” suelen ser dataframes, y por ello podemos asignarlo directamente a un objeto, en el ejemplo el objeto (dataframe) llamado iam.</p>
+<p>Primeras filas del dataframe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Id      Age Sex Height Weight Smoke ami
+1  1 65.24100   1   1.62  74.56     0   0
+2  2 62.45461   0   1.56  60.89     0   0
+3  3 64.68328   0   1.69  74.20     0   0
+4  4 65.36045   0   1.34  43.92     0   0
+5  5 70.71094   0   1.81  80.86     1   0
+6  6 65.42030   0   1.78  80.56     0   0</code></pre>
+</div>
+</div>
+<p>Estructura del dataframe (en realidad la puedes ver en la pestaña Environment del panel superior derecho [en esta configuración])</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   100 obs. of  7 variables:
+ $ Id    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Age   : num  65.2 62.5 64.7 65.4 70.7 ...
+ $ Sex   : int  1 0 0 0 0 0 1 0 0 0 ...
+ $ Height: num  1.62 1.56 1.69 1.34 1.81 1.78 1.79 1.44 1.56 1.87 ...
+ $ Weight: num  74.6 60.9 74.2 43.9 80.9 ...
+ $ Smoke : int  0 0 0 0 1 0 0 1 0 0 ...
+ $ ami   : int  0 0 0 0 0 0 0 1 0 0 ...</code></pre>
+</div>
+</div>
+<p>Recuerde que esta estructura también está visible si desplegamos el dataframe en la pestaña Environment, ventana data del panel superior derecho.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pics/iam_en_vent_data.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">vent_data</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="manipulación-de-datos." class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="manipulación-de-datos."><span class="header-section-number">5.2</span> Manipulación de datos.</h2>
+<p>Antes de poder modificar variables existentes o crear algunas nuevas, necesitamos conocer algunas funciones y operadores básicos incluidos en la instalación básica de r.</p>
+<section id="operadores." class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="operadores."><span class="header-section-number">5.2.1</span> Operadores.</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Operadores comparativos</th>
+<th style="text-align: center;">Símbolo/instrucción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">igualdad</td>
+<td style="text-align: center;">==</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">desigualdad</td>
+<td style="text-align: center;">!=</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">menor</td>
+<td style="text-align: center;">&lt;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">menor igual</td>
+<td style="text-align: center;">&lt;=</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mayor</td>
+<td style="text-align: center;">&gt;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">maryor igual</td>
+<td style="text-align: center;">&gt;=</td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Operadores lógicos</th>
+<th style="text-align: center;">Símbolo/instrucción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">AND lógica</td>
+<td style="text-align: center;">&amp;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">OR lógica</td>
+<td style="text-align: center;">|</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">negación lógica</td>
+<td style="text-align: center;">!</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Identidad</td>
+<td style="text-align: center;">&amp;&amp;</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="funciones-básicas." class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="funciones-básicas."><span class="header-section-number">5.2.2</span> Funciones básicas.</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Operador/Función</strong></th>
+<th style="text-align: center;"><strong>Símbolo/instrucción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">suma</td>
+<td style="text-align: center;">+</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">resta</td>
+<td style="text-align: center;">-</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">multiplicación</td>
+<td style="text-align: center;">*</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">división</td>
+<td style="text-align: center;">/</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">módulo</td>
+<td style="text-align: center;">%% (resto de división)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">división entera</td>
+<td style="text-align: center;">%/%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">raíz cuadrada</td>
+<td style="text-align: center;">sqrt</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">logaritmo natural (base e)</td>
+<td style="text-align: center;">log</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">logaritmos genérico (base-&gt;b)</td>
+<td style="text-align: center;">logb (ex. log10(45))</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">número e elevado a x</td>
+<td style="text-align: center;">exp(x)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">máximo</td>
+<td style="text-align: center;">max</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">mínimo</td>
+<td style="text-align: center;">min</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">rango</td>
+<td style="text-align: center;">range</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">longitud</td>
+<td style="text-align: center;">length</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">sumatorio</td>
+<td style="text-align: center;">sum</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">productorio</td>
+<td style="text-align: center;">prod</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">media</td>
+<td style="text-align: center;">mean</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">mediana</td>
+<td style="text-align: center;">median</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">desv. estándar</td>
+<td style="text-align: center;">sd</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">varianza</td>
+<td style="text-align: center;">var</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="manipulaciones-más-frecuentes." class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="manipulaciones-más-frecuentes."><span class="header-section-number">5.2.3</span> Manipulaciones más frecuentes.</h3>
+<p>Seguiremos utilizando el dataframe generado anteriormente llamado <em>iam</em>.</p>
+<section id="recodificar-en-base-a-puntos-de-corte.-convertir-numérica-en-factor" class="level4" data-number="5.2.3.1">
+<h4 data-number="5.2.3.1" class="anchored" data-anchor-id="recodificar-en-base-a-puntos-de-corte.-convertir-numérica-en-factor"><span class="header-section-number">5.2.3.1</span> Recodificar en base a puntos de corte. (Convertir numérica en factor)</h4>
+<p>La función cut es muy útila para generar una variable categórica a partir de una cuantitativa discreta o continua. Solo necesitas que le entregemos el vector a cortar y los puntos de corte. Veamos un par de ejemplos.</p>
+<p>Construiremos grupos de edad e intervalos de 10 años. El máximo de esta variable es 70.71 y el mínimo es 59.5, así pues nos hacen falta puntos de corte entre ambos valores con amplitud de 10 años.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>iam<span class="sc">$</span>age5<span class="ot">&lt;-</span><span class="fu">cut</span>(iam<span class="sc">$</span>Age,<span class="fu">seq</span>(<span class="dv">55</span>,<span class="dv">75</span>,<span class="dv">10</span>),<span class="at">include.lowest =</span> T,<span class="at">right =</span> T) <span class="co"># la función seq nos facilita la tarea de construir el vector de puntos de corte.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La propia función genera un factor (ya hablaremos de este tipo de objetos que servirán para almacenar variables categóricas )</p>
+<p>Podemos construir una tabla para comprobar la distribución de la nueva variable categórica.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iam<span class="sc">$</span>age5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[55,65] (65,75] 
+     47      53 </code></pre>
+</div>
+</div>
+<p>Como se puede observar, la propia función genera las etiquetas de los intervalos en función de los puntos de corte que le hemos dado. A tener en cuenta:</p>
+<pre><code>* La función *cut* tiene argumentos para poder construir los intervalos cerrando el intervalo por su límite derecho (argumento right=T) .
+* la función *cut* genera un objeto de tipo vector y de clase factor, por lo que sus etiquetas de nivel se pueden modificar (lo veremos al hablar de factores).
+* la función *cut* puede cerrar el intervalo inferior (argumento include.lowest=T)</code></pre>
+</section>
+<section id="construir-variables-operando-otras." class="level4" data-number="5.2.3.2">
+<h4 data-number="5.2.3.2" class="anchored" data-anchor-id="construir-variables-operando-otras."><span class="header-section-number">5.2.3.2</span> Construir variables operando otras.</h4>
+<p>En el dataframe <em>iam</em> se incluyen las variables peso y altura. Vamos a construir el Índice de Masa Corporal.</p>
+<p><span class="math display">\[IMC=\frac{Peso (kg)}{Altura(m)^2}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>iam<span class="sc">$</span>bmi<span class="ot">&lt;-</span>iam<span class="sc">$</span>Weight<span class="sc">/</span>iam<span class="sc">$</span>Height<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como se puede observar, para incluirla en el dataframe, hemos de indicárselo utilizando el nombre del mismo seguido de $ y el nombre que queremos dar a la nueva variable, en este caso <em>bmi</em>.</p>
+</section>
+<section id="recodificación." class="level4" data-number="5.2.3.3">
+<h4 data-number="5.2.3.3" class="anchored" data-anchor-id="recodificación."><span class="header-section-number">5.2.3.3</span> Recodificación.</h4>
+<p>Posiblemente una de las tareas más frecuentes, si no la más frecuente, manipulando datos es la recodificación, construir una variable categórica agrupando categorías de otra.</p>
+<p>Para entender esta tarea en R, es útil entender la clase factor, la clase en la que vamos a almacenar las variables categóricas.</p>
+</section>
+<section id="factores-qué-es-un-factor-en-r" class="level4" data-number="5.2.3.4">
+<h4 data-number="5.2.3.4" class="anchored" data-anchor-id="factores-qué-es-un-factor-en-r"><span class="header-section-number">5.2.3.4</span> Factores ¿Qué es un factor en R?</h4>
+<p>Los factores son posiblemente uno de los elementos básicos en R que más cuesta entender. En mi opinión tiene que ver con la confusión entre el concepto de nivel (level) y la etiqueta (label) que se le asigna a cada uno de los niveles.</p>
+<p>Para explicar cómo funciona, vamos a crear un ejemplo sencillo para ver cómo operan estas dos características.</p>
+<p>Aunque parezca extraño, vamos a partir de un vector de tipo <em>integer</em> para posteriormente convertirlo en uno de tipo factor al que añadiremos las etiquetas.</p>
+<ul>
+<li>Construcción de un vector numérico.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>,<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Conversión del vector en un factor, sin decirle nada más.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sex<span class="ot">&lt;-</span><span class="fu">factor</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Al utilizar la función factor, R lee el vector que recibe y, si no le decimos otra cosa, identifica los valores diferentes y los ordena en orden alfanumérico.</p></li>
+<li><p>Acto seguido va asignado el nivel correspondiente a cada valor diferente, y utiliza el valor original para construir una etiqueta.</p></li>
+<li><p>Lo que obtenemos es un vector de tipo factor que tiene niveles que van del 1 al número de valores diferentes que trajese la variable (el vector) original. Pero estos niveles están ocultos detrás de las etiquetas que se les asignan.</p></li>
+<li><p>Lo importante es el nivel, pero su relación con la etiqueta asignada nos va a permitir recodificar variables utilizando las etiquetas que se les asignan.</p></li>
+</ul>
+<p>Veamos un ejemplo.</p>
+<p>El vector sex, creado con el código anterior, tiene dos niveles, 1 y 2, pero las etiquetas que fueron asignadas como indiqué, son “0” y “1”, valores originales del vector. Al no decirle lo contrario, usó el orden alfanumérico, por eso el 0 se asigna al primer nivel y el 1 al segundo nivel.</p>
+<p>Si queremos ver los auténticos niveles que contiens podemos forzar una conversión de tipo de la siguiente manera:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+[39] 0 1 0 1 0 1 0 1 0 1 0 1
+Levels: 0 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2
+[39] 1 2 1 2 1 2 1 2 1 2 1 2</code></pre>
+</div>
+</div>
+<p>Observe como el primer vector muestra las etiquetas, mientras que el segundo muestra los niveles.</p>
+<p>En realidad podríamos haber impuesto nuestras etiquetas a dichos niveles en la propia creación del factor, pero para eso debemos entender que si no le decimos lo contrario, la identificación del orden de asignación sigue dependiendo del orden alfanumérico.</p>
+<p>Para indicarle las etiquetas, basta con meter un vector con las etiquetas en el argumento <em>labels.</em></p>
+<p>En este ejemplo asumimos que el 0 es el valor con el que en la base de datos original se codificó Hombre y 1 el valor con el que se codificó Mujer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sex2<span class="ot">&lt;-</span><span class="fu">factor</span>(x,<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'Hombre'</span>,<span class="st">'Mujer'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sex2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[11] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[21] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[31] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[41] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+Levels: Hombre Mujer</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(sex2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2
+[39] 1 2 1 2 1 2 1 2 1 2 1 2</code></pre>
+</div>
+</div>
+<p>Como se puede observar, los niveles (1 y 2) siguen siendo los mismos, pero las etiquetas han cambiado.</p>
+<p>También se obseva como cuando pedimos un vector de clase factor, debajo aparecen los niveles (Levels: Hombre Mujer) en el orden en que se asignan a los niveles subyacentes (1 y 2).</p>
+<p>Imaginemos que por alguna razón hubiésemos querido que el primer nivel se asignase a Mujer aunque el código que se asignó en la base de datos original fue el superior (1). Podemos obligar a que la función lea los niveles como nosotros deseemos usando el argumento levels.</p>
+<blockquote class="blockquote">
+<p>La posición que asignemos a los niveles tendrá importancia en la construcción de los modelos, puesto que, aunque se puede cambiar, la comparación que se establece por defecto es contra el nivel más bajo, que funcionará como nivel de referencia.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sex3<span class="ot">&lt;-</span><span class="fu">factor</span>(x,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"1"</span>,<span class="st">"0"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sex3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+[39] 0 1 0 1 0 1 0 1 0 1 0 1
+Levels: 1 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(sex3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1
+[39] 2 1 2 1 2 1 2 1 2 1 2 1</code></pre>
+</div>
+</div>
+<p>Ahora los ceros (hombres), han sido asignados al nivel 2 y los unos (mujeres al nivel 1). Por supuesto podríamos haber colocado nuestras etiquetas en la propia creación, pero debemos tener en cuenta que hemos impuesto un nuevo orden a los niveles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sex4<span class="ot">&lt;-</span><span class="fu">factor</span>(x,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"1"</span>,<span class="st">"0"</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">'Women'</span>,<span class="st">'Men'</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>sex4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] Men   Women Men   Women Men   Women Men   Women Men   Women Men   Women
+[13] Men   Women Men   Women Men   Women Men   Women Men   Women Men   Women
+[25] Men   Women Men   Women Men   Women Men   Women Men   Women Men   Women
+[37] Men   Women Men   Women Men   Women Men   Women Men   Women Men   Women
+[49] Men   Women
+Levels: Women Men</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(sex4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1
+[39] 2 1 2 1 2 1 2 1 2 1 2 1</code></pre>
+</div>
+</div>
+<p>La informacion contenida en el vector no ha cambiado (donde había un Hombre ahora también, aunque con la etiqueta Men), pero el nivel asignado sí lo ha hecho.</p>
+<p>¿Cómo saber los niveles que tiene un factor?</p>
+<p>Mediante la función levels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(sex4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Women" "Men"  </code></pre>
+</div>
+</div>
+<p>Como se puede observar, esta función devuelve un vector. Pues bien, podemos modificar dicho vector para cambiar las etiquetas del factor, siempre que tengamos claro el orden de los niveles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(sex4)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">'Mujer'</span>,<span class="st">'Hombre'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>sex4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[11] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[21] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[31] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+[41] Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer  Hombre Mujer 
+Levels: Mujer Hombre</code></pre>
+</div>
+</div>
+<p>Es más, esta función nos permite recodificar los niveles de manera fácil como veremos posteriormente.</p>
+<p>Podemos crear factores a partir de cualquier tipo de vector. De hecho, con frecuencia este vector es de tipo <em>character</em>, es decir que trae “puesta” la etiqueta.</p>
+<p>Sí así fuera, basta con utilizar la función factor par construir el vector. Veamos un ejemplo.</p>
+<p>Construiremos un vector de tipo <em>character</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>nse<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">'NSE1'</span>,<span class="dv">10</span>),<span class="fu">rep</span>(<span class="st">'NSE2'</span>,<span class="dv">4</span>),<span class="fu">rep</span>(<span class="st">'NSE3'</span>,<span class="dv">12</span>),<span class="fu">rep</span>(<span class="st">'NSE4'</span>,<span class="dv">5</span>))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># hay formas más elegantes de construir este vector, pero hacen falta funciones que aún no hemos visto.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como se puede ver, las palabras contenidas en el vector están entre comillas, lo que señala que se trata de cadenas de caracteres.</p>
+<p>Conversión en factor asumiendo el orden alfanumérico de los valores diferentes dentro del vector.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>nse_f<span class="ot">&lt;-</span><span class="fu">factor</span>(nse)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>nse_f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE2 NSE2 NSE2 NSE2 NSE3
+[16] NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE4 NSE4 NSE4 NSE4
+[31] NSE4
+Levels: NSE1 NSE2 NSE3 NSE4</code></pre>
+</div>
+</div>
+<p>Como se puede observar, la conersión en factor hace que tenga niveles (Levels: NSE1 NSE2 NSE3 NSE4) cuyo orden ha sido establecido por el orden alfanumérico de las cadenas de caracteres que contenía el vector.</p>
+<p>Para que se entienda cómo actúa la conversión, vamos a construir un vector parecido pero en el que una de las cadenas no sigue el patrón NSE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>nse2<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">'NSE1'</span>,<span class="dv">10</span>),<span class="fu">rep</span>(<span class="st">'SNE2'</span>,<span class="dv">4</span>),<span class="fu">rep</span>(<span class="st">'NSE3'</span>,<span class="dv">12</span>),<span class="fu">rep</span>(<span class="st">'NSE4'</span>,<span class="dv">5</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>nse2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "NSE1" "NSE1" "NSE1" "NSE1" "NSE1" "NSE1" "NSE1" "NSE1" "NSE1" "NSE1"
+[11] "SNE2" "SNE2" "SNE2" "SNE2" "NSE3" "NSE3" "NSE3" "NSE3" "NSE3" "NSE3"
+[21] "NSE3" "NSE3" "NSE3" "NSE3" "NSE3" "NSE3" "NSE4" "NSE4" "NSE4" "NSE4"
+[31] "NSE4"</code></pre>
+</div>
+</div>
+<p>Este vector es parecido al nse, solo cambia la cadena de 4 elementos, que ahora es SNE2 en vez de NSE2.</p>
+<p>Al transformarlo en factor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>nse2_f<span class="ot">&lt;-</span><span class="fu">factor</span>(nse2)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>nse2_f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 SNE2 SNE2 SNE2 SNE2 NSE3
+[16] NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE4 NSE4 NSE4 NSE4
+[31] NSE4
+Levels: NSE1 NSE3 NSE4 SNE2</code></pre>
+</div>
+</div>
+<p>…podemos ver como SNE2 se ha colocado en el cuarto nivel, que es el que le corresponde al ordenar alfabéticamente los niveles diferentes (valores diferentes en el contenido) detectados por la función.</p>
+<p>Esto no afecta a la información en sí misma, pues la etiqueta signada al nivel 4 estará allá donde el vector de caracteres incluyera “SNE2”.</p>
+<p>En realidad podríamos haberlo evitado indicando la colocación de los niveles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>nse2_f2<span class="ot">&lt;-</span><span class="fu">factor</span>(nse2,<span class="at">levels =</span> <span class="fu">c</span>(<span class="st">'NSE1'</span>,<span class="st">'SNE2'</span>,<span class="st">'NSE3'</span>,<span class="st">'NSE4'</span>))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>nse2_f2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 SNE2 SNE2 SNE2 SNE2 NSE3
+[16] NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE4 NSE4 NSE4 NSE4
+[31] NSE4
+Levels: NSE1 SNE2 NSE3 NSE4</code></pre>
+</div>
+</div>
+</section>
+<section id="recodificación.-1" class="level4" data-number="5.2.3.5">
+<h4 data-number="5.2.3.5" class="anchored" data-anchor-id="recodificación.-1"><span class="header-section-number">5.2.3.5</span> Recodificación.</h4>
+<p>La recodificación es fácil cuando se hace sobre el factor, porque basta con reasignar las etiquetas a los niveles. Esta relación entre <em>levels</em> y <em>labels</em> es la que, en mi opinión, genera más confusión a la hora de entender los factores.</p>
+<p>Vamos a recodificar el vector nse_f (el primer factor que generamos) agrupando los niveles 2 y 3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Crearemos una copia para no perder el anterior y poder comparar los efectos.</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>nse_f_rec<span class="ot">&lt;-</span>nse_f </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>nse_f_rec <span class="co">#Vemos que es el mismo vector.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE2 NSE2 NSE2 NSE2 NSE3
+[16] NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE4 NSE4 NSE4 NSE4
+[31] NSE4
+Levels: NSE1 NSE2 NSE3 NSE4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(nse_f_rec) <span class="co">#Preguntamos por los niveles.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "NSE1" "NSE2" "NSE3" "NSE4"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(nse_f_rec) <span class="co"># visualizamos los niveles subyacentes.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 1 1 1 1 1 1 1 1 1 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4</code></pre>
+</div>
+</div>
+<p>Cambiamos los niveles actuando sobre las etiquetas de nivel. Confunde, porque parece que solo estamos cambiando la etiqueta y que por debajo permanecerán los cuatro niveles, pero…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(nse_f_rec)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">'NSE1'</span>,<span class="st">'NSE2_3'</span>,<span class="st">'NSE2_3'</span>,<span class="st">'NSE4'</span>)  </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(nse_f_rec) <span class="co"># No solo son tres etiquetas.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "NSE1"   "NSE2_3" "NSE4"  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(nse_f_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3</code></pre>
+</div>
+</div>
+<p>Podemos ver cómo ha ido la recodificación construyendo una tabla de contingencia con los dos vectores.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(nse_f_rec,nse_f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         nse_f
+nse_f_rec NSE1 NSE2 NSE3 NSE4
+   NSE1     10    0    0    0
+   NSE2_3    0    4   12    0
+   NSE4      0    0    0    5</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Es importante tener en cuenta que esta acción ya no puede ser deshecha; no podemos volver al vector que los tenía separados si no contamos con el original o versiones previas del que hemos destruido al generar el nuevo.</p>
+</blockquote>
+<p>Por un método parecido podemos reordenar los niveles para que el nivel de referencia sea el que deseemos.</p>
+<p>En el siguiente ejemplo vamos a conseguir que sea el NSE4 el nivel de referencia.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>nse_f_rec<span class="ot">&lt;-</span><span class="fu">relevel</span>(nse_f_rec,<span class="at">ref =</span> <span class="st">'NSE4'</span>) <span class="co"># Para entregárselo, de nuevo le indicamos la etiqueta de nivel.</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>nse_f_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1  
+[11] NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3
+[21] NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE4   NSE4   NSE4   NSE4  
+[31] NSE4  
+Levels: NSE4 NSE1 NSE2_3</code></pre>
+</div>
+</div>
+<p>En realidad podríamos haberlo conseguido con la propia función factor.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(nse_f_rec,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">'NSE1'</span>,<span class="st">'NSE2_3'</span>,<span class="st">'NSE4'</span>)) <span class="co"># no lo asignamos al objeto para poder seguir utilizándolo posteriormente.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1   NSE1  
+[11] NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3
+[21] NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE4   NSE4   NSE4   NSE4  
+[31] NSE4  
+Levels: NSE1 NSE2_3 NSE4</code></pre>
+</div>
+</div>
+<p>Es importante introducir bien las etiquetas porque de lo contario asignara NA (missing). Un ejemplo introduciendo un error en la primera etiqueta.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(nse_f_rec,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">'NSE'</span>,<span class="st">'NSE2_3'</span>,<span class="st">'NSE4'</span>)) <span class="co"># no lo asignamos al objeto para poder seguir utilizándolo posteriormente.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;   &lt;NA&gt;  
+[11] NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3
+[21] NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE2_3 NSE4   NSE4   NSE4   NSE4  
+[31] NSE4  
+Levels: NSE NSE2_3 NSE4</code></pre>
+</div>
+</div>
+<p>Para facilitar la tarea hemos utilizado la función <em>factor</em> para “contener” una variable ordinal. En realidad R tiene una función específica para este tipo de factores ordenados (función <em>ordered</em>, o también función factor con argumento ‘ordered=T’), y algunas funciones son capaces de “entender” que se trata de una categórica ordinal y tratarla como tal.</p>
+<p>En cualquier caso no es esencial y se puede hacer que la función lo entienda como ordinal utilizando otras opciones al construir el modelo.</p>
+<p>Como lo hemos mencionado, insertaré aquí un ejemplo de esta función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ordered</span>(nse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE2 NSE2 NSE2 NSE2 NSE3
+[16] NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE4 NSE4 NSE4 NSE4
+[31] NSE4
+Levels: NSE1 &lt; NSE2 &lt; NSE3 &lt; NSE4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>nse_of<span class="ot">&lt;-</span><span class="fu">factor</span>(nse,<span class="at">ordered =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Como se observa, Levels indica la relación entre niveles, y podemos utilizarlos para darle la vuelta a la relación de los niveles del factor.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(nse,<span class="at">levels=</span><span class="fu">c</span>(<span class="st">'NSE4'</span>,<span class="st">'NSE3'</span>,<span class="st">'NSE2'</span>,<span class="st">'NSE1'</span>),<span class="at">ordered =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE1 NSE2 NSE2 NSE2 NSE2 NSE3
+[16] NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE3 NSE4 NSE4 NSE4 NSE4
+[31] NSE4
+Levels: NSE4 &lt; NSE3 &lt; NSE2 &lt; NSE1</code></pre>
+</div>
+</div>
+<p>Todo esto está realizado con funciones básicas de R, lo que llamamos <em>base R</em>. En la realidad, se utiliza lo que se ha dado en llamar <em>modern R</em>, que automatiza y amplía las posibilidades de estas operaciones de gestión de datos.</p>
+<p>Sin embargo, en mi experiencia, no entender cómo <em>piensa</em> R (indexación de vectores, matrices y dataframes, utilización de factores, tipos de vector…), hace más difícil resolver los problemas que surjan al utilizar enfoques más eficientes (<em>modern R</em>), pero más complejos.</p>
+<p>Algo semejante pasará con los gráficos. R base construye buenos gráficos, y aunque permiten mucha personalización, hacerlo conlleva mucho código. El paquete <em>ggplot2</em> facilita mucho la tarea de construcción de gráficos una vez se entiende <em>‘the Grammar of Graphics’</em> pero, para aprovechar su potencial al máximo, es útil entender como crear gráficos sencillos en R base, aunque debo reconocer que no todos los que nos dedicamos a la enseñanza estamos de acuerdo en esta cuestión.</p>
+</section>
+</section>
+</section>
+<section id="guardar-los-datos-para-la-siguiente-sesión." class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="guardar-los-datos-para-la-siguiente-sesión."><span class="header-section-number">5.3</span> Guardar los datos para la siguiente sesión.</h2>
+<p>Una vez hemos trabajado los datos en R, no tendría mucho sentido volver a exportarlos con las nuevas variables creadas, salvo que deseemos enviárselo a alguien que no utilice R o no pueda importar su formato de datos.</p>
+<p>Podríamos guardar toda la imagen del espacio de trabajo (Workspace) y cargarla antes de trabajar con el nuevo dataframe en la siguiente sesión.</p>
+<p>Sin embargo, y aunque cueste entenderlo al principio, es preferible guadar la menor cantida de objetos posibles y tratar de que sea el código el que lo construya cada vez. Si el objeto es muy grande o lleva mucho tiempo volver a generarlo con código, puede estar justificado guardar el o los objetos concretos.</p>
+<p>En el caso del dataframe tenemos una estructura de datos que le sirve a R para gestionar esta parte. Son los archivos .RDS.</p>
+<p>En este vínculo explican las dos opciones, pero de momento prefiero utilizar un archivo .RDS. Solo necesita un par de argumentos, el nombre del objeto dataframe que queremos guardar y el nombre del archivo en el que queremos guardarlo.</p>
+<p>El dataframe que nos interesa es iam, porque contiene las nuevas variables y las transformaciones que hemos realizado. Incluyo los nombres de los argumentos, pero dado que son los dos primeros en realidad no haría falta<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="at">object=</span>iam,<span class="at">file=</span><span class="st">'iam.RDS'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Es importante que lo salvéis, porque lo cargaremos en la siguiente sesión. Así no tendremos que volver a generar todas las funciones de nuevo.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Recordad lo que comenté en la sesión anterior sobre las <em>posiciones relevantes</em> al llamar a las funciones<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./PR_2_lect.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">PR2-Importación de datos.</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./PR_4_lect.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">PR4-Estadística Descriptiva.</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
