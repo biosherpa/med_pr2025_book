@@ -25,15 +25,14 @@ jobs:
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
 
-      # 3️⃣ Setup Quarto (usa shell bash para heredar PATH)
+      # 3️⃣ Setup Quarto
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        shell: bash
 
       # 4️⃣ Renderizar libro
       - name: Render book
         run: quarto render
-        shell: bash
+        shell: bash  # opcional, Ubuntu usa bash por defecto
 
       # 5️⃣ Subir artefacto _book
       - name: Upload artifact
