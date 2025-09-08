@@ -2,7 +2,7 @@ name: Deploy Quarto book to Pages
 
 on:
   push:
-    branches: ["main"]   # o la rama principal de tu repo
+    branches: ["main"]   # Cambia si tu rama principal no es main
   workflow_dispatch:
 
 permissions:
@@ -18,20 +18,29 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1️⃣ Obtener tu repositorio
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 2️⃣ Instalar R (necesario para ejecutar chunks de R)
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+
+      # 3️⃣ Instalar Quarto
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      # 4️⃣ Renderizar el libro
       - name: Render book
         run: quarto render
 
+      # 5️⃣ Subir la carpeta _book como artefacto para GitHub Pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '_book'
 
+      # 6️⃣ Publicar en GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
