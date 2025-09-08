@@ -37,7 +37,7 @@ jobs:
       # 5️⃣ Instalar paquetes necesarios para HTML (si no usas renv)
       - name: Install R packages
         run: |
-          Rscript -e 'install.packages(c("rmarkdown","knitr"), repos="https://cloud.r-project.org/")'
+          Rscript -e 'install.packages(c("rmarkdown","knitr","psych","gt","gtsummary","tidyverse"), repos="https://cloud.r-project.org/")'
 
       # 6️⃣ Renderizar libro solo HTML
       - name: Render HTML book
