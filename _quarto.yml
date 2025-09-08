@@ -13,6 +13,7 @@ book:
     - PR_2_lect.qmd
     - PR_3_lect.qmd
     - PR_4_lect.qmd
+    - PR_5_lect.qmd
     - references.qmd
 
 bibliography: MasterUE.bib

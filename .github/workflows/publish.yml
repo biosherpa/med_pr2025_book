@@ -1,8 +1,8 @@
-name: Deploy Quarto book to Pages
+name: Deploy Quarto HTML to GitHub Pages
 
 on:
   push:
-    branches: ["main"]  # Cambia si tu rama principal no es main
+    branches: ["main"]   # Cambia si tu rama principal no es main
   workflow_dispatch:
 
 permissions:
@@ -10,43 +10,40 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1️⃣ Obtener repo
+      # 1️⃣ Obtener el repositorio
       - uses: actions/checkout@v4
 
-      # 2️⃣ Instalar R
+      # 2️⃣ Cachear paquetes R para acelerar
+      - name: Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ hashFiles('renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-r-
+
+      # 3️⃣ Instalar R
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
 
-      # 3️⃣ Instalar Quarto
+      # 4️⃣ Instalar Quarto
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      # 4️⃣ Instalar TinyTeX (solo si quieres PDFs)
-      - name: Install TinyTeX
+      # 5️⃣ Instalar paquetes necesarios para HTML (si no usas renv)
+      - name: Install R packages
         run: |
-          Rscript -e 'install.packages("tinytex", repos="https://cloud.r-project.org/")'
-          Rscript -e 'tinytex::install_tinytex()'
+          Rscript -e 'install.packages(c("rmarkdown","knitr"), repos="https://cloud.r-project.org/")'
 
-      # 5️⃣ Restaurar paquetes de R (renv) o instalar manualmente
-      - name: Restore R packages
-        run: |
-          Rscript -e 'install.packages("renv", repos="https://cloud.r-project.org/")'
-          Rscript -e 'renv::restore()'
-        continue-on-error: true  # si no usas renv, ignora
-
-      # 6️⃣ Renderizar libro (HTML + PDF)
-      - name: Render book
+      # 6️⃣ Renderizar libro solo HTML
+      - name: Render HTML book
         run: quarto render
 
-      # 7️⃣ Subir _book como artefacto
+      # 7️⃣ Subir carpeta _book como artefacto
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
