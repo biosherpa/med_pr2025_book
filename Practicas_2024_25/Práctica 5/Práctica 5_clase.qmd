@@ -1,0 +1,334 @@
+
+
+##Práctica 5
+
+
+
+setwd ("Práctica 5")  
+setwd ()
+#La ruta o pathway es diferente para cada uno.
+getwd ()
+
+rm(list=ls())
+
+df_iam <- read.csv ("df_iam.csv")
+
+
+head(df_iam)
+
+str (df_iam)
+
+
+
+# Convertir variables a factor con etiquetas
+
+df_iam$sex <- factor(df_iam$sex, levels = c(0, 1), labels = c("Mujer", "Varón"))
+df_iam$hta <- factor(df_iam$hta, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam$fum <- factor(df_iam$fum, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam$clas_soc <- factor(df_iam$clas_soc, levels = c(0, 1),
+                          labels = c("Baja", "Alta"))
+df_iam$iam <- factor(df_iam$iam, levels = c(0, 1), labels = c("No", "Sí"))
+
+as.numeric (df_iam$clas_soc)
+
+# Mostrar las primeras filas del dataframe con los factores etiquetados
+head(df_iam)
+
+
+
+
+#Crear la variable edad en años cumplidos (edad) teniendo sabiendo que `fech_nac` es la fecha de nacimiento y que el estudio finalizó el 31/12/2023
+
+
+
+str (df_iam$fech_nac)
+#fech_nac viene definida como character, cambiamos a formato fecha
+
+df_iam$fech_nac <- as.Date(df_iam$fech_nac)
+fecha_fin <- as.Date("2023-12-31")
+df_iam$edad <- (fecha_fin-df_iam$fech_nac)/365.25
+
+df_iam$edad <- as.numeric (round (df_iam$edad,0))
+
+print (df_iam$edad [1:10])
+
+
+#Crear imc
+
+df_iam$imc <- df_iam$peso / (df_iam$alt / 100)^2
+df_iam$imc <- round(df_iam$imc, 2) 
+df_iam$imc_r <- cut(df_iam$imc,
+                       breaks = c(-Inf, 20, 30, Inf),
+                       labels = c("Bajo", "Normal", "Obesidad"))
+
+#En esta orden los valores no son incluidos en la categoría inferior. 
+
+
+head (df_iam$imc_r)
+
+head (df_iam)
+
+
+
+#En primer lugar calcularemos las frecuencias absolutas de las variables sex y hta.
+
+
+frecuencias_sex <- table(df_iam$sex)
+frecuencias_hta <- table(df_iam$hta)
+frecuencias_sex
+frecuencias_hta
+print (frecuencias_sex)
+
+
+# Calcular las proporciones de varones y de hipertensos con la función `prop.table()`
+
+
+proporciones_sex <- prop.table(frecuencias_sex) * 100
+proporciones_hta <- prop.table(frecuencias_hta) * 100
+
+proporciones_sex
+print (proporciones_hta)
+
+
+Se pueden redondear a dos cifras las proporciones y añadirles el signo `%`, con las funciones `round()` y `paste()`
+
+
+proporciones_sex <- round(proporciones_sex, 2)
+proporciones_sex <- paste(proporciones_sex,"%")
+
+
+ 
+proporciones_hta <- paste(round(proporciones_hta, 2),"%")
+
+proporciones_sex
+print (proporciones_hta)
+
+
+#Vamos a averiguar las frecuencias absolutas de hta en varones y mujeres
+
+hta_by_sex <- table(df_iam$hta, df_iam$sex) 
+#primero filas y después columnas
+
+print(hta_by_sex)
+
+
+#Y ahora las proporciones
+
+
+proporciones_filas <- prop.table(hta_by_sex, margin = 1) * 100
+#margin=1, se puede sustituir simplemente por 1
+print (proporciones_filas)
+
+proporciones_columnas <- prop.table(hta_by_sex, margin = 2) * 100
+print (proporciones_columnas)
+
+
+
+#Redondeamos los valores de las proporciones y les acompañamos del símbolo `%`
+
+proporciones_filas <- round(proporciones_filas, 2)
+proporciones_filas <- paste(proporciones_filas,"%")
+
+proporciones_columnas <- 
+proporciones_columnas <- paste(round(proporciones_columnas, 2),"%")
+
+print (proporciones_filas)
+print (proporciones_columnas)
+
+
+
+
+
+
+##Variables continuas
+
+
+
+# Rango
+rango_alt <- range(df_iam$alt, na.rm = TRUE)
+rango_peso <- range(df_iam$peso, na.rm = TRUE)
+
+#sabemos que no hay valores faltantes, pero eso no es lo habitual
+
+# Diferencia entre máximo y mínimo (rango)
+rango_alt_valor <- diff(rango_alt)
+rango_peso_valor <- diff(rango_peso)
+
+# Máximo
+max_alt <- max(df_iam$alt, na.rm = TRUE)
+max_peso <- max(df_iam$peso, na.rm = TRUE)
+
+# Mínimo
+min_alt <- min(df_iam$alt, na.rm = TRUE)
+min_peso <- min(df_iam$peso, na.rm = TRUE)
+
+# Quintiles
+quintiles_alt <- quantile(df_iam$alt, 
+                          probs = seq(0, 1, by = 0.20), 
+                          na.rm = TRUE)
+quintiles_peso <- quantile(df_iam$peso, 
+                           probs = seq(0, 1, by = 0.20), 
+                           na.rm = TRUE)
+
+#Con esta función puedes calcular deciles, cuartiles, ...by = 0.10, by= 0.25,...
+
+# Resultados
+rango_alt_valor
+rango_peso_valor
+
+max_alt
+max_peso
+
+min_alt
+min_peso
+
+quintiles_alt
+quintiles_peso
+
+
+
+media_alt <- mean(df_iam$alt , na.rm = TRUE)
+media_peso <- mean(df_iam$peso, na.rm = TRUE)
+
+#sabemos que no hay valores faltantes, pero eso no es lo habitual
+
+media_alt
+media_peso 
+
+
+mediana_alt <- median(df_iam$alt, na.rm = TRUE)
+mediana_peso <- median(df_iam$peso, na.rm = TRUE)
+
+mediana_alt 
+mediana_peso 
+
+
+varianza_alt <- var(df_iam$alt, na.rm=TRUE)
+varianza_peso <- var(df_iam$peso, na.rm=TRUE)
+
+desv_alt <- sd(df_iam$alt, na.rm=TRUE)
+desv_peso <- sd(df_iam$peso, na.rm=TRUE)
+
+varianza_alt 
+varianza_peso 
+
+desv_alt 
+desv_peso 
+
+
+# Media de alt para varones
+media_alt_V <- mean(df_iam$alt[df_iam$sex == "Varón"], na.rm = TRUE)
+
+# Media de alt para mujeres
+media_alt_M <- mean(df_iam$alt[df_iam$sex == "Mujer"], na.rm = TRUE)
+
+# Media de peso para varones
+media_peso_V <- mean(df_iam$peso[df_iam$sex == "Varón"], na.rm = TRUE)
+
+# Media de peso para mujeres
+media_peso_M <- mean(df_iam$peso[df_iam$sex == "Mujer"], na.rm = TRUE)
+
+# Mostrar los resultados
+media_alt_V
+media_alt_M
+media_peso_V
+media_peso_M
+```
+
+#La función `tapply()`.
+
+
+# Calcular la media de alt por grupo de sexo
+media_alt <- tapply(df_iam$alt, df_iam$sex, mean, na.rm = TRUE)
+
+# Calcular la varianza de alt por grupo de sexo
+varianza_alt <- tapply(df_iam$alt, df_iam$sex, var, na.rm = TRUE)
+
+# Calcular la desviación estándar de alt por grupo de sexo
+desviacion_alt <- tapply(df_iam$alt, df_iam$sex, sd, na.rm = TRUE)
+
+# Calcular la media de peso por grupo de sexo
+media_peso <- tapply(df_iam$peso, df_iam$sex, mean, na.rm = TRUE)
+
+# Calcular la varianza de peso por grupo de sexo
+varianza_peso <- tapply(df_iam$peso, df_iam$sex, var, na.rm = TRUE)
+
+# Calcular la desviación estándar de peso por grupo de sexo
+desviacion_peso <- tapply(df_iam$peso, df_iam$sex, sd, na.rm = TRUE)
+
+# Mostrar resultados
+media_alt 
+varianza_alt 
+desviacion_alt 
+media_peso 
+varianza_peso 
+desviacion_peso 
+
+#Otra forma de hacerlo, la función by
+
+# Calcular la media de peso por grupo de sexo
+
+
+# Calcular la varianza de peso por grupo de sexo
+varianza_peso <- by(df_iam$peso, df_iam$sex, function(x) var(x, na.rm = TRUE))
+
+# Calcular la desviación estándar de peso por grupo de sexo
+desviacion_peso <- by(df_iam$peso, df_iam$sex, function(x) sd(x, na.rm = TRUE))
+
+# Medidas sobre la forma de una distribución
+
+
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+install.packages("e1071")
+library(e1071) 
+asimetria_alt <- skewness(df_iam$alt, na.rm = TRUE) 
+asimetria_peso <- skewness(df_iam$peso, na.rm = TRUE) 
+
+curtosis_alt <- kurtosis(df_iam$alt, na.rm = TRUE) 
+curtosis_peso <- kurtosis(df_iam$peso, na.rm = TRUE)  
+
+asimetria_alt
+asimetria_peso
+curtosis_alt
+curtosis_peso
+
+
+# Asimetría y curtosis de `alt` y `peso` en las mujeres
+
+
+asimetria_alt_M <- skewness(df_iam$alt[df_iam$sex == "Mujer"], na.rm = TRUE)
+curtosis_alt_M <- kurtosis(df_iam$alt[df_iam$sex == "Mujer"], na.rm = TRUE)
+
+asimetria_alt_M 
+curtosis_alt_M 
+
+
+
+#Para calcular la significación estadística de asimetría y curtosis
+
+install.packages("psych")
+
+library(psych)
+
+# Calcular estadísticas básicas para 'alt' y 'peso'
+stats_alt <- describe (df_iam$alt)
+stats_peso <- describe(df_iam$peso)
+
+
+
+# Mostrar los resultados
+stats_alt
+stats_peso
+
+
+install.packages ("moments")
+library (moments)
+install.packages("nortest")
+library(nortest)
+
+AndersonDarling_test <- ad.test(df_iam$alt)
+AndersonDarling_test
+Lilieford_test <- lillie.test(df_iam$alt)
+Lilieford_test
+shapiro_test <- shapiro.test(df_iam$alt)
+shapiro_test

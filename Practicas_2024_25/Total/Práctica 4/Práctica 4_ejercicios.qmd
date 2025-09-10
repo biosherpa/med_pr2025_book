@@ -1,0 +1,88 @@
+---
+title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 4. Ejercicios</span>" 
+
+author: "Jesús Esteban Hernández & Jesús Martín Fernández"
+format: 
+  pdf:
+       toc: FALSE
+       toc-title: "Contenidos"
+       toc-location: left
+editor: visual
+---
+
+Vamos a recuperar el dataframe df_prueba de la carpeta "Práctica 4" y a ver sus variables
+
+```{r, eval= FALSE}
+df_prueba <- read.csv(
+  "C:/Users/jesus.martin/OneDrive - Madrid Digital/Docente/
+  Introducción a la AP/Curso 2024_25/Bioestadística 1/Prácticas/
+  Práctica 4/df_prueba.csv")
+ head (df_prueba)
+```
+
+Convierte sex en una variable factor con las categorías "Mujer" "Hombre" y mira qué niveles tiene y cuántos sujetos hay en cada categoría
+
+```{r, eval =FALSE}
+df_prueba$sex <- factor(df_prueba$sex, levels = c(0, 1), 
+                        labels = c("Mujer","Hombre"))
+df_prueba$sex
+table(df_prueba$sex)
+```
+
+`Levels` nos indica que los niveles son "Mujer" y "Hombre" en ese orden
+
+Crea la variable `imc` a partir de los vectores `peso` y `alt` y categoriza los valores en "Bajo" si `imc`\<19, "Normal" si 19\< `imc`\<=25; "Sobrepeso" si 25\<`imc`\<30 y "Obesidad" si `imc` \>= 30
+
+```{r, eval=FALSE}
+df_prueba$imc <- df_prueba$peso / (df_prueba$alt / 100)^2
+df_prueba$imc <- round(df_prueba$imc, 2) #redondeamos a 2 decimales
+
+df_prueba$imc <- cut(df_prueba$imc,
+                               breaks = c(-Inf, 19, 25, 30, Inf),
+                               labels = c("Bajo", "Normal", 
+                                          "Sobrepeso", "Obesidad"))
+
+# Verificar el resultado
+df_prueba$imc
+
+```
+
+Comprueba los valores que atribuye internamente R a los niveles convirtiendo `imc` en la variable numérica `imc2`
+
+```{r, eval=FALSE}
+df_prueba$imc2<- as.numeric(df_prueba$imc)
+df_prueba$imc2
+```
+
+¿Has visto que contiene valores del 1 al 4?
+
+Imaginemos que queremos usar la variable `imc` categorizada en un análisis , pero queremso que la categoría de referencia fuese "Obesidad" . Hazlo creando la variable `df_prueba$imc3`
+
+```{r, eval=FALSE}
+
+df_prueba$imc3 <- factor(df_prueba$imc, 
+                         c("Obesidad", "Bajo", "Normal", "Sobrepeso"))
+df_prueba$imc3
+```
+
+Comprueba que se ha ordenado como quieres usando la función `levels`
+
+```{r, eval=FALSE}
+
+levels(df_prueba$imc3)
+
+```
+
+También se puede conseguir el mismo resultado usando la función `relevel`
+
+```{r, eval=FALSE}
+df_prueba$imc3 <- relevel(df_prueba$imc3, ref = "Obesidad")
+df_prueba$imc3
+
+```
+
+Comprueba, de nuevo, que se ha ordenado como quieres usando la función `levels`
+
+```{r, eval=FALSE} 
+levels(df_prueba$imc3)
+```

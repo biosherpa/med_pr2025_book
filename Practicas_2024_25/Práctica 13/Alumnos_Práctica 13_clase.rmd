@@ -1,0 +1,168 @@
+---
+title: "Práctica 13. Comparación de medias (I)"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+## 1. Introducción
+
+En primer lugar, vamos a preparar una base de datos de nuestro directorio de trabajo, df_iam3_r, que puedes obtener de la Carpeta de la Práctica 13 en el Aula Virtual:
+
+```{r}
+#setwd()
+#getwd ()
+
+df_iam3<-read.csv ("df_iam3_r.csv")
+```
+
+Recurda que recoge una serie de características de 984 sujetos. De todos se incluyeron características sociodemográficas ( fech_nac, sex y clas_soc ), clínicas (hta , DM, colesterol , salud) y el hábito tabáquico (fum). En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio iam). Posteriormenete se siguió a los sujetos hasta otro punto en el tiempo. Tras ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (fum_p) , la cifra de colesterol (colesterol_p), la percepción de salud posterior al infarto (salud_p ) y la ocurrencia de un nuevo reinfarto (iam2). Asumimos (de manera artificiosa) que quien no tuvo iam1 en el tiempo t, ya no tendrá infarto.
+
+Comprueba sus variables
+
+```{r}
+head (df_iam3)
+```
+
+## 2. Comparación de medias independientes
+
+Vamos a comparar los niveles de colesterol en aquellos sujetos que tuvieron infarto y los que no
+
+Lo primero será valorar los supuestos de normalidad y homogeneidad de la varianza en ambos grupos
+
+### 2.1 Comprobación de supuestos de normalidad y homogeneidad de la varianza
+
+Primero vamos a comprobar el supuesto de normalidad del colesterol
+
+```{r}
+
+```
+
+Como la muestra es grande, vamos a hacer la misma prueba de normalidad con el test de Kolmogorov-Smirnoff
+
+```{r}
+
+```
+
+Vamos a representarlas gráficamente
+
+```{r}
+
+```
+
+Ahora vamos a testar la hipótesis de igualdad de las varianzas.
+
+El test de Levene está implementado en el paquete car , y precisa que la variable que divide la muestra sea una variable factor
+
+```{r}
+
+```
+
+Otra opción para comprobar homogeneidad de varianzas en R base , sería la prueba F de homogeneidad de varianzas también conocida prueba F de Snedecor.
+
+```{r}
+```
+
+Este resultado no indica diferencias en las varianzas
+
+Vamos a comprobarlo con el test de Barlett
+
+```{r}
+
+```
+
+Este test, que es más adecuado para distribuciones normales, tampoco detecta diferencias en las varianzas.
+
+### 2.2 Contraste frente a una media poblacional
+
+Asumiendo que, al ser una muestra grande, no debemos preocuparnos mucho por la forma d ela distribución, vamos a testar si la distribución del colesterol muestral puede provenir de una población cuya media de colesterol es 195
+
+```{r}
+
+```
+
+Parece que podemos rechazar, con una confianza del 95% que la muestra provenga de la citada población
+
+### 2.3 T de Student para datos independientes
+
+Hemos visto anteriormente que el colesterol no tiene una distribución normal en pacientes con y sin infarto, pero no se puede descartar la igualdad de varianzas (no era concluyente el test de Levene y no descartaba la hipótesis de igualdad de varianzas el de Barlett), por lo que vamos a comparar las medias del colesterol en pacientes con y sin infarto con unat de student para datos independientes.
+
+```{r}
+
+```
+
+Si no estamos convencidos de la igualdad de las varianzas podemos usar el test de Welch, una variación de la t de Student que no asume varianzas iguales, modificando la orden anterior
+
+```{r}
+
+```
+
+Leyendo del final al principio vemos que la media de colesterol en el grupo sin infarto es de 189.32 en el grupo sin infarto y de 195.68 en el grupo con infarto. El p-value de esta diferencia es de 0.1083 (0.136 con el test de Welch), no permite descartar la igualdad de medias.
+
+Para ver el verdadero valor de la p para la toma de decisiones vamos a calcular manualmente los valores de la distribución del colesterol en uno y otro grupo
+
+```{r}
+
+```
+
+Ahora vamos a calcular los valores del t-test manualmente con la función tsum.test del paquete BSDA
+
+```{r}
+
+```
+
+Si los mismos valores procediesen de una muestra 10 veces más grandes (n1=8590 y n2=1250), observa qué pasaría con el p-value
+
+```{r}
+
+```
+
+### 2.4 La U de Mann-Whitney
+
+Vamos a comparar la distribución del imc en hombres y mujeres. Utilizaremos la función wilcox.test(), que es la función adecuada para esta prueba no paramétrica. Primero comprobaremos la asunción de normalidad para esta variable
+
+```{r}
+
+```
+
+Vemos que la distribución no es normal , ni las varianzas homogéneas. Está justificado usar la prueba de Mann-Whitney
+
+```{r}
+
+```
+
+La salida de esta función nos dice que las distribuciones son diferentes, está basada en los rangos. Esto puede implicar que una mediana es significativamente mayor o menor que la otra. Veamos las medianas
+
+```{r}
+
+
+```
+
+## 3. Comparación de medias para datos apareados
+
+### 3.1 La T de Student para datos apareados
+
+Vamos a realizar una prueba T de Student para datos apareados comparando el colesterol medido antes y después del punto t (cuando se evidenció si habia habido o no un infarto, colesterol y colesterol_p)
+
+```{r}
+
+```
+
+Las distribuciones no son normales , pero sabemos que cuando la n es suficientemente grande, la t de student admite desviaciones de la normalidad , por lo que nos permitimos utilizar la t de student para datos apareados
+
+```{r}
+
+```
+
+### 3.2 La prueba de Wilcoxon para datos apareados
+
+Vamos a utilzar esta prueba para determinar si las medias del colesterol son iguales cuando se midieron antes y después del punto t
+
+```{r}
+
+
+```

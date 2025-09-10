@@ -1,0 +1,92 @@
+---
+title: "Prueba Rmarkdown"
+author: "Jesús Martín"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. Introducción
+
+RMarkdown es una herramienta que permite combinar texto, código y resultados de análisis en un solo documento. Funciona integrando Markdown (para el formato de texto) y R (para la ejecución de código) en un archivo .Rmd. Al ejecutar el archivo, RMarkdown genera reportes en varios formatos como HTML, PDF o Word. Aquí tienes un resumen de cómo funciona:
+
+### 1.1 Estructura del documento
+
+Un archivo RMarkdown comienza con un encabezado YAML donde se define el título, el autor, el formato de salida y otras configuraciones. A continuación, puedes escribir texto en Markdown para crear secciones, listas, enlaces, tablas, etc. Bloques de código (chunks):
+
+Puedes incluir bloques de código de R (u otros lenguajes) rodeados por `{r} ...`. Estos "chunks" permiten escribir y ejecutar código, cuyos resultados aparecerán directamente en el documento. Los resultados pueden ser gráficos, tablas o texto generado por el código. Ejecución y generación del documento:
+
+Al hacer clic en Knit (Tejer) en RStudio, RMarkdown ejecuta todo el código en los chunks y combina los resultados con el texto en Markdown. Esto produce un documento final que incluye tanto el texto como los resultados del código, perfectamente formateado y listo para compartir.
+
+## 2. El encabezado YAML
+
+El encabezado YAML en un archivo RMarkdown define la configuración del documento y controla aspectos como el título, el autor, la fecha, y las opciones de formato. El encabezado YAML se coloca al inicio del documento y está delimitado por líneas de triple guion (---).
+
+Title: "Prueba Rmarkdown"
+
+Define el título del documento. Aparecerá al inicio del documento, generalmente con un formato especial (como un encabezado grande o en negritas).
+
+author: "Mi nombre"
+
+Especifica el nombre del autor del documento. Puede ser una persona o una organización, y también se mostrará en el encabezado del documento.
+
+date: "r Sys.Date()"
+
+Define la fecha de creación del documento. Aquí, se usa el código r Sys.Date() (entre comillas invertidas y con r al inicio) para ejecutar una línea de código en R que muestra la fecha actual. Esto permite que la fecha siempre sea dinámica y se actualice al momento de "tejer" (o "Knit") el documento.
+
+output:
+
+Especifica el formato de salida para el documento. En este caso, html_document indica que el documento se generará en formato HTML. Otros formatos comunes son pdf_document y word_document. Dentro de html_document, puedes definir opciones adicionales para personalizar la salida HTML. Opciones dentro de html_document
+
+toc: true Activa la tabla de contenido (Table of Contents, TOC) en el documento HTML. Esto generará un índice automático de todos los encabezados. toc_depth: 3: Especifica el nivel de encabezados que se incluirán en la TOC. En este caso, se incluirán encabezados de hasta tercer nivel (\###). toc_float: true: Hace que la tabla de contenido sea flotante, de modo que permanezca visible mientras se desplaza por el documento. Esto solo aplica para HTML y mejora la navegación en documentos largos.
+
+## 3. El bloque de configuración
+
+Este bloque `setup` suele colocarse al inicio de los documentos RMarkdown para definir configuraciones globales que afectan cómo se muestra o ejecuta el código a lo largo del documento, sin necesidad de especificarlas en cada bloque de código individual.
+
+1.  `{r setup, include=FALSE}`: Esto especifica que el bloque es un "chunk" de código R llamado `setup`, y `include=FALSE` significa que este bloque no se mostrará en el documento final (ni el código ni la salida). Esto es útil para configuraciones globales que no necesitas ver en el reporte generado.
+
+2.  `knitr::opts_chunk$set(echo = TRUE)`: Este comando configura las opciones globales para todos los bloques de código en el documento RMarkdown usando la función `knitr::opts_chunk$set()`.
+
+    -   `echo = TRUE`: Esta opción significa que, de forma predeterminada, el código de cada bloque será mostrado en el documento final. Si quisieras que solo se mostrara el resultado del código y no el código en sí, podrías establecer `echo = FALSE`.
+    -   `eval = FALSE`: el código no se ejecuta. Es decir, RMarkdown no evaluará el código en ese chunk, y por lo tanto no mostrará ningún resultado ni gráfico generado por ese código. Uso típico: Esto se usa cuando quieres mostrar el código sin ejecutarlo, por ejemplo, cuando estás explicando un fragmento de código y no necesitas que se ejecute..
+
+## 4. Encabezados
+
+En RMarkdown, los encabezados se crean utilizando uno o más signos de hash (\#), donde el número de hashes indica el nivel del encabezado, permitiendo estructurar el contenido del documento de manera jerárquica. Para habilitar una tabla de contenido (TOC) que enlace automáticamente a estos encabezados, se deben incluir configuraciones en el encabezado YAML del documento, como toc: true y toc_depth: n, donde n define hasta qué nivel de encabezados se incluirán en la TOC. Al tejer el documento, se genera una salida que incluye esta TOC, facilitando la navegación por las secciones del texto y mejorando la legibilidad general del informe.
+
+## 5. Texto
+
+La escritura en RMarkdown combina texto normal con un formato sencillo de Markdown, lo que permite estructurar documentos de manera clara y legible. Los encabezados se crean utilizando uno o más signos de hash (\#), donde la cantidad de hashes determina el nivel del encabezado. Además, se pueden aplicar estilos como **negrita** (usando \*\*), *cursiva* (usando \*), y ~subíndice~ (con \~\~), así como crear listas ordenadas y no ordenadas, insertar enlaces e imágenes, y realizar citas. Los bloques de código se añaden con tres acentos graves, lo que permite incluir código R y resultados, mientras que las tablas se construyen con separadores de columnas y líneas.
+
+## 6. Código, los "chunks"
+
+Un chunk en RMarkdown es un bloque de código que permite ejecutar código R (u otros lenguajes) y mostrar sus resultados en el documento final, facilitando la combinación de análisis de datos con texto explicativo. Se define usando tres acentos graves seguidos de {r} y se cierra con tres acentos graves, permitiendo incluir código que se puede personalizar con diversas opciones, como echo para mostrar o ocultar el código, eval para ejecutar o no el código, y include para decidir si se debe incluir en la salida final.
+
+```{r}
+df_iam2 <- read.csv("df_iam2.csv")
+
+head (df_iam2)
+
+tabla_sex <- table(df_iam2$sex)
+n <- sum(tabla_sex)
+
+# Extraer el número de "Varón" y "Mujer"
+n_varones <- tabla_sex["Varón"]
+n_mujeres <- tabla_sex["Mujer"]
+
+# Calcular intervalo de confianza para varones
+resultado_varones <- prop.test(n_varones, n, conf.level = 0.95)
+resultado_varones
+
+# Calcular intervalo de confianza para mujeres
+resultado_mujeres <- prop.test(n_mujeres, n, conf.level = 0.95)
+resultado_mujeres
+```

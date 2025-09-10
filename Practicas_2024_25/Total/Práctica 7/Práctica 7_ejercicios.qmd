@@ -1,0 +1,157 @@
+---
+title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 7. Ejercicios</span>" 
+
+author: 
+  "Jesús Martín Fernández"
+format: 
+  pdf:
+       toc: FALSE
+       toc-title: "Contenidos"
+       toc-location: left
+editor: visual
+---
+
+## Ejercicio 1
+
+Vamos a proporner ejercicio con distribuciones discretas en primer lugar.
+
+Supongamos que estamos participando en un juego de azar con un dado de seis caras, que no está "cargado". Tras 40 tiradas sólo han salido dos "seis". Tenemos que decidir, usando la distribución binomial, si estamos siendo estafados. Responde a las siguientes preguntas utilizando las distribuciones de probabilidad en R
+
+¿Cual es la probabilidad de que sólo hayan salido dos "seis" ?
+
+```{r}
+dbinom(2, 40, 1/6)
+```
+
+Cuál es la probabilidad de que, como mucho, hayan salido dos "seis"
+
+```{r}
+pbinom(2, 40, 1/6)
+```
+
+La probabilidad que sale de ejecutar este código es la probabilidad de que, como máximo hayan salido dos "seis". Ahora vamos a la pregunta definitiva, ¿cuál es la probabilidad de que estemos siendo estafados?
+
+```{r}
+1-pbinom(2, 40, 1/6)
+```
+
+Esta probabilidad nos sugiere un legendario título de película..."Take the money and run".
+
+## Ejercicio 2
+
+En segundo lugar vamos a utilizar la distribución de Poisson para evaluar la probabilidad de efectos adversos tras el uso de un fármaco que en su fase experimental mostró producir un evento adverso (EA) moderado- grave por cada 120 pacientes que lo usaban.Utilizaremos la distribución de Poisson, asumiendo que la ocurrencia de eventos adversos es un suceso "raro".
+
+¿Podríamos no haber encontrado efectos adversos en los primeros 100 pacientes que usaron el fármaco? ¿Con qué probabilidad?
+
+```{r}
+
+lambda<- 100/120
+dpois(0, lambda )
+```
+
+Con esta probabilidad, no sería de extrañar que no hubiese EA en los primeros 100 pacientes tratados
+
+Una vez utilizado en 10000 personas ya aprobado, se han encontrado 33 EAs moderado-graves . ¿Cuál es la probabilidad de haber encontrado este numero de EA?
+
+```{r}
+lambda1<-1000/120
+dpois(33, lambda1)
+```
+
+¿ Y de encontrar hasta 33 EA?
+
+```{r}
+dpois(33, lambda1)
+```
+
+Con esa probabilidad ¿crees que son confiables las conclusiones del estudio experimental?
+
+(Ayuda: esa probabilidad es la misma probabilidad (aproximada) de que tras dos procesos de esterilización efectivos hay micororganismos comunes viables en un instrumental quirúrgico).
+
+## Ejercicio 3
+
+El servicio de urgencias de un hospital requiere planificar el número adecuado de médicos disponibles entre las 12 de la noche y las 8 de la mañana, periodo en el cual se atienden pacientes de forma continua. Según los registros del último año, se ha observado que el número promedio de urgencias en este intervalo de tiempo es de 20 pacientes. Para una correcta planificación, se solicita calcular lo siguiente:
+
+a\) La probabilidad de que se vean, al menos 10 urgencias en una noche
+
+```{r}
+# Asumimos que la distribución que debemos usar es la de Poisson
+
+lambda2<-20
+#La probabilidad de que se vean al menos 10 urgencias es igual a 1 
+#menos la probabilidad de que se vean menos de 10 urgencias (0,1,2,3,4,5,6,7,8,9)
+1- ppois(9,lambda2)
+
+```
+
+b\) La probabilidad de que se presenten más de 20 urgencias en dicho periodo.
+
+```{r}
+1-ppois(20,lambda2)
+```
+
+C\) La probablidad de que se vean entre 10 y 20 urgencias en una noche
+
+```{r}
+ppois(20,lambda2)-ppois(10,lambda2)
+```
+
+d\) El cuantil 80 de la distribución, que indica el número de urgencias máximo que se atienden en el 80% de los días.
+
+```{r}
+qpois(0.8,lambda2)
+```
+
+## Ejercicio 4
+
+Supongamos que un investigador mide el nivel de colesterol de un individuo después de seguir un nuevo sistema de alimentación y ejercicio. El sujeto ha sido elegido de una población de manera aleatoria. La medida de resultado de éxito esperado es la reducción del nivel de colesterol. La población tiene unas cifras de colesterol que se distribuyen como una normal de media 180 mg/dl y ds 7 mg/dl
+
+Si el sujeto tiene unas cifras de colesterol de 165 mg/dl, ¿cuál es la probabilidad de que pertenezca a la distribución de referencia (y por ende que no sea efectivo el modelo testado?
+
+```{r}
+# Calcular el valor Z
+z <- (165 - 180) / 7
+
+# Calcular el p-valor para un valor Z de -0.75
+p_value <- 2 * pnorm(z)
+
+# Mostrar el p-valor
+p_value
+```
+
+La probabilidad de que el sujeto pertenezca a la distribución es muy baja, por lo que podemos rechazar la hipótesis nula subyacente de que el sujeto se ha comportado con el nuevo método como la población de la que provenía.
+
+Este ejercicio corresponde a lo que se denomina prueba de homogeneidad.
+
+## 
+
+## Ejercicio 5
+
+En un estudio clínico, se ha observado que, tras un año de haberse sometido a una cirugía bariátrica, los pacientes pierden un promedio de 30 kg, con una desviación estándar de 4 kg. Suponiendo que la pérdida de peso sigue una distribución normal, se solicita calcular lo siguiente:
+
+a\) La probabilidad de que un paciente pierda al menos 35 kg en el transcurso de un año.
+
+```{r}
+1 - pnorm(35, 30, 4)
+```
+
+b\) La probabilidad de que un paciente pierda entre 25 kg y 40 kg en el transcurso de un año.
+
+```{r}
+pnorm(40, 30, 4) - pnorm(25, 30, 4)
+
+```
+
+c\) La probabilidad de que un paciente pierda más de 40 kg en el transcurso de un año.
+
+```{r}
+1-pnorm(40, 30, 4)
+```
+
+d\) El peso mínimo que habrán perdido el 80 % de los sujetos al año
+
+```{r}
+# Habrá que calcular el peso máximo quepierden el 20% 
+#de los sujetos que menos peso pierden, esto ee, el cuantil 20 
+qnorm(0.2, 30, 4)
+```

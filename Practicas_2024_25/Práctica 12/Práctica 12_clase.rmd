@@ -1,0 +1,234 @@
+---
+title: "Práctica 12. Comparación de proporciones (2)"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Preparando la base de datos
+
+Utilizamos df_iam3, de la Carpeta de la Práctica 12 en el Aula Virtual:
+
+```{r}
+#setwd()
+#getwd ()
+
+df_iam3<-read.csv ("df_iam3.csv")
+```
+
+Recuerda que , en esta base se recogen una serie de características de 984 sujetos. De todos se incluyeron características sociodemográficas ( `fech_nac`, `sex` y `clas_soc` ), clínicas (`hta` , `DM`, `colesterol` , `salud` ) y el hábito tabáquico (`fum`). En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio `iam`). Posteriormente se siguió a los sujetos hasta otro punto en el tiempo. Tras ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (`fum_p`) , la cifra de colesterol (`colesterol_p`), la percepción de salud posterior al infarto (`salud_p` ) y la ocurrencia de un nuevo reinfarto (`iam2`).
+
+VCalculamos la variable edad (en años cumplidos), suponiendo que la fecha final de seguimiento es el 31/12/2023 a partir de la variable `fech_nac`
+
+```{r}
+#fech_nac viene definida como character, cambiamos a formato fecha
+df_iam3$fech_nac <- as.Date(df_iam3$fech_nac)
+fecha_fin <- as.Date("2023-12-31")
+df_iam3$edad <- (fecha_fin-df_iam3$fech_nac)/365.25
+df_iam3$edad <- as.numeric (round (df_iam3$edad,0))
+
+
+```
+
+Seguidamente vamos a convertir en factor las variables `sex` (etiquetas: 0="mujer; 1= "Varón"), `hta` , `DM` , `fum` , `fum_p` , `iam1` e `iam2` , con las etiquetas (0="No", 1="Sí") y la variable `clas_soc` con las etiquetas (0= "baja"; 1=" Media", 2= Alta"), y `salud` y `salud_p` con las etiquetas (0="Muy mala"; 1="Mala"; 2= "Regular"; 3= "Buena"; 4= "Muy buena")
+
+```{r}
+df_iam3$sex <- factor(df_iam3$sex, levels = c(0, 1), 
+                      labels = c("Mujer", "Varón"))
+df_iam3$hta <- factor(df_iam3$hta, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$DM <- factor(df_iam3$DM, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$fum <- factor(df_iam3$fum, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$fum_p <- factor(df_iam3$fum_p, 
+                        levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$salud <- factor(df_iam3$salud, 
+                        levels = c(0,1, 2,3,4), 
+                        labels = c("Muy mala", "Mala",
+                                   "Regular", "Buena", "Muy buena"))
+df_iam3$salud_p <- factor(df_iam3$salud_p, 
+                        levels = c(0,1, 2,3,4), 
+                        labels = c("Muy mala", "Mala",
+                                   "Regular", "Buena", "Muy buena"))
+df_iam3$iam1 <- factor(df_iam3$iam1, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$iam2 <- factor(df_iam3$iam2, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$clas_soc <- factor(df_iam3$clas_soc, 
+                           levels = c(0, 1, 2), 
+                           labels = c("Baja", "Media", "Alta"))
+```
+
+Comprueba que ha funcionado todo bien
+
+```{r}
+head (df_iam3)
+```
+
+
+## 2. Comparación de proporciones para datos agrupados
+
+Vamos a comparar la proporción de fumadores inicial (`fum`) con la proporción de fumadores tras el primer infarto (`fum_p`).
+
+
+```{r}
+# Crear la tabla de contingencia entre fum (antes) y fum_p (después)
+
+tabla_fum <- table(df_iam3$fum, df_iam3$fum_p)
+
+tabla_fum
+
+proporciones<-prop.table(tabla_fum,1)
+proporciones
+
+mcnemar_test <- mcnemar.test(tabla_fum)
+
+
+mcnemar_test
+
+
+```
+
+## 3. Volviendo sobre el estudio de las diferencias de proporciones
+
+
+
+Vamos a comparar las proporciones de infartos `iam1`, en personas con/sin `DM`
+
+```{r}
+tabla_DM_iam <- table(df_iam3$DM, df_iam3$iam1)
+
+# Ver la tabla
+print(tabla_DM_iam)
+
+#Ver proporciones
+
+proporciones<- prop.table (tabla_DM_iam,1)
+proporciones
+
+proporciones2<- prop.table (tabla_DM_iam,2)
+proporciones2
+
+# Extraer los valores de la tabla de contingencia
+DM_con_iam <- tabla_DM_iam["Sí", "Sí"]  # DM con iam
+DM_sin_iam <- tabla_DM_iam["Sí", "No"]  # DM sin iam
+
+total_con_iam <- sum(tabla_DM_iam[, "Sí"])  # Total de pacientes con iam
+total_sin_iam <- sum(tabla_DM_iam[, "No"])  # Total de pacientes sin iam
+
+# Aplicar el test de proporciones
+resultado <- prop.test(x = c(DM_con_iam, DM_sin_iam), 
+n = c(total_con_iam, total_sin_iam), 
+                       correct = FALSE)  
+# Se puede añadir correct=TRUE para corrección de continuidad
+
+resultado <- prop.test(x = c(26, 126), 
+n = c(125, 859), 
+                       correct = FALSE)  
+
+resultado2 <- prop.test(x = c(99, 26), 
+n = c(832, 152), 
+                       correct = FALSE)  
+
+# Ver el resultado
+print(resultado)
+
+```
+
+## 4. Comparación de proporciones, tablas de n x m
+
+### 4.1 Datos independientes
+
+
+Vamos a ver si las proporciones de hipertensos son diferentes en las diferentes categorías de la variable `clas_soc`
+
+```{r}
+# Crear la tabla de contingencia
+tabla_htaclass <- table(df_iam3$hta, df_iam3$clas_soc)
+
+tabla_htaclass
+
+proporciones2<- prop.table(tabla_htaclass,2)
+
+# Realizar la prueba Chi-Cuadrado
+chi_test <- chisq.test(tabla_htaclass)
+
+# Mostrar resultados de la prueba
+print(chi_test)
+
+# Frecuencias esperadas
+
+print(chi_test$expected)
+```
+
+No hay diferencias en las proporciones de HT por clase social y no hay ninguna frecuencia esperada menos que 5, podríamos hacer el test de Cgi cuadrado sin la corrección de Yates
+
+```{r}
+chi_test <- chisq.test(tabla_htaclass, correct = FALSE)
+chi_test
+```
+
+El resultado da exactamente igual, con la n grande la corrección de Yates apenas tiene impacto.
+
+### 4.2 Datos apareados
+
+Vamos a utilizar los datos de percepción del estado de salud antes y después del primer infarto para ver si hay diferencias (`salud` y `salud_p` )
+
+
+
+```{r}
+
+tabla_friedman <- table(df_iam3$salud, df_iam3$salud_p)
+tabla_friedman
+#Friendman necesita un formato largo
+
+# Crear una matriz de salud antes y después
+matriz_salud <- as.matrix(cbind(df_iam3$salud, df_iam3$salud_p))
+
+# Aplicar la Prueba de Friedman
+friedman_result <- friedman.test(matriz_salud)
+friedman_result
+
+```
+
+Hay diferencias entre los grupos no achacables al azar.
+
+## 5. Test de tendencia lineal
+
+
+Podríamos preguntarnos si hay menos proporción de fumadores a medida que aumenta el nivel social. Vamos a intentar resolver esta cuestión con un test de tendencia lineal.
+
+Primero generamos la tabla
+
+```{r}
+
+tabla_contingencia <- table(df_iam3$fum, df_iam3$clas_soc)
+
+# Mostrar la tabla de contingencia
+print(tabla_contingencia)
+
+# Calcular las proporciones de la tabla de contingencia
+proporciones <- prop.table(tabla_contingencia, margin = 2)  
+proporciones
+```
+
+Y ahora hay que disponer los datos para poder usar la función `prop.trend.test`
+
+```{r}
+# Definir el número de fumadores (x)) y el tamaño de cada grupo (n)
+x <- c(103, 124, 15)  
+n <- c(307 + 103, 356 + 124, 79 + 15) 
+
+# Realizar el test de tendencia
+tendencia_resultado <- prop.trend.test(x, n, score = seq_along(x))
+
+
+print(tendencia_resultado)
+
+```
+
+Aunque parece haber cierta tendencia decreciente, no se puede rechazar la hipótesis nula , que no reconoce ninguna tendencia lineal.

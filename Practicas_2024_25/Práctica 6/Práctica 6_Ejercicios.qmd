@@ -1,0 +1,129 @@
+---
+title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 6. Ejercicios. Representaciones gráficas</span>" 
+
+autor: "Jesús Martín Fernández"
+format: 
+  pdf:
+       toc: FALSE
+       toc-title: "Contenidos"
+       toc-location: left
+editor: visual
+---
+
+Tras recuperar de la Práctica 6 el archivo df_iam2, vamos a ver sus variables
+
+```{r, eval=FALSE}
+setwd("C:/Users/jesus.martin/OneDrive - Madrid Digital/Docente/Introducción a la AP/Curso 2024_25/Bioestadística 1/Prácticas/Práctica 6")
+
+df_iam2 <- read.csv("C:/Users/jesus.martin/OneDrive - Madrid Digital/Docente/Introducción a la AP/Curso 2024_25/Bioestadística 1/Prácticas/Práctica 6/df_iam2.csv")
+
+#La ruta o pathway es diferente para cada uno.
+
+head (df_iam2)
+```
+
+Vamos a dibujar un diagrama de sectores con la variable `hta` . El título será "Presencia de HTA" y los colores usados el `skyblue` y el `red`
+
+```{r, eval=FALSE}
+pie(prop.table(table(df_iam2$hta)), 
+    col = c("skyblue", "red"), 
+    main = "Presencia de HTA", border = "black", 
+    lwd = 2)
+
+```
+
+Por defecto atribuye las etiquetas de la variable `hta` , pero puedes cambiarlas con la intrucción `labels=` dentro de la función `pie` . Esto sirve para añadir los porcentajes de cada nivel de la variable factor, si previamente se calculan y se añaden a la etiqueta. Prueba copiando el código de más abajo.
+
+```{r, eval= FALSE}
+
+# Calculamos la tabla de frecuencias relativas
+tabla_frecuencias <- prop.table(table(df_iam2$hta))
+
+# Calculamos los porcentajes
+porcentajes <- round(tabla_frecuencias * 100, 1)
+
+# Creamos las etiquetas que incluirán los nombres de las variables y porcentajes
+etiquetas <- paste0(names(tabla_frecuencias), ": ", porcentajes, "%")
+
+# Graficamos el pie chart con los nombres de las variables y los porcentajes
+pie(tabla_frecuencias, 
+    col = c("skyblue", "red"), 
+    main = "Presencia de HTA", 
+    border = "black", 
+    lwd = 2, 
+    labels = etiquetas)
+
+```
+
+
+
+Ahora vas a crear un histograma de la variable peso, en aproximadamente 10 intervalos
+
+```{r, eval =FALSE}
+
+hist(df_iam2$edad,
+     breaks = 10,
+     main = "Histograma del peso", 
+     xlab = "Peso en kg",                 
+     ylab = "Frecuencia",           
+     col = "skyblue")             
+```
+
+Vamos a construir un boxplot de la variable `alt` , pero en hombres y mujeres, Pon las etiquetas que prefieras y elige los colores. También para el marco de las cajas. Intenta aumentar el tamaño del borde de las cajas
+
+```{r, eval=FALSE}
+boxplot(df_iam2$alt ~ df_iam2$sex,          
+        main = "Distribución de talla en hombres y mujeres",         
+        xlab = "Altura",                 
+        ylab = "Cms",
+        col = c("skyblue", "red"),
+        border = c("black", "black"), 
+        lwd=3)#Aumenta el grosor del borde)                
+```
+
+Guarda la función anterior en un archivo png en el directorio que esté trabajando y comprueba que se haya guardado
+
+```{r, eval=FALSE}
+
+png("Boxplot altura por sexo.png", width = 800, height = 400)
+boxplot(df_iam2$alt ~ df_iam2$sex,          
+        main = "Distribución de talla en hombres y mujeres",         
+        xlab = "Altura",                 
+        ylab = "Cms",
+        col = c("skyblue", "red"),
+        border = c("black", "black"), 
+        lwd=3)             
+
+dev.off()
+
+```
+
+Crees que la altura tiene una distribución "normal". Compruébalo con un Q-Q plot
+
+```{r, eval=FALSE}
+qqnorm(df_iam2$alt, 
+       main="QQ Plot de altura",
+       ylab="Cuantiles de altura", 
+       xlab="Cuantiles Teóricos")
+qqline(df_iam2$alt, col="black", lwd=2) 
+```
+
+Los valores del extremo hacen que esta cola sea más grande de lo esperado en una normal. En la cola derecha ocurre lo mismo , pero en menor medida.
+
+Finalmente vas a realizar un `scaterplott` entre las variables `alt` y `peso` . Añade una línea de tendencia y da una opinión sobre si parecen estar correlacionadas o no.
+
+```{r, eval=FALSE}
+plot(df_iam2$alt, df_iam2$peso, 
+     main="Relación entre altura y peso", 
+     xlab="Altura en cms.", 
+     ylab="Peso en Kgs.", 
+     pch=19,     
+     col="blue") 
+
+modelo <- lm(peso ~ alt, data = df_iam2)
+
+# Añadir la línea de tendencia
+abline(modelo, col="red", lwd=2)
+```
+
+Pqrece que hay una tendencia lineal positiva entre altura y peso ( a medida que aumenta la altura, se incrementa el peso. Todo bastante razonable, ¿verdad?

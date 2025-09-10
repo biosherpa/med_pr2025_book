@@ -1,0 +1,260 @@
+---
+title: "Práctica 13. Comparación de medias (I)"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+## 1. Introducción
+
+En primer lugar, vamos a preparar una base de datos de nuestro directorio de trabajo, df_iam3_r, que puedes obtener de la Carpeta de la Práctica 13 en el Aula Virtual:
+
+```{r}
+#setwd()
+#getwd ()
+
+df_iam3<-read.csv ("df_iam3_r.csv")
+```
+
+Recurda que recoge una serie de características de 984 sujetos. De todos se incluyeron características sociodemográficas ( fech_nac, sex y clas_soc ), clínicas (hta , DM, colesterol , salud) y el hábito tabáquico (fum). En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio iam). Posteriormenete se siguió a los sujetos hasta otro punto en el tiempo. Tras ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (fum_p) , la cifra de colesterol (colesterol_p), la percepción de salud posterior al infarto (salud_p ) y la ocurrencia de un nuevo reinfarto (iam2). Asumimos (de manera artificiosa) que quien no tuvo iam1 en el tiempo t, ya no tendrá infarto.
+
+Comprueba sus variables
+
+```{r}
+head (df_iam3)
+```
+
+## 2. Comparación de medias independientes
+
+Vamos a comparar los niveles de colesterol en aquellos sujetos que tuvieron infarto y los que no
+
+Lo primero será valorar los supuestos de normalidad y homogeneidad de la varianza en ambos grupos
+
+### 2.1 Comprobación de supuestos de normalidad y homogeneidad de la varianza
+
+Primero vamos a comprobar el supuesto de normalidad del colesterol
+
+```{r}
+# Filtrar los datos por grupo
+col_infarto <- df_iam3$colesterol[df_iam3$iam1 == "Sí"]
+col_no_infarto <- df_iam3$colesterol[df_iam3$iam1 == "No"]
+
+# Prueba de normalidad (Shapiro-Wilk) para el grupo con infarto
+shapiro.test(col_infarto)
+
+# Prueba de normalidad (Shapiro-Wilk) para el grupo sin infarto
+shapiro.test(col_no_infarto)
+```
+
+Parece que en ninguno de los dos grupos la distribución es muy ajustada a la normal.
+
+Como la muestra es grande, vamos a hacer la misma prueba de normalidad con el test de Kolmogorov-Smirnoff
+
+```{r}
+# Prueba de normalidad (Kolmogorov-Smirnov) para el grupo con infarto
+ks_test_infarto <- ks.test(col_infarto, "pnorm", 
+        mean = mean(col_infarto), sd = sd(col_infarto))
+ks_test_infarto
+
+# Prueba de normalidad (Kolmogorov-Smirnov) para el grupo sin infarto
+ks_test_no_infarto <- ks.test(col_no_infarto, "pnorm", 
+        mean = mean(col_no_infarto), sd = sd(col_no_infarto))
+ks_test_no_infarto
+```
+
+Vamos a representarlas gráficamente
+
+```{r}
+# Histograma y gráfico Q-Q para el grupo con infarto
+hist(col_infarto, 
+     main = "Histograma de Colesterol (Infarto)", 
+     xlab = "Colesterol")
+qqnorm(col_infarto)
+qqline(col_infarto)
+
+# Histograma y gráfico Q-Q para el grupo sin infarto
+hist(col_no_infarto, 
+     main = "Histograma de Colesterol (No Infarto)", 
+     xlab = "Colesterol")
+qqnorm(col_no_infarto)
+qqline(col_no_infarto)
+```
+
+Ahora vamos a testar la hipótesis de igualdad de las varianzas.
+
+El test de Levene está implementado en el paquete car , y precisa que la variable que divide la muestra sea una variable factor
+
+```{r}
+#install.packages("car")
+library(car)
+
+df_iam3$iam1 <- as.factor(df_iam3$iam1)
+
+levene_result <- leveneTest(colesterol ~ iam1, data = df_iam3)
+levene_result
+```
+
+El p-value de 0,05595 es muy próximo al valor umbral, podríamos descartar la hipótesis de homogeneidad de varianzas
+
+Otra opción para comprobar homogeneidad de varianzas en R base , sería la prueba F de homogeneidad de varianzas también conocida prueba F de Snedecor.
+
+```{r}
+# Prueba F para comparar las varianzas entre colesterol en infarto y no infarto
+var_test <- var.test(colesterol ~ iam1, data = df_iam3)
+
+# Mostrar resultados
+print(var_test)
+```
+
+Este resultado no indica diferencias en las varianzas
+
+Vamos a comprobarlo con el test de Barlett
+
+```{r}
+bartlett_result <- bartlett.test(colesterol ~ iam1, data = df_iam3)
+bartlett_result
+```
+
+Este test, que es más adecuado para distribuciones normales, tampoco detecta diferencias en las varianzas.
+
+### 2.2 Contraste frente a una media poblacional
+
+Asumiendo que, al ser una muestra grande, no debemos preocuparnos mucho por la forma de la distribución, vamos a testar si la distribución del colesterol muestral puede provenir de una población cuya media de colesterol es 195
+
+```{r}
+t_test_contrast <- t.test(df_iam3$colesterol, mu=195)
+t_test_contrast
+```
+
+Parece que podemos rechazar, con una confianza del 95% que la muestra provenga de la citada población
+
+### 2.3 T de Student para datos independientes
+
+Hemos visto anteriormente que el colesterol no tiene una distribución normal en pacientes con y sin infarto, pero no se puede descartar la igualdad de varianzas (no era concluyente el test de Levene y no descartaba la hipótesis de igualdad de varianzas el de Barlett), por lo que vamos a comparar las medias del colesterol en pacientes con y sin infarto con unat de student para datos independientes.
+
+```{r}
+t_test_result <- t.test(colesterol ~ iam1, data = df_iam3, var.equal = TRUE)
+t_test_result
+```
+
+Si no estamos convencidos de la igualdad de las varianzas podemos usar el test de Welch, una variación de la t de Student que no asume varianzas iguales, modificando la orden anterior
+
+```{r}
+t_test_result2 <- t.test(colesterol ~ iam1, data = df_iam3, var.equal = FALSE)
+t_test_result2
+```
+
+Leyendo del final al principio vemos que la media de colesterol en el grupo sin infarto es de 189.32 en el grupo sin infarto y de 195.68 en el grupo con infarto. El p-value de esta diferencia es de 0.1083 (0.136 con el test de Welch), no permite descartar la igualdad de medias.
+
+Para ver el verdadero valor de la p para la toma de decisiones vamos a calcular manualmente los valores de la distribución del colesterol en uno y otro grupo
+
+```{r}
+library (psych)
+
+statistics_infarto <- describe (col_infarto, na.rm = TRUE)
+statistics_noinfarto <- describe (col_no_infarto, na.rm = TRUE)
+
+statistics_infarto
+statistics_noinfarto
+```
+
+Ahora vamos a calcular los valores del t-test manualmente con la función tsum.test del paquete BSDA
+
+```{r}
+#install.packages("BSDA")
+library(BSDA)
+
+test_result3 <- tsum.test(mean.x = 189.32, 
+    s.x = 40.82, n.x = 859, mean.y = 195.69, s.y = 44.84, n.y = 125)
+test_result3
+```
+
+Si los mismos valores procediesen de una muestra 10 veces más grandes (n1=8590 y n2=1250), observa qué pasaría con el p-value
+
+```{r}
+test_result4 <- tsum.test(mean.x = 189.32, s.x = 40.82, 
+                          n.x = 8590, mean.y = 195.69, s.y = 44.84, n.y = 1250)
+test_result4
+```
+
+El valor de la diferencia de medias seria el mismo (189.32- 195.69 = -6.37 mg/dl), con un IC del 95% mucho más estrecho ( -9.00 a -3.74), pero el p-value es muy, muy pequeño. Por lo tanto, al aumentar la n, el p-value cambia, mientras que no lo hace la diferencia de medias , que es la que nos da una información útil para la toma de decisiones.
+
+### 2.4 La U de Mann-Whitney
+
+Ahora vamos a usar la prueba de Mann-Whitney , el equivalente no paramétrico de la prueba t de dos muestras, que se emplea se usa cuando no se asume normalidad en los datos. Vamos a comparar la distribución del imc en hombres y mujeres. Utilizaremos la función wilcox.test(), que es la función adecuada para esta prueba no paramétrica. Primero comprobaremos la asunción de normalidad para esta variable
+
+```{r}
+#Normalidad
+grupo_varon <- df_iam3$imc[df_iam3$sex == "Varón"]
+grupo_mujer <- df_iam3$imc[df_iam3$sex == "Mujer"]
+
+# Prueba de Shapiro-Wilk para normalidad en el grupo de hombres
+shapiro_varon <- shapiro.test(grupo_varon)
+# Prueba de Shapiro-Wilk para normalidad en el grupo de mujeres
+shapiro_mujer <- shapiro.test(grupo_mujer)
+
+# Mostrar los resultados
+print(shapiro_varon)
+print(shapiro_mujer)
+
+# Prueba de Levene para comparar varianzas entre hombres y mujeres
+levene_test <- leveneTest(imc ~ sex, data = df_iam3)
+
+# Mostrar los resultados
+print(levene_test)
+```
+
+Vemos que la distribución no es normal , ni las varianzas homogéneas. Está justificado usar la prueba de Mann-Whitney
+
+```{r}
+MW_test<- wilcox.test(imc ~ sex, data = df_iam3)
+MW_test
+```
+
+La salida de esta función nos dice que las distribuciones son diferentes, está basada en los rangos. Esto puede implicar que una mediana es significativamente mayor o menor que la otra. Veamos las medianas
+
+```{r}
+
+medianas_imc <- by(df_iam3$imc, df_iam3$sex, median, na.rm = TRUE)
+
+# Mostrar resultados
+print(medianas_imc)
+```
+
+## 3. Comparación de medias para datos apareados
+
+### 3.1 La T de Student para datos apareados
+
+Vamos a realizar una prueba T de Student para datos apareados comparando el colesterol medido antes y después del punto t (cuando se evidenció si habia habido o no un infarto, colesterol y colesterol_p)
+
+```{r}
+#Evaluamos normalidad de las distribución de las diferencias
+
+diferencias <- df_iam3$colesterol - df_iam3$colesterol_p
+
+# Test de normalidad (Shapiro-Wilk)
+shapiro.test(diferencias)
+```
+
+Las distribuciones no son normales , pero sabemos que cuando la n es suficientemente grande, la t de student admite desviaciones de la normalidad , por lo que nos permitimos utilizar la t de student para datos apareados
+
+```{r}
+t.test(df_iam3$colesterol, df_iam3$colesterol_p, paired = TRUE)
+```
+
+Nos dice que el valor de la p es muy pequeño ( 1.819e-12), pero además nos ofrece cuál es la diferencia de medias y su IC del 95% (2.493902, IC95%: 1.808424 a 3.179381 mg/dl, colesterol es mayor que colesterol_p), que nos ofrece una perspectiva más útil para la toma de decisiones.
+
+### 3.2 La prueba de Wilcoxon para datos apareados
+
+Vamos a utilizar esta prueba para determinar si las medias del colesterol son iguales cuando se midieron antes y después del punto t
+
+```{r}
+
+wilcox.test(df_iam3$colesterol, df_iam3$colesterol_p, paired = TRUE)
+```
+
+Nos dice que las diferencias existen y que es muy improbable que se deba al azar, pero no analiza cómo de grande es esa diferencia.

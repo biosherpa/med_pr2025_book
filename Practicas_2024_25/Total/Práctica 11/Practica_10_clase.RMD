@@ -1,0 +1,299 @@
+---
+title: "Práctica 10. Comparación de proporciones"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Introducción
+
+Vamos a preparar la base de datos
+
+### 1.1. Preparando nuestra base de datos
+
+En primer lugar, vamos a seleccionar, como siempre, nuestro directorio de trabajo y a obtener la dase de datos de trabajo, en este caso df_iam3_r, que puedes obtener de la Carpeta de la Práctica 10 en el Aula Virtual:
+
+```{r}
+#setwd()
+getwd ()
+
+df_iam3<-read.csv ("df_iam3_r.csv")
+
+```
+
+En esta base se recogen una serie de características de 984 sujetos. De todos se incluyeron características sociodemográficas ( `fech_nac`, `sex` y `clas_soc` ), clínicas (`hta` , `DM`, `colesterol` , `salud`) y el hábito tabáquico (`fum`). En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio `iam`). Posteriormente se siguió a los sujetos hasta otro punto en el tiempo. Tras ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (`fum_p`) , la cifra de colesterol (`colesterol_p`), la percepción de salud posterior al infarto (`salud_p` ) y la ocurrencia de un nuevo reinfarto (`iam2`).
+
+
+
+```{r}
+head (df_iam3)
+```
+
+## 2. Comparación de proporciones muestrales, tablas de 2x2
+
+### 2.1 Test de Chi cuadrado
+
+En esta base de datos compararemos las proporciones de hipertensos (variable `hta`) en aquellos que sufrieron el primer infarto (variable `iam1` ) y los que no con una Chi cuadrado. 
+
+```{r}
+# Tabla cruzada de iam1 y hta
+tabla_hta_iam1 <- table(df_iam3$hta, df_iam3$iam1)
+
+# Ver la tabla de frecuencias
+tabla_hta_iam1
+
+# Calcular las proporciones de hta dentro de cada grupo de iam1
+prop_hta_iam1 <- prop.table(tabla_hta_iam1, margin = 1)
+
+# Ver las proporciones
+prop_hta_iam1
+
+# Test chi-cuadrado de independencia
+chi_test_hta_iam1 <- chisq.test(tabla_hta_iam1)
+
+# Ver el resultado del test
+chi_test_hta_iam1
+```
+
+Como se ve, nos ofrece el resultado de la Chi cuadrado con la correción de Yates. 
+
+Para desactivarla en R, se puede usar el argumento `correct = FALSE` en la función `chisq.test()`, lo cual es útil cuando las frecuencias no son tan pequeñas y la corrección se considera innecesaria.
+
+Primero vamos a aprender a obtener las frecuencias esperadas
+
+```{r}
+#Obtener frecuencias esperadas
+
+chi_test_hta_iam1$expected
+
+
+chi_test_hta_iam1_sin_yates <- chisq.test(tabla_hta_iam1, correct = FALSE)
+
+chi_test_hta_iam1_sin_yates
+```
+
+Vemos que las frecuencias esperadas son grandes, por lo que no haría falta la corrección de Yates. 
+
+Debes saber que, teniendo los datos de la tabla 2x2 se pueden calcular directamente el p-value para el valor de Chi cuadrado resultante
+
+```{r}
+# Crear la matriz con los valores de la tabla de contingencia
+m_hta_iam1 <- matrix(c(468, 76, 391, 49), nrow = 2, byrow = TRUE, 
+          dimnames = list(c("hta1 = No", "hta = Sí"), 
+                    c("iam1 = No", "iam1 = Sí")))
+
+
+m_hta_iam1
+
+# Aplicar la prueba chi-cuadrado a la matriz
+chi_test_hta_iam1 <- chisq.test(m_hta_iam1)
+
+# Ver el resultado del test chi-cuadrado
+chi_test_hta_iam1
+```
+
+
+
+### 2.2 Test de Fisher
+
+Aunque en este caso no sería imprescindible el test de Fisher, vamos a repasara las frecuencias esperadas y a utilizarlo en el ejemplo anterior.
+
+```{r}
+#Las frecuencias esperadas solo se pueden calcular
+#directamente con el test Chi cuadrado o hacerse manualmente
+# Calcular frecuencias esperadas manualmente
+n <- sum(m_hta_iam1)  # Total general
+a <- m_hta_iam1[1, 1]  # hta1 = No, iam1 = No
+b <- m_hta_iam1[1, 2]  # hta1 = No, iam1 = Sí
+c <- m_hta_iam1[2, 1]  # hta1 = Sí, iam1 = No
+d <- m_hta_iam1[2, 2]  # hta1 = Sí, iam1 = Sí
+
+# Calcular frecuencias esperadas
+E_11 <- (a + b) * (a + c) / n  # Frecuencia esperada para hta1 = No, iam1 = No
+E_12 <- (a + b) * (b + d) / n  # Frecuencia esperada para hta1 = No, iam1 = Sí
+E_21 <- (c + d) * (a + c) / n  # Frecuencia esperada para hta1 = Sí, iam1 = No
+E_22 <- (c + d) * (b + d) / n  # Frecuencia esperada para hta1 = Sí, iam1 = Sí
+
+# Mostrar frecuencias esperadas
+frecuencias_esperadas <- matrix(c(E_11, E_12, E_21, E_22), nrow = 2, 
+                      byrow = TRUE,
+                      dimnames = list(c("hta1 = No", "hta1 = Sí"), 
+                      c("iam1 = No", "iam1 = Sí")))
+print("Matriz de Frecuencias Esperadas:")
+print(frecuencias_esperadas)
+
+#Hacemos el test de Fisher
+fisher_test_hta_iam1 <- fisher.test(tabla_hta_iam1)
+fisher_test_hta_iam1
+```
+
+La hipótesis nula en el test de Fisher es que la Odds Ratio es 1 y no puede descartarse en este caso, como era de esperar.
+
+### 2.3 Datos apareados, test de McNemar
+
+Ahora vamos a comparar la proporción de fumadores inicial (`fum`) con la proporción de fumadores tras el primer infarto (`fum_p`).
+
+
+
+```{r}
+# Crear la tabla de contingencia entre fum (antes) y fum_p (después)
+
+tabla_fum <- table(df_iam3$fum, df_iam3$fum_p)
+
+
+tabla_fum
+
+mcnemar_test <- mcnemar.test(tabla_fum)
+
+mcnemar_test
+```
+
+
+
+```{r}
+
+# Frecuencias observadas
+cat("Frecuencias observadas:\n")
+print(tabla_fum)
+
+# Calcular frecuencias esperadas manualmente
+n <- sum(tabla_fum)  # Total general
+a <- tabla_fum[1, 1]  # Fumador, Fumador
+b <- tabla_fum[1, 2]  # Fumador, No Fumador
+c <- tabla_fum[2, 1]  # No Fumador, Fumador
+d <- tabla_fum[2, 2]  # No Fumador, No Fumador
+
+# Calcular frecuencias esperadas
+E_11 <- (a + b) * (a + c) / n
+E_12 <- (a + b) * (b + d) / n
+E_21 <- (c + d) * (a + c) / n
+E_22 <- (c + d) * (b + d) / n
+
+# Mostrar frecuencias esperadas
+cat("\nFrecuencias esperadas:\n")
+cat("Frecuencia esperada (Fumador, Fumador):", E_11, "\n")
+cat("Frecuencia esperada (Fumador, No Fumador):", E_12, "\n")
+cat("Frecuencia esperada (No Fumador, Fumador):", E_21, "\n")
+cat("Frecuencia esperada (No Fumador, No Fumador):", E_22, "\n")
+```
+
+Pues no, no hay ninguna frecuencia esperada menor que 5, así que podíamos quitar la correción de yates
+
+```{r}
+mcnemar_test_sin_Yates <- mcnemar.test(tabla_fum, correct= FALSE)
+mcnemar_test_sin_Yates
+```
+
+El resultado no es muy diferente del anterior
+
+## 3. Intervalos de confianza para la diferencia de proporciones
+
+
+
+El IC de la diferencia de proporciones se calcula así
+
+$IC = (\hat{p}_1 - \hat{p}_2) \pm Z_{\alpha/2} \cdot SE(\hat{p}_1 - \hat{p}_2)$
+
+donde
+
+$\hat{p}_1: \text{Proporción observada en el primer grupo.} \\\hat{p}_2: \text{Proporción observada en el segundo grupo.} \\n_1: \text{Tamaño de la muestra del primer grupo.} \\n_2: \text{Tamaño de la muestra del segundo grupo.} \\Z_{\alpha/2}: \text{Valor crítico de la distribución normal estándar.} \\SE(\hat{p}_1 - \hat{p}_2): \text{Error estándar de la diferencia de proporciones.}$
+
+$SE(\hat{p}_1 - \hat{p}_2) = \sqrt{\frac{\hat{p}_1(1 - \hat{p}_1)}{n_1} + \frac{\hat{p}_2(1 - \hat{p}_2)}{n_2}}$
+
+Vamos a calcular las diferencias de proporciones de fumadores (`fum` ) en pacientes con y sin infarto (`iam1`)y luego la diferencia de proporciones , interpretando su significado:
+
+```{r}
+tabla_fum_iam <- table(df_iam3$fum, df_iam3$iam1)
+
+# Ver la tabla
+print(tabla_fum_iam)
+
+# Extraer los valores de la tabla de contingencia
+fum_con_iam <- tabla_fum_iam["Sí", "Sí"]  # Fumadores con iam
+fum_sin_iam <- tabla_fum_iam["Sí", "No"]  # Fumadores sin iam
+
+total_con_iam <- sum(tabla_fum_iam[, "Sí"])  # Total de pacientes con iam
+total_sin_iam <- sum(tabla_fum_iam[, "No"])  # Total de pacientes sin iam
+
+# Aplicar el test de proporciones
+resultado <- prop.test(x = c(fum_con_iam, fum_sin_iam), 
+                       n = c(total_con_iam, total_sin_iam), 
+                       correct = FALSE)  
+# Se puede añadir correct=TRUE para corrección de continuidad
+
+# Ver el resultado
+print(resultado)
+
+```
+
+El valor de p es muy pequeño luego es poco probable que la diferencia se deba al azar. Pero ¿Cuál es esa diferencia?
+
+```         
+0.4560000 - 0.2153667= 0.2402333
+```
+
+¿? Y su IC del 95%
+
+```         
+0.1490958 a 0.3321708
+```
+
+Esto significa que la diferencia de proporciones, con una confianza del 95% será de, al menos 14,91%.
+
+Si esta misma diferencia la encontrásemos en unas muestras mucho más pequeñas , podría ocurrir que la p no fuese significativa. Mira el ejemplo de más abajo
+
+```{r}
+# Crear la matriz original
+m_original <- matrix(c(674, 68, 185, 57), nrow = 2, byrow = TRUE, 
+                  dimnames = list(c("No fumador", "Fumador"),
+                  c("iam1 = No", "iam1 = Sí")))
+
+# Dividir la matriz por 10 y redondear sin decimales
+m_dividida_redondeada <- round(m_original / 10)
+
+# Ver la matriz redondeada
+print(m_dividida_redondeada)
+
+fum_con_iam <- m_dividida_redondeada["Fumador", "iam1 = Sí"]  
+# No fumadores con iam
+fum_sin_iam <- m_dividida_redondeada["Fumador", "iam1 = No"]  
+# No fumadores sin iam
+
+total_con_iam <- sum(m_dividida_redondeada[, "iam1 = Sí"])  
+# Total de pacientes con iam
+total_sin_iam <- sum(m_dividida_redondeada[, "iam1 = No"])  
+# Total de pacientes sin iam
+
+# Aplicar el test de proporciones
+resultado <- prop.test(x = c(fum_con_iam, fum_sin_iam), 
+                       n = c(total_con_iam, total_sin_iam), 
+                       correct = FALSE)  
+# sin corrección de continuidad
+
+# Ver el resultado
+print(resultado)
+
+```
+
+En este caso el p-value, aunque pequeño, está por encima del umbral de 0,05 (muy poco por encima, seguiríamos desconfiando de que la diferencia se deba al azar aunque formalmente no rechazemos la hipótesis nula), pero la diferencias de proporciones sería igual a la de antes (casi igual, varían los decimales)
+
+```         
+0.4615385 - 0.2117647= 0.2497738
+```
+
+Sin embargo el nuevo IC de la diferencia, sí incluye el 0
+
+```         
+-0.03479754 a 0.53434505
+```
+
+En definitiva el IC de la diferencia de proporciones, sí nos da una idea de la importancia de la diferencia, que no nos ofrece el valor del p-value
+

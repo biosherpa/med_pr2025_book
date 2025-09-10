@@ -1,0 +1,170 @@
+---
+title: "Práctica 14. Comparación de medias (II)"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+En primer lugar, vamos a preparar una base de datos de nuestro directorio de trabajo, df_iam4_r, que puedes obtener de la Carpeta de la Práctica 14 en el Aula Virtual:
+
+```{r}
+
+df_iam4<-read.csv ("df_iam4_r.csv")
+
+```
+
+
+## 1. ANOVA de una vía
+
+Se pretende comparar las cifras de colesterol por clase social. Para ello usaremos un ANOVA de una vía. 
+
+Primero evaluaremos visualmente las diferencias
+
+```{r}
+
+```
+
+Parece que la clase "Alta" tiene valores más bajos de colesterol, vamos a estudiarlo formalmente con una ANOVA. Se puede hacer directamente con el paquete base `Stats` o con la librería `cars`
+
+```{r}
+
+# Debemos asegurarnos de que la variable clas_soc es un factor()
+
+```
+
+Con el paquete `cars`
+
+```{r}
+library(car)
+
+
+```
+
+El método requiere que se cumplan ciertos supuestos, como la normalidad de los datos y la homocedasticidad (igualdad de varianzas) entre los grupos.
+
+### 1.1 Comprobación de supuestos de normalidad y homogeneidad de la varianza
+
+Para verificar la normalidad, usaremos Shapiro-Wilk y para las varianzas la prueba de Levene del paquete `car`
+
+```{r}
+
+```
+
+Parece que la variable no tiene una distribución normal, al menos en dos de los tres casos, porque los p-value son pequeños y se rechaza la hipótesis nula que presupone que la distribución se ajusta a una normal.
+
+Ahora recurriremos al paquete `car` para hacer la prueba de Levene
+
+```{r}
+
+```
+
+Otra forma de valorar los supuestos de aplicación de la prueba es mediante el análisis de residuales. Por ejemplo haciendo un Q-Q-plot. Esto solo puede hacerse tras generar el modelo
+
+```{r}
+
+```
+
+Existe cierto incumplimiento del modelo en el extremo inferior de la distribución. No obstante el ANOVA es bastante resistente a la falta de normalidad, por lo que vamos a analizar sus resultados
+
+### 1.2 ANOVA de una vía
+
+Vamos a realizar el modelo ANOVA y a interpretar la salida en R
+
+```{r}
+
+```
+
+
+## 2. Comparaciones post-hoc tras un ANOVA
+
+ 
+
+### 2.1 Varianzas homogéneas
+
+Vamos a valorar si hay diferencias entre grupos con las correcciones de Bonferroni y Tukey, Primero usaremos la función `pairwise.t.test`
+
+```{r}
+
+```
+
+El resultado nos ofrece el p-value, pero no las diferencias. Esto si nos lo ofrece la función `TukeyHSD` siempre que previamente usemos la función `aov`
+
+```{r}
+
+
+```
+
+
+También se pueden realizar comparaciones post-hoc utilizando la función `pairwiseTest` del paquete pairwiseCI en R. Con la sintaxis que utilizamos no ofrece IC.
+
+```{r}
+#install.packages("pairwiseCI") 
+# Solo hay que hacerlo una vez
+library(pairwiseCI)
+
+
+```
+
+Este paquete no permite otros métodos, pero sí comparar frente a un grupo control, por ejemplo la primera categoría (este sería un método a priori, no post-hoc, pero con más de una comparación):
+
+```{r}
+
+```
+
+
+Para hacer comparaciones post-hoc con sus intervalos de confianza el paquete más adecuado es `emmeans` . Primero usaremos la corrección de Bonferroni,
+
+```{r}
+
+#install.packages("emmeans")#solo si no está instalado previamente
+library(emmeans)
+
+
+```
+
+Ahora con las correcciones de Tukey, Holm-Bonferroni y Dunnett,
+
+```{r}
+
+
+```
+
+### 2.2 Varianzas no homogéneas
+
+La última función utilizada permite ser usada en casos de varianzas no homogéneas, pero la comparación formal post-hoc para varianzas no homogéneas es el test de Tamhane, que necesita del paquete `PMCMRplus`
+
+```{r}
+#install.packages("PMCMRplus")  
+library(PMCMRplus)  
+
+
+```
+
+
+## 3. Test de Kruskal-Wallis
+
+
+Vamos a valorar si hay diferencias en el `imc` por clase social. Primero dibujamos unos diagramas de cajas
+
+```{r}
+
+```
+
+Parece no haber grandes diferencias. Vamos a estudiarlo con un test. Primero estudiamos la normalidad e igualdad de varianzas
+
+```{r}
+
+```
+
+No se cumple el supuesto de normalidad pero si el de homogeneidad de varianzas. Utilizamos la prueba de Kruskal Wallis:
+
+```{r}
+
+```
+
+Efectivamente, no se observan diferencias entre grupos.
+

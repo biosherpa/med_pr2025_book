@@ -1,0 +1,360 @@
+---
+title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 13.Comparación de medias (II)</span>" 
+
+author: 
+  "Jesús Martín Fernández"
+format: 
+  pdf:
+       pdf-engine: pdflatex
+       toc: true
+       toc-title: "Contenidos"
+       toc-location: left
+editor: visual
+---
+
+## 1. Introducción
+
+Las comparaciones de variables continuas en más de dos grupos utilizan técnicas como el ANOVA de una vía, que permite evaluar si al menos una de las medias grupales es significativamente diferente de las demás. Sin embargo, cuando se rechaza la hipótesis nula de igualdad de medias, es necesario realizar comparaciones múltiples post-hoc para identificar cuáles grupos son diferentes entre sí.
+
+Si el ANOVA de una vía indica que se rechaza la hipótesis nula de igualdad de medias, es fundamental realizar comparaciones múltiples post-hoc para identificar cuáles grupos son diferentes. Existen diferentes métodos de corrección post-hoc, que varían en función de los supuestos sobre las varianzas de los grupos comparados. Por ejemplo, el método de Bonferroni, que es uno de los más utilizados, es adecuado cuando se asume que las varianzas son iguales y ajusta el nivel de significancia para controlar el error tipo I. Es bastante conservador. Otras alternativas son el test de Tukey, el Holm-Bonferroni una versión mejorada del Bonferroni, que ajusta los valores p secuencialmente. el de Dunnett se utiliza para comparar varios tratamientos con un grupo de control específico, Scheffé flexible para realizar comparaciones complejas, aunque es más conservador.
+
+Sin embargo, si se sospecha que las varianzas son diferentes entre los grupos, es recomendable utilizar métodos alternativos como el test de Tamhane, que es robusto ante la violación de este supuesto.
+
+En situaciones donde los supuestos del ANOVA no se cumplen, la prueba de Kruskal-Wallis ofrece una alternativa no paramétrica que permite comparar las distribuciones de las variables continuas en los grupos, facilitando así una evaluación robusta de las diferencias entre ellos.
+
+En esta práctica vamos a aprender cómo se realizan estos procedimientos en R.
+
+En primer lugar, vamos a preparar una base de datos de nuestro directorio de trabajo, df_iam4_r, que puedes obtener de la Carpeta de la Práctica 13 en el Aula Virtual:
+
+```{r}
+#setwd()
+#getwd ()
+
+df_iam4<-read.csv ("df_iam4_r.csv")
+
+```
+
+Recurda sus características. Se incluyeron características sociodemográficas de 984 sujetos ( `fech_nac`, `sex` y `clas_soc` ), clínicas (`hta` , `DM`, `colesterol` , `salud`) y el hábito tabáquico (`fum`). En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio `iam`). Posteriormenete se siguió a los sujetos hasta otro punto en el tiempo. Tras ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (`fum_p`) , la cifra de colesterol (`colesterol_p`), la percepción de salud posterior al infarto (`salud_p` ) y la ocurrencia de un nuevo reinfarto (`iam2`). Asumimos (lo que puede tener poca plausibilidad) que quien no tuvo `iam1` en el tiempo t, no tuvo nuevo infarto.
+
+## 2. ANOVA de una vía
+
+Se pretende comparar las cifras de colesterol por clase social. Para ello usaremos un ANOVA de una vía. Este método se basa en el principio de que, si hay diferencias en las medias de los grupos, la variabilidad total de los datos puede ser descompuesta en variabilidad entre grupos y variabilidad dentro de los grupos. El ANOVA de una vía permite evaluar la hipótesis nula de que todas las medias son iguales frente a la hipótesis alternativa de que al menos una media es diferente.
+
+Primero evaluaremos visualmente las diferencias
+
+```{r}
+boxplot(colesterol ~ clas_soc, data = df_iam4,
+        main = "Colesterol en cada clase Social",
+        xlab = "Clase Social",
+        ylab = "Colesterol (mg/dl)",
+        col = c("red", "blue"),  # Colores para las cajas
+        border = "black")  # Color del borde
+```
+
+Parece que la clase "Alta" tiene valores más bajos de colesterol, vamos a estudiarlo formalmente con una ANOVA. Se puede hacer directamente con el paquete base `Stats` o con la librería `cars`
+
+```{r}
+
+# Debemos asegurarnos de que la variable clas_soc es un factor()
+df_iam4$clas_soc<- as.factor(df_iam4$clas_soc)
+
+test_anova<-aov(colesterol~clas_soc,data=df_iam4)
+anova(test_anova)
+```
+
+Con el paquete `cars`
+
+```{r}
+library(car)
+
+# Crear el modelo lineal
+test_anova2 <- lm(colesterol ~ clas_soc, data = df_iam4)
+
+# Realizar el ANOVA
+anova(test_anova2)
+```
+
+El método requiere que se cumplan ciertos supuestos, como la normalidad de los datos y la homocedasticidad (igualdad de varianzas) entre los grupos.
+
+### 2.1 Comprobación de supuestos de normalidad y homogeneidad de la varianza
+
+La comprobación de los supuestos de normalidad y homogeneidad de varianzas es crucial antes de aplicar pruebas paramétricas como la prueba t de Student o el ANOVA. Para verificar la normalidad, usaremos Shapiro-Wilk y para las varianzas la prueba de Levene del paquete `car`
+
+```{r}
+shapiro_results <- by(df_iam4$colesterol, df_iam4$clas_soc, shapiro.test)
+
+shapiro_results
+```
+
+Parece que la variable no tiene una distribución normal, al menos en dos de los tres casos, porque los p-value son pequeños y se rechaza la hipótesis nula que presupone que la distribución se ajusta a una normal.
+
+Ahora recurriremos al paquete `car` para hacer la prueba de Levene
+
+```{r}
+library(car)
+leveneTest(colesterol ~ clas_soc, data = df_iam4)
+```
+
+Otra forma de valorar los supuestos de aplicación de la prueba es mediante el análisis de residuales. Por ejemplo haciendo un Q-Q-plot. Esto solo puede hacerse tras generar el modelo
+
+```{r}
+qqnorm(residuals(test_anova))
+qqline(residuals(test_anova))
+```
+
+Existe cierto incumplimiento del modelo en el extremo inferior de la distribución. No obstante el ANOVA es bastante resistente a la falta de normalidad, por lo que vamos a analizar sus resultados
+
+### 2.2 ANOVA de una vía
+
+Vamos a realizar el modelo ANOVA y a interpretar la salida en R
+
+```{r}
+# Realizar ANOVA
+anova_results <- anova(test_anova)
+
+# Mostrar los resultados
+print(anova_results)
+
+# Extraer información específica
+grados_libertad <- anova_results$Df
+suma_cuadrados <- anova_results$`Sum Sq`
+media_cuadrados <- anova_results$`Mean Sq`
+estadistico_F <- anova_results$`F value`
+p_valor <- anova_results$`Pr(>F)`
+
+# Imprimir resultados específicos usando paste() 
+print(paste("Grados de libertad:", grados_libertad))
+print(paste("Suma de cuadrados:", suma_cuadrados))
+print(paste("Media de cuadrados:", media_cuadrados))
+print(paste("Estadístico F:", estadistico_F))
+print(paste("P-valor:", p_valor))
+
+```
+
+Los resultados del análisis de varianza (ANOVA) indican que la variable clas_soc tiene una suma de cuadrados de 18277, lo que sugiere que explica una cantidad notable de variabilidad en los niveles de colesterol. El análisis revela que clas_soc tiene 2 grados de libertad, derivados de los 3 niveles de la variable menos uno, y que hay 981 grados de libertad para los residuos, calculados a partir del total de observaciones (984) menos los 2 grados de libertad de clas_soc y 1 por la media general. Se calcula el estadístico F dividiendo la media de cuadrados de clas_soc (9138.6) entre la media de cuadrados de los residuos (801.8), resultando en un valor de F de 11.397. El p-valor asociado es de 1.279e-05 (0.00001279), lo que indica que el efecto de clas_soc es estadísticamente significativo al nivel del 0.001. Esto sugiere que la clase social tiene un impacto significativo en los niveles de colesterol, lo que lleva a rechazar la hipótesis nula. Además, los residuos, con una suma de cuadrados de 786612, reflejan la variabilidad no explicada por el modelo, indicando que aún hay factores adicionales que podrían estar influyendo en los niveles de colesterol.
+
+## 3. Comparaciones post-hoc tras un ANOVA
+
+En las comparaciones post-hoc tras un ANOVA, el ajuste del nivel de significancia es crucial para evitar errores de Tipo I (falsos positivos). El método de Bonferroni es conservador y ajusta los valores de p en función del número de comparaciones, lo que lo hace adecuado cuando se busca ser estricto, aunque esto puede aumentar el riesgo de errores de Tipo II (falsos negativos). Aún más conservador es el método de Scheffé, ideal para comparaciones complejas o cuando hay pocos grupos, ya que ajusta en función de todas las posibles comparaciones. En casos donde se comparan varios grupos con un grupo de control, el método de Dunnett es más eficiente, ya que limita las comparaciones únicamente al grupo de control, aumentando la potencia. Sin embargo, cuando las varianzas no son homogéneas, el método de Tamhane’s T2 es el más apropiado, ya que maneja adecuadamente varianzas desiguales sin asumir homogeneidad, proporcionando comparaciones más fiables en ese escenario.
+
+### 3.1 Varianzas homogéneas
+
+Vamos a valorar si hay diferencias entre grupos con las correcciones de Bonferroni y Tukey, Primero usaremos la función `pairwise.t.test`
+
+```{r}
+resultado <- pairwise.t.test(df_iam4$colesterol, 
+                             df_iam4$clas_soc, p.adjust.method = "bonferroni")
+resultado
+```
+
+El resultado nos ofrece el p-value, pero no las diferencias. Esto si nos lo ofrece la función `TukeyHSD` siempre que previamente usemos la función `aov`
+
+```{r}
+
+anova_result <- aov(colesterol ~ clas_soc, data = df_iam4)
+tukey_result <- TukeyHSD(anova_result)
+
+tukey_result
+```
+
+Los resultados del análisis de Tukey indican diferencias significativas en los niveles de colesterol entre los grupos de clase social Baja y Alta (diferencia de 12.26, IC de 6.06 a 18.46, p ajustado 0.0000118) y entre Media y Alta (diferencia de 10.85, IC de 4.67 a 17.04, p ajustado 0.0001213). Sin embargo, no se encuentra una diferencia significativa entre los grupos de Media y Baja (diferencia de -1.40, IC de -6.03 a 3.23, p ajustado 0.7568), lo que sugiere que la clase social influye en los niveles de colesterol, especialmente al comparar los extremos de la escala social.
+
+También se pueden realizar comparaciones post-hoc utilizando la función `pairwiseTest` del paquete `pairwiseCI` en R. Con la sintaxis que utilizamos no ofrece IC.
+
+```{r}
+#install.packages("pairwiseCI")  # Solo hay que hacerlo una vez
+library(pairwiseCI)
+
+# Solo p-value sin ajuste
+pw<-pairwiseTest(colesterol ~ clas_soc, data = df_iam4)
+pw
+
+# p-value con ajuste de Bonferroni
+pw1 <- pairwiseTest(colesterol ~ clas_soc, data = df_iam4,)
+ 
+
+```
+
+Este paquete no permite otros métodos, pero sí comparar frente a un grupo control, por ejemplo la primera categoría (este sería un método a priori, no post-hoc, pero con más de una comparación):
+
+```{r}
+ci_control <- pairwiseCI(colesterol ~ clas_soc, data = df_iam4, 
+              control = "Baja", conf.level = 1 - (0.05 /
+              (length(unique(df_iam4$clas_soc)) - 1)))
+ci_control
+```
+
+Los resultados indican que, al comparar los niveles de colesterol entre los grupos de clase social en relación con el grupo de control Baja, se encuentra una diferencia significativa entre el grupo Alta y Baja, con una estimación de diferencia de -12.258 (intervalo de confianza del 95%: -18.008 a -6.508), sugiriendo que el grupo Alta tiene niveles de colesterol significativamente más bajos. En contraste, la comparación entre los grupos Media y Baja muestra una estimación de diferencia de -1.403 (intervalo de confianza del 95%: -5.872 a 3.065), lo que incluye cero y, por lo tanto, no proporciona evidencia suficiente para afirmar que hay una diferencia significativa entre estos grupos.
+
+Para hacer comparaciones post-hoc con sus intervalos de confianza el paquete más adecuado es `emmeans` . Primero usaremos la corrección de Bonferroni,
+
+```{r}
+
+#install.packages("emmeans")#solo si no está instalado previamente
+library(emmeans)
+
+#Recuerda que tenemos test_anova
+
+emm <- emmeans(test_anova, ~ clas_soc)
+results_bonferroni<-pairs(emm, adjust = "bonferroni", infer = TRUE) 
+# infer = TRUE para IC
+results_bonferroni
+
+
+```
+
+Ahora con las correcciones de Tukey, Holm-Bonferroni y Dunnett,
+
+```{r}
+results_tukey <- pairs(emm, adjust = "tukey", infer = TRUE)
+results_tukey
+
+results_holm <- pairs(emm, adjust = "holm", infer = TRUE)
+results_holm
+
+results_dunnett <- pairs(emm, adjust = "dunnett", infer = TRUE)
+results_dunnett
+
+```
+
+
+
+### 3.2 Varianzas no homogéneas
+
+La última función utilizada permite ser usada en casos de varianzas no homogéneas, pero la comparación formal post-hoc para varianzas no homogéneas es el test de Tamhane, que necesita del paquete `PMCMRplus`
+
+```{r}
+#install.packages("PMCMRplus")  
+library(PMCMRplus)  
+
+
+anova <- aov(colesterol ~ clas_soc, data = df_iam4)
+
+# Aplicar el test de Tamhane T2
+summary(T2b <- tamhaneT2Test(anova, welch = FALSE))
+```
+
+El test de Tamhane T2, el cual es adecuado debido a la desigualdad en las varianzas entre los grupos, una circunstancia no apreciada en comparaciones anteriores. Los resultados incluyen p-values que indican diferencias entre las clases-media y alta y baja y alta, pero no entre las clases baja y media.
+
+## 4. Test de Kruskal-Wallis
+
+El test de Kruskal-Wallis es una prueba no paramétrica utilizada para determinar si hay diferencias significativas en las medianas de tres o más grupos independientes. Se aplica cuando no se cumplen los supuestos de normalidad o homogeneidad de varianzas requeridos por el ANOVA. Al igual que el ANOVA, el test de Kruskal-Wallis evalúa si al menos uno de los grupos presenta una distribución diferente, pero en lugar de analizar las medias, se basa en los rangos de los datos. Si el resultado es significativo, indica que al menos uno de los grupos es diferente, lo que puede requerir análisis post-hoc adicionales para identificar las diferencias específicas entre grupos.
+
+Vamos a valorar si hay diferencias en el `imc` por clase social. Primero dibujamos unos diagramas de cajas
+
+```{r}
+boxplot(imc ~ clas_soc, data = df_iam4,
+        main = "Boxplot de IMC por Clase Social",
+        xlab = "Clase Social",
+        ylab = "Índice de Masa Corporal (IMC)",
+        col = c("red", "blue"),  # Colores para las cajas
+        border = "black")  # Color del borde
+```
+
+Parece no haber hrandes diferencias. Vamos a estudiarlo con un test. Primero estudiamos la normalidad e igualdad de varianzas
+
+```{r}
+by(df_iam4$imc, df_iam4$clas_soc, shapiro.test)
+leveneTest(imc ~ clas_soc, data = df_iam4)
+```
+
+No se cumple el supuesto de normalidad pero si el de homogeneidad de varianzas. Utilizamos la prueba de Kruskal Wallis:
+
+```{r}
+kruskal_test_result <- kruskal.test(imc ~ clas_soc, data = df_iam4)
+
+# Mostrar el resultado
+print(kruskal_test_result)
+```
+
+Efectivamente, no se observan diferencias entre grupos.
+
+## 5. ANOVA para datos apareados
+
+Este apartado es solo opcional, para quien esté interesado en él .
+
+El ANOVA de medidas repetidas te permite evaluar si hay una diferencia significativa en los niveles de colesterol medidos antes y después de un cierto tiempo ttt, durante el cual se estudió si los pacientes sufrieron un infarto o no. En este caso, las dos mediciones de colesterol (antes y después de ttt) están vinculadas porque provienen de los mismos pacientes. El análisis tiene en cuenta esta relación entre las mediciones, es decir, que cada paciente tiene un nivel de colesterol antes y después, lo que permite detectar si hay un cambio significativo en el colesterol a lo largo del tiempo, independientemente de si hubo un infarto. Además queremos ver si este cambio, de haberlo, está influido por la clase social.
+
+Lo primero que hay que hacer es organizar los datos en un formato largo. Vamos a hacer un nuevo data frame que contenga los valores de `colesterol_p` a continuación de `colesterol` indicando si se trata de la medición anterior o posterior, y asignando a cada fila un número identificativo del sujeto que se trata. Además cada fila tendrá la clase social del sujeto
+
+```{r}
+
+valor_colesterol <- c(df_iam4$colesterol, df_iam4$colesterol_p)
+medicion <- factor(rep(c("antes", "despues"), each = nrow(df_iam4)))
+clas_soc <- rep(df_iam4$clas_soc, 2)
+sujeto <- factor(rep(1:nrow(df_iam4), 2))  
+# Factor que identifica a cada sujeto
+
+# Crear data frame con los datos largos
+df_long <- data.frame(sujeto, clas_soc, medicion, valor_colesterol)
+```
+
+El nuevo data frame tiene 984+984 filas.
+
+Ahora estimaremos el modelo con la función `aov()` de R base para realizar el ANOVA de medidas repetidas. En este caso, `clas_soc` será el factor entre sujetos (diferentes clases sociales), y `medicion` será el factor dentro de sujetos (las dos mediciones de colesterol).
+
+```{r}
+anova_mixto <- aov(valor_colesterol ~ clas_soc * medicion +
+                     Error(sujeto/medicion), data = df_long)
+
+
+summary(anova_mixto)
+```
+
+Los resultados del ANOVA de medidas repetidas se dividen en dos partes: el error entre sujetos y el error dentro de sujetos (mediciones repetidas). Vamos a explicar cada parte:
+
+**Error: sujeto.**
+
+Este bloque evalúa si hay diferencias significativas en los niveles de colesterol entre los diferentes grupos de clase social (`clas_soc`), independientemente de si la medición fue antes o después.
+
+-   `clas_soc`:
+
+    -   Df (grados de libertad): 2, que indica que hay 3 grupos de clase social (grados de libertad = número de grupos - 1).
+
+    -   Sum Sq (suma de cuadrados): 25 912, que refleja la variabilidad del colesterol atribuida a las diferencias entre clases sociales.
+
+    -   Mean Sq (media de cuadrados): 12,956, es la suma de cuadrados dividida por los grados de libertad.
+
+    -   F value: 8.331, es la estadística de prueba F, que compara la variabilidad entre los grupos de clase social con la variabilidad residual.
+
+    -   Pr(\>F): 0.000258, que indica que la probabilidad de obtener este valor F bajo la hipótesis nula (que no hay diferencias entre clases sociales) es extremadamente baja. Como el valor p es muy pequeño, menor a 0.001, esto sugiere que hay diferencias significativas en los niveles de colesterol entre los grupos de clase social.
+
+-   Residuals:
+
+    -   La variabilidad residual (sum sq: 1 525 634) representa la variabilidad dentro de cada grupo de clase social que no se explica por `clas_soc`.
+
+**Error: sujeto: medicion**
+
+Este bloque evalúa las diferencias en los niveles de colesterol dentro de los sujetos (es decir, el cambio entre las dos mediciones: antes y después), así como la interacción entre la clase social y el cambio en el tiempo (si la clase social influye en cómo cambia el colesterol entre las dos mediciones).
+
+-   `medicion`:
+
+    -   Df: 1, ya que solo hay dos mediciones (antes y después).
+
+    -   Sum Sq: 4 398, lo que refleja la variabilidad en los niveles de colesterol atribuida al cambio entre las dos mediciones.
+
+    -   F value: 71.40, que es muy alto, lo que indica que hay una gran diferencia entre los niveles de colesterol antes y después.
+
+    -   Pr(\>F): `< 2e-16`, lo que indica que esta diferencia es extremadamente significativa. Hay un cambio significativo en los niveles de colesterol entre las dos mediciones (antes y después del tiempo t).
+
+-   `clas_soc:medicion` (interacción):
+
+    -   Df: 2, ya que hay 3 grupos de clase social y se está analizando cómo cambia el colesterol en función de estos grupos.
+
+    -   Sum Sq: 2 067, que indica la variabilidad atribuida a la interacción entre la clase social y las mediciones.
+
+    -   F value: 16.78, que es muy alto, lo que sugiere que el cambio en el colesterol entre las mediciones es diferente según la clase social.
+
+    -   Pr(\>F): 6.82e-08, lo que significa que esta interacción es altamente significativa. La clase social influye en cómo cambia el colesterol entre las mediciones antes y después del tiempo ttt.
+
+-   Residuals:
+
+    -   La variabilidad residual (sum sq: 60 430) es la parte no explicada por las mediciones y la interacción.
+
+En resumen:
+
+-   La clase social tiene un efecto significativo sobre los niveles de colesterol, independientemente del tiempo (bloque 1).
+
+-   El colesterol cambia significativamente entre las mediciones (antes y después del tiempo t) (bloque 2, medición).
+
+-   La clase social afecta el cambio en el colesterol a lo largo del tiempo: los grupos de clase social muestran diferencias significativas en cómo varía el colesterol entre las dos mediciones (bloque 2, interacción `clas_soc:medicion`).

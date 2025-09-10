@@ -1,0 +1,356 @@
+---
+title: "Tutoría junio"
+author: "Jesús Martín"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+Carga la dase de datos df_iam3_r:
+
+```{r}
+#setwd()
+getwd ()
+
+df_iam3<-read.csv ("df_iam3_r.csv")
+
+```
+
+Recuerda que, en esta base se recogen una serie de características de 984 sujetos. En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio `iam`). Posteriormenete se siguió a los sujetos hasta otro punto en el tiempo. Tra ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (`fum_p`) , la cifra de colesterol (`colesterol_p`) y la ocurrencia de un nuevo reinfarto (`iam2`)
+
+Obten la variable edad (en años cumplidos), suponiendo que la fecha final de seguimiento es el 31/3/2025 a partir de la variable `fech_nac`
+
+```{r, eval= FALSE}
+#fech_nac viene definida como character, cambiamos a formato fecha
+df_iam3$fech_nac <- as.Date(df_iam3$fech_nac)
+fecha_fin <- as.Date("2025-03-31")
+df_iam3$edad <- (fecha_fin-df_iam3$fech_nac)/365.25
+df_iam3$edad <- as.numeric (round (df_iam3$edad,0))
+
+
+```
+
+## 1. Descriptivo
+
+Extrae las edades medias y los percentiles 25, 50 y 75 de los pacientes con y sin iam
+
+```{r}
+library (psych)
+by(df_iam3$edad, df_iam3$iam1, describe)
+
+
+by(df_iam3$edad, df_iam3$iam1, function(x) quantile(x, probs = c(0.25, 0.5, 0.75), na.rm = TRUE))
+```
+
+## 2. Evaluación normalidad
+
+Evalúa la normalidad de la variable edad en ambos grupos
+
+```{r}
+# Shapiro-Wilk por grupo
+by(df_iam3$edad, df_iam3$iam1, shapiro.test)
+
+#. Histogramas por grupo
+hist(df_iam3$edad[df_iam3$iam1 == "No"], main = "Histograma No IAM", xlab = "Edad")
+hist(df_iam3$edad[df_iam3$iam1 == "Sí"], main = "Histograma IAM", xlab = "Edad")
+
+#QQ Plot
+qqnorm(df_iam3$edad[df_iam3$iam1 == "No"], main = "Q-Q Plot para No")
+qqline(df_iam3$edad[df_iam3$iam1 == "No"])
+
+qqnorm(df_iam3$edad[df_iam3$iam1 == "Sí"], main = "Q-Q Plot para Sí")
+qqline(df_iam3$edad[df_iam3$iam1 == "Sí"])
+```
+
+## 3. Comparación de proporciones muestrales.
+
+Compara las proporciones de varones en pacientes con el primer infarto. Comprueba que todas las frecuencias esperadas sean mayores que 5. Si alguna fuese inferior utiliza la corrección de Yates y el test exacto de Fisher. Interpreta los resultados
+
+```{r}
+
+# Para la variable fum
+tabla_sex_iam1 <- table(df_iam3$sex, df_iam3$iam1)
+
+(tabla_sex_iam1)
+
+prop_sex_iam1 <- prop.table(tabla_sex_iam1, margin = 1)
+
+prop_sex_iam1
+
+chi_test_1 <- chisq.test(tabla_sex_iam1, correct = FALSE)
+
+chi_test_1$expected
+
+# Ver el resultado del test
+chi_test_1
+```
+
+El p-value es muy grande, no nos permite afirmar que las proporciones sean diferente de las esperadas por azar- Como no hay ninguna frecuencia esperada menor que 5, mantenemos el test sin corrección de Yates. Si quisiésemos aplicar esta corrección usaríamos la opción `correct=TRUE`.
+
+Ahora vamos a aplicar un test exacto de Fisher para ver si hay diferencias en la proporción de hombres que sufren segundo infarto, respecto a los que no lo sufren.
+
+```{r}
+
+tabla_sex_iam2 <- table(df_iam3$sex, df_iam3$iam2)
+
+tabla_sex_iam2
+
+fisher_sex_iam2 <- fisher.test(tabla_sex_iam2)
+fisher_sex_iam2
+```
+
+La hipótesis nula en el test de Fisher es que la Odds Ratio es 1 y no puede descartarse en este caso.
+
+## 4. Datos apareados, test de McNemar
+
+Vamos a repetir el ejercicio de la práctica, comparar la proporción de fumadores inicial (`fum`) con la proporción de fumadores tras el primer infarto (`fum_p`), pero en el subgrupo que ha sufrido un segundo infarto (iam2="Sí")
+
+```{r}
+
+# Filtrar los datos donde iam2 == 1
+subgrupo_iam2 <- df_iam3[df_iam3$iam2 == "Sí", ]
+
+tabla_fum <- table(subgrupo_iam2$fum, subgrupo_iam2$fum_p)
+
+
+tabla_fum
+
+mcnemar_test <- mcnemar.test(tabla_fum)
+
+mcnemar_test
+```
+
+El p-value tan pequeño hace poco probable que las dos proporciones sean iguales.
+
+Si lo hiciésemos sin corrección de Yates...
+
+```{r, eval= FALSE}
+
+mcnemar_test <- mcnemar.test(tabla_fum, correct=FALSE)
+
+mcnemar_test
+```
+
+El resultado no es muy diferente del anterior
+
+## 5. Diferencia de proporciones
+
+Vamos a estudiar las diferencias de proporciones de fumadores tras el primer infarto (`fum_p`) 
+
+
+```{r}
+
+tabla_fum_p_iam2 <- table(df_iam3$fum_p, df_iam3$iam2)
+
+tabla_fum_p_iam2
+
+dif_prop <- prop.test(tabla_fum_p_iam2)
+
+
+dif_prop
+
+
+```
+
+
+## 6. Diferencia de medias dos grupos
+
+Vamos a comparar los niveles de colesterol en aquellos sujetos que tuvieron infarto y los que no
+
+Lo primero será valorar los supuestos de normalidad y homogeneidad de la varianza en ambos grupos
+
+```{r}
+# Filtrar los datos por grupo
+col_infarto <- df_iam3$colesterol[df_iam3$iam1 == "Sí"]
+col_no_infarto <- df_iam3$colesterol[df_iam3$iam1 == "No"]
+
+# Prueba de normalidad (Shapiro-Wilk) para el grupo con infarto
+shapiro.test(col_infarto)
+
+# Prueba de normalidad (Shapiro-Wilk) para el grupo sin infarto
+shapiro.test(col_no_infarto)
+
+#Otra forma de hacerlo
+by(df_iam3$colesterol, df_iam3$iam1, shapiro.test)
+```
+
+No son normales, Comprobar con métodos gráficos
+
+by(df_iam3\$colesterol, df_iam3\$iam1, function(x) {
+
+
+
+```{r}
+# Histograma y gráfico Q-Q para el grupo con infarto
+hist(col_infarto, 
+     main = "Histograma de Colesterol (Infarto)", 
+     xlab = "Colesterol")
+qqnorm(col_infarto)
+qqline(col_infarto)
+
+# Histograma y gráfico Q-Q para el grupo sin infarto
+hist(col_no_infarto, 
+     main = "Histograma de Colesterol (No Infarto)", 
+     xlab = "Colesterol")
+qqnorm(col_no_infarto)
+qqline(col_no_infarto)
+
+
+```
+
+No parecen normales en cualquier caso
+
+Ahora vamos a testar la hipótesis de igualdad de las varianzas.
+
+El test de Levene está implementado en el paquete `car` , y precisa que la variable que divide la muestra sea una variable factor
+
+```{r}
+#install.packages("car")
+library(car)
+
+df_iam3$iam1 <- as.factor(df_iam3$iam1)
+
+levene_result <- leveneTest(colesterol ~ iam1, data = df_iam3)
+levene_result
+```
+
+Tampoco hay homogeneidad de varianzas
+
+Otra opción para comprobar homogeneidad de varianzas en R base , sería la prueba F de homogeneidad de varianzas también conocida prueba F de Snedecor.
+
+```{r}
+# Prueba F para comparar las varianzas entre hombres y mujeres
+var_test <- var.test(colesterol ~ iam1, data = df_iam3)
+
+# Mostrar resultados
+print(var_test)
+```
+
+Si no estamos convencidos de la igualdad de las varianzas podemos usar el test de Welch, una variación de la t de Student que no asume varianzas iguales, modificando la orden anterior
+
+```{r}
+t_test_result <- t.test(colesterol ~ iam1, data = df_iam3, var.equal = F)
+t_test_result
+```
+
+## 7. Comparación de medias para datos apareados
+
+Vamos a realizar una prueba T de Student para datos apareados comparando el colesterol medido antes y después del punto t (cuando se evidenció si habia habido o no un infarto, `colesterol` y `colesterol_p)`
+
+```{r}
+#Evaluamos normalidad de las distribución de las diferencias
+
+diferencias <- df_iam3$colesterol - df_iam3$colesterol_p
+
+# Test de normalidad (Shapiro-Wilk)
+shapiro.test(diferencias)
+
+```
+
+Las distribuciones no son normales , pero sabemos que cuando la n es suficientemente grande, la t de student admite desviaciones de la normalidad , por lo que nos permitimos utilizar la t de student para datos apareados
+
+```{r}
+t.test(df_iam3$colesterol, df_iam3$colesterol_p, paired = TRUE)
+```
+
+Nos dice que el valor de la p es muy pequeño ( 1.819e-12), pero además nos ofrece cuál es la diferencia de medias y su IC del 95% (2.493902, IC95%: 1.808424 a 3.179381 mg/dl, colesterol es mayor que qcolesterol_p), que nos ofrece una perspectiva más útil para la toma de decisiones.
+
+## 8. Comparación de medias varios grupos
+
+Se pretende comparar las cifras de colesterol por clase social. Para ello usaremos un ANOVA de una vía.
+
+Primero evaluaremos visualmente las diferencias
+
+```{r}
+boxplot(colesterol ~ clas_soc, data = df_iam3,
+        main = "Colesterol en cada clase Social",
+        xlab = "Clase Social",
+        ylab = "Colesterol (mg/dl)",
+        col = c("red", "blue", "pink"),  # Colores para las cajas
+        border = "black")  # Color del borde
+```
+
+Parece que la clase "Alta" tiene valores más bajos de colesterol, vamos a estudiarlo formalmente con una ANOVA. Se puede hacer directamente con el paquete base `Stats` o con la librería `cars`
+
+```{r}
+
+# Debemos asegurarnos de que la variable clas_soc es un factor()
+df_iam3$clas_soc<- as.factor(df_iam3$clas_soc)
+
+test_anova<-aov(colesterol~clas_soc,data=df_iam3)
+anova(test_anova)
+```
+
+Con el paquete `cars`
+
+```{r}
+library(car)
+
+# Crear el modelo lineal
+test_anova2 <- lm(colesterol ~ clas_soc, data = df_iam3)
+
+# Realizar el ANOVA
+anova(test_anova2)
+```
+
+Comprobación de supuestos de normalidad y homogeneidad de la varianza
+
+Para verificar la normalidad, usaremos Shapiro-Wilk y para las varianzas la prueba de Levene del paquete `car`
+
+```{r}
+shapiro_results <- by(df_iam3$colesterol, df_iam3$clas_soc, shapiro.test)
+
+shapiro_results
+```
+
+No son normales pero el ANOVA con grupos grandes resiste bien violaciones de la normalidad
+
+Ahora recurriremos al paquete `car` para hacer la prueba de Levene
+
+```{r}
+library(car)
+leveneTest(colesterol ~ clas_soc, data = df_iam3)
+```
+
+El supuesto de homogeneidad de la varianza se cumple
+
+Otra forma de valorar los supuestos de aplicación de la prueba es mediante el análisis de residuales. Por ejemplo haciendo un Q-Q-plot. Esto solo puede hacerse tras generar el modelo
+
+```{r}
+qqnorm(residuals(test_anova))
+qqline(residuals(test_anova))
+```
+
+Vamos a valorar si hay diferencias entre grupos con las correcciones de Bonferroni y Tukey, Primero usaremos la función `pairwise.t.test`
+
+```{r}
+resultado <- pairwise.t.test(df_iam3$colesterol, 
+    df_iam3$clas_soc, p.adjust.method = "bonferroni")
+resultado
+```
+
+Usaremos la función `TukeyHSD` siempre que previamente usemos la función `aov`
+
+```{r}
+
+anova_result <- aov(colesterol ~ clas_soc, data = df_iam3)
+tukey_result <- TukeyHSD(anova_result)
+
+tukey_result
+```
+
+Para la comparación formal post-hoc para varianzas no homogéneas tenemos el test de Tamhane, que necesita del paquete `PMCMRplus`
+
+```{r}
+#install.packages("PMCMRplus")  
+library(PMCMRplus)  
+df_iam3$clas_soc<- as.factor(df_iam3$clas_soc)
+
+anova <- aov(colesterol ~ clas_soc, data = df_iam3)
+
+# Aplicar el test de Tamhane T2
+summary(T2b <- tamhaneT2Test(anova, welch = FALSE))
+```

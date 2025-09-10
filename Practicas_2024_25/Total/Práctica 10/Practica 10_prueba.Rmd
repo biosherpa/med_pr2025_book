@@ -1,0 +1,112 @@
+---
+title: "Práctica 10. Prueba repaso."
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+
+### Ejercicio 1
+
+La primera tarea consiste en importar la base de datos df_iam2.csv. Es importante saber en qué directorio estamos trabajando
+
+```{r}
+
+
+
+```
+
+### Ejercicio 2
+
+Debes crear la variable edad a partir de la fecha de nacimiento, sabiendo que la fecha de fin de estudio fue el 31/12/2023.
+
+Además debes recodificar la variable imc en tres categorías: Bajo si imc\<20, normal si imc entre 20 y 30 y alto si imc\>30. Llama a la nueva variable imc_r
+
+```{r}
+
+```
+
+### Ejercicio 3
+
+Describe las proporciones de hombres y mujeres en cada una de las categorías de la variable `iam1` . Usa las funciones `table`y `prop.table`
+
+```{r}
+
+
+```
+
+### Ejercicio 4
+
+Describe la variable edad, encuentra su media y su desviación estándar, así como el recorrido intercuartil. Da tu opinión sobre si se puede distribuir como una normal o no.
+
+Puedes usar la función `describe` del paquete `psych`
+
+Después describe la distribución de la variable `edad` en hombres y mujeres utilizando la función `by`
+
+```{r}
+
+
+
+```
+
+### Ejercicio 5
+
+Haz un histograma con la variable `colesterol`. Después haz un boxplot de la distribución del colesterol en personas sin/con `iam` . Las funciones a utilizar son `hist` y `boxplot` . ¿Te parece que la distribución del colesterol en pacientes sin/con iam pueda asemejarse a una normal? ¿Hay diferencias esperables entre los niveles de colesterol en pacientes sin /con iam?
+
+```{r}
+     
+```
+
+```{r}
+
+```
+
+
+
+### Ejercicio 6
+
+Debes calcular la media y el IC 95% del `imc` en hombres y en mujeres. Usa la función `group.CI` del paquete `Hmisc.`
+
+Explica qué significa ese IC del 99%
+
+```{r}
+
+```
+
+
+
+### Ejercicio 7
+
+Representa gráficamente las estimaciones y los IC del 95% del ejercicio anterior. Usa la función `plotmeans` del paquete `gplots`
+
+```{r}
+
+```
+
+### Ejercicio 8
+
+Calcula la proporción de personas que sufren IAM con los métodos de Wilson y Clopper-Pearson (exacto). Instala el paquete `Hmisc` , y entonces puedes usar su función `binconf`
+
+```{r}
+
+```
+
+### Ejercicio 9
+
+Ahora representa los IC anteriores con la función `plot`
+
+```{r}
+
+```
+

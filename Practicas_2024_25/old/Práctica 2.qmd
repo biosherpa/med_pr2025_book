@@ -1,0 +1,1178 @@
+---
+title: "Práctica 2. Introducción y manipulación de datos en R"
+author: "Jesús Martín Fernández"
+format: 
+  html:
+       toc: true
+       toc-location: left
+editor: visual
+---
+
+## **1.Tipos de objetos en R.**
+
+R es capaz de gestionar diversos tipos de **datos**, que se organizan en distintas estructuras de datos. A continuación se presenta una tabla que describe los tipos de datos básicos en R:
+
+| **Tipo de dato** | **Descripción**                                                                                                                                                                                                                       | **Ejemplo**                                             |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| Numeric          | Números decimales                                                                                                                                                                                                                     | `numero <- 1.0`                                         |
+| Integer          | Números enteros                                                                                                                                                                                                                       | `int <- 1`                                              |
+| Character        | Cadenas de texto                                                                                                                                                                                                                      | `str <- "un texto"`                                     |
+| Complex          | Números complejos                                                                                                                                                                                                                     | `comp <- 3+2i`                                          |
+| Logical          | Valores de verdad: `TRUE` o `FALSE`, a menudo generados como resultado de operaciones lógicas.                                                                                                                                        | `a <- 1; b <- 2; a < b`                                 |
+| Factor           | Los factores son un tipo de variable, no de dato, las variables categóricas. Los vectores de caracteres suelen convertirse en factores para aprovechar las funciones que manejan datos categóricos, como en el análisis de regresión. | Convertir un vector de caracteres usando `as.factor()`. |
+
+Las **estructuras de datos** son objetos que contienen datos y organizados de diferentes maneras. Las estructuras vienen definidas por su número de dimensiones y por la homogeneidad o no de sus datos.
+
+La siguiente tabla muestra las principales estructuras de datos que maneja R.
+
+| Objeto     | Modos                                                          | Descripción                                                                                                                             | ¿Múltiples Modos ? | Dimensiones                                                 |
+|------------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|--------------------|-------------------------------------------------------------|
+| Vector     | Numérico, Carácter, Complejo, Lógico                           | Secuencia de elementos del mismo tipo (numérico, carácter, complejo, lógico).                                                           | No                 | 1D                                                          |
+| Array      | Numérico, Carácter, Complejo, Lógico                           | Datos en varias dimensiones con elementos del mismo tipo (numérico, carácter, complejo, lógico).                                        | No                 | Multi-dimensional (2D, 3D, ...)                             |
+| Matriz     | Numérico, Carácter, Complejo, Lógico                           | Colección bidimensional de elementos del mismo tipo (numérico, carácter, complejo, lógico).                                             | No                 | 2D                                                          |
+| Data Frame | Numérico, Carácter, Complejo, Lógico                           | Similar a una matriz pero puede contener diferentes tipos de datos (numéricos, caracteres, etc.) en sus columnas.                       | Sí                 | 2D                                                          |
+| TS         | Numérico, Carácter, Complejo, Lógico                           | Serie temporal (time series), un conjunto de datos ordenados por tiempo, del mismo tipo (numérico, carácter, complejo, lógico).         | No                 | 1D (univariada) o 2D (multivariada)                         |
+| Lista      | Numérico, Carácter, Complejo, Lógico, Función, Expresión, etc. | Contenedor flexible que puede almacenar elementos de diferentes tipos (numérico, carácter, complejo, lógico, función, expresión, etc.). | Sí                 | 1D (pero puede contener estructuras de cualquier dimensión) |
+
+## **2.** Operadores básicos en R
+
+Vamos a hacer un resumen de los principales operadores y las funciones matemáticas más utilizadas en R
+
+| Operador |                  Descripción                  | Ejemplo             |
+|----------|:---------------------------------------------:|---------------------|
+| ==       |                    Igual a                    | x == 5              |
+| !=       |                  Distinto de                  | x != 3              |
+| \>       |                   Mayor que                   | x \> 3              |
+| \<       |                   Menor que                   | x \< 5              |
+| \>=      |               Mayor o igual que               | x \>= 5             |
+| \<=      |               Menor o igual que               | x \<= 5             |
+| &        |                Y lógico (AND)                 | x\>2 & x\<3         |
+| \|       |                 O lógico (OR)                 | x\<2 \| x\>3        |
+| !        |             Negación lógica (NOT)             | !TRUE               |
+| all()    | Devuelve TRUE si todos los elementos son TRUE | all(c(TRUE, TRUE))  |
+| any()    | Devuelve TRUE si al menos un elemento es TRUE | any(c(FALSE, TRUE)) |
+
+Ahora vamos a recordar las funciones matemáticas básicas más utilizadas
+
+| Función   | Descripción                                             | Ejemplo           | Resultado |
+|-----------|---------------------------------------------------------|-------------------|-----------|
+| \+        | Suma dos números                                        | 5 + 3             | 8         |
+| \-        | Resta un número a otro                                  | 5 - 3             | 2         |
+| \*        | Multiplica dos números                                  | 5 \* 3            | 15        |
+| /         | Divide un número por otro                               | 6 / 3             | 2         |
+| \^        | Exponenciación                                          | 2\^3              | 8         |
+| %%        | Resto de la división (módulo)                           | 5 %% 2            | 1         |
+| %/%       | División entera                                         | 5 %/% 2           | 2         |
+| round()   | Redondea a un número especificado de decimales          | round(3.14159, 2) | 3.14      |
+| ceiling() | Redondea al entero superior más cercano                 | ceiling(2.3)      | 3         |
+| floor()   | Redondea al entero inferior más cercano                 | floor(2.7)        | 2         |
+| trunc()   | Trunca la parte decimal, dejando solo la parte entera   | trunc(2.7)        | 2         |
+| sqrt()    | Calcula la raíz cuadrada                                | sqrt(16)          | 4         |
+| exp()     | Calcula el exponencial de un número (e\^x)              | exp(1)            | 2.718.282 |
+| log()     | Calcula el logaritmo natural (base e)                   | log(10)           | 2.302.585 |
+| log10()   | Calcula el logaritmo en base 10                         | log10(100)        | 2         |
+| log2()    | Calcula el logaritmo en base 2                          | log2(8)           | 3         |
+| abs()     | Calcula el valor absoluto                               | abs(-5)           | 5         |
+| sum()     | Suma todos los elementos de un vector                   | sum(c(1, 2, 3))   | 6         |
+| prod()    | Calcula el producto de todos los elementos de un vector | prod(c(1, 2, 3))  | 6         |
+| mean()    | Calcula el promedio de un conjunto de números           | mean(c(1, 2, 3))  | 2         |
+| min()     | Encuentra el mínimo valor en un conjunto de números     | min(c(1, 2, 3))   | 1         |
+| max()     | Encuentra el máximo valor en un conjunto de números     | max(c(1, 2, 3))   | 3         |
+
+## **3. Vectores**
+
+Un **vector** es una secuencia ordenada de datos del mismo tipo (siendo éstos númericos, cadenas, fechas, etc). Es la estructura de datos más sencilla. Un simple valor (por ejemplo el número 5) constituye un vector numérico. Los escalares son vectores de longitud 1
+
+```{r}
+x<- 5
+x
+```
+
+Pero un vector puede contener otro tipo de datos como cadenas de texto o datos lógicos
+
+```{r}
+x<- as.vector (TRUE)
+x
+y<-as.vector(c("Andrés", "Luis"))
+y
+
+```
+
+### **3.1 Creación de vectores**
+
+El vector es el elemento más básico en R, y contiene elementos de la misma clase .
+
+Se crea con la función **c()**, que significa ‘**concatenar**’ o ‘**combinar**’ y el paréntesis debe incluir r los datos que deseamos integrar en ese vector, separados por comas (y en caso de datos de tipo `charater` flanqueados por comillas).
+
+#### Vector formado por números enteros:
+
+Con la función concatenar
+
+```{r}
+x <- c(1,2,3,4,5,6,7,8,9,10)
+x
+```
+
+Hay otras formas de generar una secuencia de números
+
+Con expresiones específicas
+
+```{r}
+x <- 1:10
+# Crea un vector con elementos del 1 al 10
+x
+```
+
+El operador `:` tiene prioridad
+
+```{r}
+x <- 1:10-2 #Primero se genera el vector 1:10 (de 1 a 10) y luego se resta -2 a cada elemento.
+x
+```
+
+Se pueden cambiar las prioridades usando paréntesis
+
+```{r}
+x <- 1:(10-2) # Genera una serie de 1 a 8
+x
+```
+
+Se puede crear secuencias de números enteros con `sequence`
+
+```{r}
+x<-sequence(4:5) 
+#Genera una secuencia hasta 4 y otra hasta 5
+x
+```
+
+La función `seq` es una función más general y flexible para generar secuencias numéricas. seq(from, to, by, length.out, along.with), Sus parámetros son from: El valor inicial de la secuencia. to: El valor final de la secuencia. by: El incremento (o decremento si es negativo) entre elementos de la secuencia. length.out: El número total de elementos en la secuencia. Si se especifica, el valor de by se ajusta automáticamente.
+
+```{r}
+x<- seq(1, 2, by= 0.1)
+#Genera una secuencia de números entre 1 y 2 con valores separados por 0,1 
+x 
+x<- seq(length=9, from=1, to=5)
+#La función seq crea una secuencia de 9 elementos, con valor inicial 1 y final 5. 
+x
+```
+
+Otra forma de crear un vector con elementos repetidos es con `rep`
+
+```{r}
+x <-rep(1, 10) #Crea un vector en el que aparece 10 veces el numero 1 
+x
+```
+
+Se pueden generar secuencias con distribuciones fijas, por ejemplo la normal con la función `rnorm`
+
+```{r}
+x<-rnorm(10, 50, 5) # 10 valores de media 50 y desviación típica 5 
+x 
+```
+
+Se puede crear un vector con elementos repetidos en forma de series con la función `gl` (generate levels)
+
+```{r}
+x<-gl(3, 4) #gl (generate levels) genera un factor con 3 niveles (1, 2, 3),\
+#repitiendo cada nivel 4 veces. 
+x 
+```
+
+#### Vector formado por caracteres:
+
+Cada uno de los elementos de un vector de caracteres debe escribirse entre comillas. En caso contrario, la máquina devuelve un mensaje de error.
+
+```{r}
+ciudades<- c("Jaen", "Córdoba", "Sevilla")
+ciudades
+```
+
+#### Vector lógico:
+
+Solo requiere definir los valores verdaderos (`TRUE`) y falsos (`FALSE`):
+
+```{r}
+vector_logico <- c(TRUE, FALSE, TRUE, FALSE)
+print(vector_logico)
+
+```
+
+Los vectores lógicos se pueden crear al poner una condición a otro vector:
+
+```{r}
+# Crear un vector numérico
+numeros <- c(1, -5, 7, -2, 8, 9, 2)
+
+# Crear un vector lógico que indica si cada elemento es positivo o no
+positivo <- numeros>0
+print(positivo)
+
+```
+
+### 3.2 Operaciones con vectores
+
+La primera operación que describiremos será comprobar si un objeto es un vector
+
+```{r}
+v0 <- 10
+v0
+
+is.vector(v0) # Verificar si el objeto o variable 'v0' es un vector.
+```
+
+Una vez creados los vectores, pueden ser modificados posteriormente. Por ejemplo, si deseamos agregar un elemento a un vector ya existente, lo añadimos asignándolo a nuestro vector original.
+
+Vamos a operar con el vector `v1(2,5,10)`
+
+```{r}
+v1<-c(2,5,10)
+v1
+```
+
+Se pueden añadir elementos a un vector
+
+```{r}
+v2<-c (v1,8)
+v2
+```
+
+Ahora tenemos dos vectores `v1(2,5,10) , v2(2,5,10,8)`
+
+Se pueden realizar operaciones aritméticas con vectores. Se pueden sumar `v1` y `v2`
+
+```{r}
+v1+v2
+
+
+```
+
+Aviso en v1 + v2 : longitud de objeto mayor no es múltiplo de la longitud de uno menor. Al último valor de v2, le suma el primero de V1 ("reciclaje")\
+No ocurriría si v1 y v2 tuviesen igual tamaño.
+
+También pueden multiplicarse `v1` y `v2`
+
+```{r}
+v1*v2
+
+```
+
+Aviso en v1\*v2 : longitud de objeto mayor no es múltiplo de la longitud de uno menor. Multiplica último valor de v2, por el primero de V1 ("reciclaje"). #No ocurriría si v1 y v2 tuviesen igual tamaño.
+
+Se pueden elevar al cuadrado los términos de un vector
+
+```{r}
+v1^2 
+```
+
+Le podemos pedir a R que nos calcule la raiz cuadrada de los elementos de un vector con la función `sqrt`,
+
+```{r}
+sqrt (v2) #v2(2,5,10,8)
+
+```
+
+Se pueden sumar los términos de un vector, con la función ´sum´
+
+```{r}
+sum (v2) #v2(2,5,10,8) 
+```
+
+Se puede calcular la media de los términos de un vector con la función ´mean´
+
+```{r}
+mean (v2) #v2(2,5,10,8)
+```
+
+Atención, si un vector tiene valores ausentes `NA` hay que hacérselo notar a la función. Imaginemos `v3(0,10,8,NA,6)`
+
+```{r}
+v3<-c(0,10,8,NA,6)
+mean (v3)
+```
+
+la forma correcta de calcular la media sería
+
+```{r}
+mean(v3, na.rm = TRUE)
+```
+
+Existen otras funciones que operan con los valores de un vector
+
+```{r}
+v3<-c(0,10,8,NA,6)
+length(v3) #número de valores de v3
+max(v3,na.rm = TRUE) #Valor máximo de v3, sabiendo que hay valores NA
+min(v3, na.rm = TRUE) #Valor mínimo de v3, sabiendo que hay valores NA
+```
+
+Se puede operar con un solo vector
+
+```{r}
+
+v2*2+10
+```
+
+Cuando le indicamos a R que calcule `v2* 2 + 10`, lo que realmente está calculando es:`v2 * c(2, 2, 2, 2) + c(10, 10, 10, 10)`
+
+Algunas operaciones se pueden escribir de forma simplificada
+
+```{r}
+v2 + c (2, 10)
+```
+
+Esta operación suma 2 a los valores impares y 10 a los pares. Recuerde que `v2(2,5,10,8)`
+
+\`
+
+Los elementos de un vector se pueden recuperar, por medio de corchetes. Siendo `v1(2,5,10) v2(2,5,10,8)`
+
+```{r}
+v1[2]
+v2[3]
+```
+
+Se puede operar con valores de determinada posición de los vectores, vamos a sumar el valor de la segunda posición de `v1` con el de la tercera posición de `v2`
+
+```{r}
+v1[2] +v2[3]
+```
+
+También se pueden añadir los corchetes para añadir un valor en una posición o para cambiarlo. Veamos `v1(2,5,10)`
+
+```{r}
+v1[4] <- 12
+v1
+v1[2] <- 12
+v1
+
+```
+
+Los elementos de un vector se pueden recuperar en función de una orden lógica. Siendo `v1(2,12,10,12)`
+
+```{r}
+v1 > 7
+v1 < 7
+v1 == 12
+```
+
+También puede usarse la función `which`. Tenemos `v3(0,10,8,NA,6)`
+
+```{r}
+which(v3 > 2) # Posiciones de los elementos mayores que 2
+which(v3 < 2 | v3 >= 8) # Posiciones de los elementos <2 o >= 8.  
+```
+
+Atención, hay un elemento NA, aunque R en esta versión lo identifica como tal, es más recomendable
+
+```{r}
+which(!is.na(v3) & v3 < 2 | v3 >= 8) 
+```
+
+Posiciones de los elementos \>2 y \<= 8 sabiendo que existen valores ausentes.
+
+## 4. Matrices
+
+En R, una matriz es una colección bidimensional de elementos que deben ser del mismo tipo (numérico, carácter, lógico, etc.).
+
+### 4.1 Creación de matrices
+
+La función `matrix()` es la forma más común de crear matrices en R.
+
+```{r}
+matrix(1:12, nrow = 4, ncol = 3)
+```
+
+Cuando no se especifica nada la matriz se cumplimenta por columnas.
+
+Pero se puede pedir que se cumplimente por filas
+
+```{r}
+matrix(1:12, nrow = 4, ncol = 3, byrow = TRUE)
+```
+
+La función `matrix()` se puede sustituir con la instrucción `dim`, que transforma un vector en una matriz
+
+```{r}
+x<-1:15
+dim(x) <- c(5, 3)
+x
+```
+
+### 4.2 Operaciones con matrices
+
+Las funciones básicas explicadas se pueden emplear en una matriz
+
+```{r}
+range(x) #Rango de la matriz x
+length(x) #Número de elementos en la matriz x
+mean(x) #Media de los valores de la matriz x
+median(x) #Mediana de los valores de la matriz x
+sum(x) #Suma de los valores de la matriz x
+prod(x) #Producto de los valores de la matriz x
+max(x) #Valor máximo de la matriz x
+min(x) #Valor mínímo de la matriz x
+which.max(x) # Devuelve el valor máximo de la matriz x
+which.min(x) #Devuelve valor mínimo de la matriz x
+
+```
+
+Las matrices pueden unirse entre sí
+
+```{r}
+m1<-matrix(1:4, nrow=2, ncol=2)
+m2<-matrix(5:8, nrow=2, ncol=2)
+m1
+m2
+```
+
+Se pueden unir por filas con la orden `rbind`
+
+```{r}
+rbind (m1,m2)
+```
+
+Y se puden unir por columnas con la orden `cbind`
+
+```{r}
+cbind (m1,m2)
+```
+
+´Las matrices también se pueden sumar o multiplicar
+
+```{r}
+m1+m2
+m1*m2
+```
+
+Las matrices se pueden transponer con la orden `t`
+
+```{r}
+t (m1)
+t (m2)
+```
+
+Las filas y las columnas de las matrices pueden etiquetarse
+
+```{r}
+colnames(m1) <- c("Columna 1", "Columna 2")
+rownames (m1) <- c("Fila 1", "Fila 2")
+m1
+
+```
+
+Las posiciones de los valores de una matriz pueden recuperarse, supongamos una nueva matriz `m3`
+
+```{r}
+m3<- rbind(m1,m2)
+rownames (m3) <- c("Fila 1", "Fila 2", "Fila 3", "Fila 4")
+m3
+
+```
+
+Vamos a intentar localizar algunas posiciones en la matriz
+
+```{r}
+m3[1,] # fila 1 todas las columnas.
+m3[,2] # todas filas, columna 2
+m3[1:2,1] #filas 1 y 2,  columna 1 
+m3[-(1:2),2] #excluir filas 1 a 2, incluir columna 2.
+m3[,"Columna 2"] #La columna 2, usando el nombre de la columna
+m3[3,c("Columna 1","Columna 2")] # La fila 3 y todas las columnas, llamadas por su nombre
+
+```
+
+## Ejercicios
+
+### Ejercicios con vectores
+
+Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos veces. Luego, encuentra la suma, la media y la desviación estándar de los valores en el vector.
+
+Este es el código que se puede usar (piensa que puede haber otras alternativas, si el resultado es el mismo, serán válidas)
+
+```{r, eval=FALSE}
+v1 <- rep(c(1, 2, 3), times = 5)
+
+# Mostrar el vector
+print(v1)
+
+
+# Calcular la suma
+sum_v1
+print(sum_v1)
+# Imprime: 45
+
+# Calcular la media
+media_v1 <- mean(v1)
+print(media_v1)
+# Imprime: 2.5
+
+# Calcular la desviación estándar
+sd_v1 <- sd(sd_v1)
+print(sd_v1)
+# Imprime: 0.8164966
+```
+
+Encuentra el valor de la suma de los primeros 100 números naturales
+
+```{r, eval=FALSE}
+# Crear el vector con números naturales del 1 al 100
+v100 <- 1:100
+
+# Mostrar el vector (no es necesario)
+print(v100)
+
+# Calcular la suma de los valores del vector
+suma_v100 <- sum(v100)
+print(suma_v100)
+# Imprime: 5050
+
+```
+
+Crea dos vectores de la misma longitud, `vector_a (1,2,3,4,5)` y `vector_b (5,4,3,2,1)`. Realiza las siguientes operaciones: Suma elemento a elemento, resta elemento a elemento, multiplicación elemento a elemento y divide elemento a elemento.
+
+```{r, eval=FALSE}
+
+# Crear los vectores
+vector_a <- c(1, 2, 3, 4, 5)
+vector_b <- c(5, 4, 3, 2, 1)
+
+# Suma elemento a elemento
+suma_elemento <- vector_a + vector_b
+print(suma_elemento)  # Imprime: 6 6 6 6 6
+
+# Resta elemento a elemento
+resta_elemento <- vector_a - vector_b
+print(resta_elemento)  # Imprime: -4 -2 0 2 4
+
+# Multiplicación elemento a elemento
+multiplicacion_elemento <- vector_a * vector_b
+print(multiplicacion_elemento)  # Imprime: 5 8 9 8 5
+
+# División elemento a elemento
+division_elemento <- vector_a / vector_b
+print(division_elemento)  # Imprime: 0.2 0.5 1 2 5
+```
+
+Crea un vector `v3` con los números del 1 al 15. Luego extrae los elementos en las posiciones 3, 5 y 7, y después extrae todos los elementos que sean mayores a 10.
+
+```{r, eval=FALSE}
+# Crear el vector
+v3 <- 1:15
+
+# Extraer elementos en posiciones 3, 5 y 7
+el_selecc <- v3[c(3, 5, 7)]
+print(el_selec)  # Imprime: 3 5 7
+
+# Extraer todos los elementos mayores a 10
+mayores10 <- v3[v3 > 10]
+print(mayores10)  # Imprime: 11 12 13 14 15
+
+```
+
+Crea un vector lógico `vlog (TRUE, FALSE, TRUE, TRUE, FALSE)` . Realiza las siguientes operaciones: calcula la cantidad de `TRUE` en el vector, verifica si todos los valores en el vector son `TRUE`, verifica si al menos uno de los valores en el vector es `TRUE`.
+
+```{r, eval=FALSE}
+# Crear el vector
+vlog <- c(TRUE, FALSE, TRUE, TRUE, FALSE)
+
+# Contar la cantidad de TRUE
+cantidad_true <- sum(vlog)
+print(cantidad_true)  # Imprime: 3
+
+# Verificar si todos los valores son TRUE
+todos_true <- all(vlog)
+print(todos_true)  # Imprime: FALSE
+
+# Verificar si al menos uno es TRUE
+al_menos_un_true <- any(vlog)
+print(al_menos_un_true)  # Imprime: TRUE
+
+```
+
+Vamos a crear un vector de 10 números aleatorios `v_aleat` y encuentra el valor máximo y mínimo. Después ordena el vector de menor a mayor. Ten en cuenta que los resultados pueden ser diferentes cada vez que ejecutes el código
+
+```{r, eval=FALSE}
+
+# Crear un vector con 10 números aleatorios
+v_aleat <- sample(1:100, 10)
+
+# Mostrar el vector
+print(v_aleat)
+# Ejemplo de salida: 55  7  2  80 35 19 74  6 48 63
+
+# Encontrar el valor máximo
+maximo <- max(v_aleat)
+print(maximo)
+# Ejemplo de salida: 80
+
+# Encontrar el valor mínimo
+minimo <- min(v_aleat)
+print(minimo)
+# Ejemplo de salida: 2
+
+# Ordenar el vector de menor a mayor
+v_ordenado <- sort(v_aleat)
+print(v_ordenado)
+# Ejemplo de salida: 2  6  7 19 35 48 55 63 74 80
+```
+
+### Ejercicios con matrices
+
+Crea una matriz `m1` de dimensiones 5x5 con los números del 1 al 25 creados por filas
+
+```{r, eval=FALSE}
+# Crear una matriz de 5 filas y 5 columnas con números del 1 al 25 por filas
+m1 <- matrix(1:25, nrow = 5, ncol = 5, byrow = TRUE)
+
+# Mostrar la matriz
+print(m1)
+# Imprime:
+#      [,1] [,2] [,3] [,4] [,5]
+# [1,]    1    2    3    4    5
+# [2,]    6    7    8    9   10
+# [3,]   11   12   13   14   15
+# [4,]   16   17   18   19   20
+# [5,]   21   22   23   24   25
+```
+
+Usa la matriz `m1` creada anteriormente. Accede al elemento en la tercera fila y cuarta columna. También, extrae la segunda fila completa y la cuarta columna completa.
+
+```{r, eval=FALSE}
+# Acceder al elemento en la tercera fila y cuarta columna
+elemento <- m1[3, 4]
+print(elemento)
+# Imprime: 14
+
+# Extraer la segunda fila completa
+fila2 <- m1[2, ]
+print(fila2)
+# Imprime: 6 7 8 9 10
+
+# Extraer la cuarta columna completa
+columna4 <- m1[ , 4]
+print(columna4)
+# Imprime: 4 9 14 19 24
+
+```
+
+Usa la matriz `m1` y realiza las siguientes operaciones: suma todos los elementos de la matriz, encuentra la media de los elementos de la matriz, multiplica cada elemento de la matriz por 3.
+
+```{r, eval=FALSE}
+# Sumar todos los elementos de la matriz
+suma_m1 <- sum(m1)
+print(suma_m1)
+# Imprime: 325
+
+# Encontrar la media de los elementos de la matriz
+media_m1 <- mean(m1)
+print(media_m1)
+# Imprime: 13
+
+# Multiplicar cada elemento de la matriz por 3
+m1_multiplicada <- m1 * 3
+print(m1_multiplicada)
+# Imprime:
+#      [,1] [,2] [,3] [,4] [,5]
+# [1,]    3    6    9   12   15
+# [2,]   18   21   24   27   30
+# [3,]   33   36   39   42   45
+# [4,]   48   51   54   57   60
+# [5,]   63   66   69   72   75
+```
+
+Traspón la matriz `m1` y después sustituye el valor en la primera fila y primera columna a 100 y el valor en la tercera fila y quinta columna a 200.
+
+```{r, eval=FALSE}
+# Transponer la matriz
+m1_transpuesta <- t(m1)
+
+# Mostrar la matriz transpuesta
+print("Matriz transpuesta:")
+print(m1_transpuesta)
+# Imprime:
+#      [,1] [,2] [,3] [,4] [,5]
+# [1,]    1    6   11   16   21
+# [2,]    2    7   12   17   22
+# [3,]    3    8   13   18   23
+# [4,]    4    9   14   19   24
+# [5,]    5   10   15   20   25
+
+# Cambiar el valor en la primera fila y primera columna a 100
+m1_transpuesta[1, 1] <- 100
+
+# Cambiar el valor en la tercera fila y quinta columna a 200
+m1_transpuesta[3, 5] <- 200
+
+# Mostrar la matriz transpuesta modificada
+print("Matriz transpuesta modificada:")
+print(m1_transpuesta)
+# Imprime:
+#      [,1] [,2] [,3] [,4] [,5]
+# [1,]  100    6   11   16   21
+# [2,]    2    7   12   17   22
+# [3,]    3    8   13   18  200
+# [4,]    4    9   14   19   24
+# [5,]    5   10   15   20   25
+
+```
+
+Añade a `m1` una fila con los valores 26, 27, 28 , 29 y 30.
+
+```{r, eval=FALSE}
+fila6 <- c(26, 27, 28, 29, 30)
+m1_mod <- rbind(m1, fila6)
+
+# Mostrar la matriz con la nueva fila añadida
+
+print(m1_mod)
+# Imprime:
+#      [,1] [,2] [,3] [,4] [,5]
+# [1,]    1    2    3    4    5
+# [2,]    6    7    8    9   10
+# [3,]   11   12   13   14   15
+# [4,]   16   17   18   19   20
+# [5,]   21   22   23   24   25
+# [6,]   26   27   28   29   30
+
+
+```
+
+## 5. Data frame
+
+Un **data frame** en R es una estructura de datos bidimensional que, a primera vista, se parece a una matriz, pero es más versátil. Mientras que una matriz solo puede contener datos del mismo tipo en todas sus celdas, un data frame permite que diferentes columnas tengan distintos tipos de datos, como numéricos, caracteres o lógicos. Esto hace que los data frames sean ideales para análisis estadísticos y manipulación de datos donde se necesitan múltiples tipos de variables, en contraste con las matrices, que son más adecuadas para operaciones matemáticas homogéneas.
+
+### 5.1. Creación de un dataframe.
+
+Los dataframe pueden crearse de diferentes formas.
+
+La primera de ella es a partir de un número de vactores de igual longitud
+
+```{r}
+n<-10
+v1 <- sample(c("Varón", "Mujer"), size = n, replace = TRUE)
+v2 <- sample(c("Sí", "No"), size = n, replace = TRUE)
+v3 <- sample(102:162, size = n, replace = TRUE)
+v4 <- sample(60:96, size = n, replace = TRUE)             
+```
+
+Ahora construimos el dataframe
+
+```{r}
+df <- data.frame(v1, v2, v3, v4)
+df
+```
+
+Se pueden etiquetar las columnas
+
+```{r}
+df <- data.frame(Sexo = v1, Fumador = v2, TAS = v3, TAD = v4)
+df
+```
+
+La misma acción podría hacerse con la función `colnames`
+
+```{r}
+colnames(df) <- c("Sexo", "Fumador", "TAS", "TAD")
+df
+```
+
+A este dataframe se le puede añadir una columna
+
+```{r}
+DM<- c("No", "Sí","No","No","Si","No","No","Si","No","No")
+df1<- data.frame(df,DM)
+df1
+```
+
+Se conseguiría el mismo resultado con la función `cbind`
+
+```{r}
+df1<-cbind (df, DM)
+df1
+```
+
+También se podría añadir una fila (debe tener las mismas variables) con la función `rbind`
+
+```{r}
+n.file<- c("Varón", "No", 136, 78, "No")
+df2<- rbind (df1,n.file)
+df2
+
+```
+
+Un dataframe puede obtenerse a partir de otra. Vamos a obtener nuevas datframes a partir de `df2`´. Imaginemos que queremos obtener `df3` eliminando las filas 1 a 5. Puede hacerse de varios modos
+
+```{r}
+df3<- df2[-c(1,2,3,4,5), ]                                           
+df3
+
+df3<- df2[6:11, ]                                           
+df3
+
+```
+
+También puede crearse un dataframe a partir de otro eliminando columnas. Probemos a obtener `df4` desde `df3` eliminando las columnas TAD y DM
+
+```{r}
+df4<- df3[ , -c(4:5)]
+df4
+```
+
+### 5.2 Importación de un dataframe
+
+En muchas ocasiones importamos a R bases de datos u hojas de cálculo creados con otras herramientas. Vamos a ver cómo se hacen estas operaciones.
+
+-   Importación de una base de datos CSV (Comma-Separated Values).
+
+Se hace con la función `read.csv`
+
+df \<- read.csv("ruta/del/archivo.csv")
+
+-   Importación desde un archivo de texto (.txt)
+
+Se usa la función read.table
+
+df \<- read.table("ruta/del/archivo.txt", header = TRUE, sep = "\\")
+
+Le estamos diciendo que lea la primera fila como encabezados y que use el separador con la instrucción `sep`
+
+-   Importación desde una hoja de cálculo excel
+
+Primero debe instalarse la librería `readxl`
+
+library(readxl) df \<- read_excel("ruta/del/archivo.xlsx", sheet = 1)
+
+La instrucción sheet permite elegir la hoja que leerá.
+
+-   Importación desde Stata (.dta) y SPSS (.sav)
+
+Primero debe instalarse la librería `haven` (la librería `foreign` se usaba para versiones más antiguas de Stata y SPSS
+
+library(haven) df \<- read_dta("ruta/del/archivo.dta")
+
+library(haven) df \<- read_sav("ruta/del/archivo.sav")
+
+### 5.3 Operando con un dataframe
+
+Vamos a hacer algunas operaciones básicas con el `df2`
+
+Reordenar el dataframe en función del orden de una variable. Lo haremos con la bas `df2` y la función `order`
+
+```{r}
+#df2<-df2[order(df2$Sexo, -df2$TAS), ]   
+#Ordena df2 primero por el sexo en orden creciente y luego por la TAS en orden decreciente
+
+```
+
+Da un error porque TAS se convirtió en `character` cuando usamos la función `rbind` . Así que debemos cambiar TAS a variable numérica `integer`
+
+```{r}
+
+class(df2$TAS)
+df2$TAS <- as.integer(df2$TAS)
+
+df2_sorted <- df2[order(df2$Sexo, -df2$TAS), ]
+
+df2_sorted
+
+```
+
+-   Seleccionar un subgrupo de casos o variables
+
+Ya se mencionó como seleccionar casos y variables para construir un nuevo dataframe a partir de otro antiguo.
+
+Pero hay otra formas de sleeccionar partes de un dataframe. Volvemos a usar `df2`y la función `subset`
+
+```{r}
+df2
+df2_h <- subset(df2,  Sexo == "Varón") 
+# Condición: selección de los "Hombres" en la variable "Sexo". 
+df2_h
+
+```
+
+La misma función sirve para seleccionar solo algunas variables de un dataset
+
+```{r}
+df2_h2 <- subset(df2_h, select = c("TAS","TAD"))
+df2_h2
+```
+
+En realidad esa función no difiere de la ya explicada
+
+```{r}
+df2_h2 <- df2_h[, c("TAS", "TAD")]
+df2_h2
+
+
+```
+
+-   Creación de una nueva variable
+
+En el dataframe `df2` vamos a crear la variable `HTA` ("Si"/"No") cuando TAS\>=140 o TAD\>=90
+
+```{r}
+df2$HTA[df2$TAS >= 140 | df2$TAD >=90] <- "Sí"
+df2$HTA[df2$TAS < 140 & df2$TAD <90] <- "No"
+df2
+```
+
+-   Recodificación de una variable
+
+Se pueden atribuir nuevos valores a una variable por ejemplo para codificarla. A partir de `df2` añadimos la variable Edad , creando `df2_E`
+
+```{r}
+Edad<-c(38,48,52,60,70,49,52,72,68,61,59)
+class (Edad)
+df2_E<-data.frame (df2, Edad)
+str (df2_E)
+```
+
+Vamos a categorizar la Edad en tres categorías usando los puntos de corte de 50 y 65 años
+
+```{r}
+class (df2_E$Edad)
+df2_E$Edad[df2_E$Edad > 64] <- "65 y más años"
+df2_E$Edad[df2_E$Edad > 50 & df2_E$Edad < 65] <- "Entre 50 y 64 años"
+df2_E$Edad[df2_E$Edad <50] <- "Menor de 50 años"
+# Se podría hacer también con la función `cut`
+#df2_E$Edad <- cut(df2_E$Edad, breaks = c(-Inf, 50, 65, Inf), #
+# Asignar etiquetas a los intervalos
+#labels = c("Menor de 50 años", "Entre 50 y 64 años", "65 y más años"))
+df2_E
+```
+
+Finalmente, vamos a cambiar el nombre a una variable de `df2_E` . Vamos a cambiar el nombre de la variable Tabaco por Fumador.
+
+```{r}
+names(df2_E)[names(df2_E) == "Fumador"] <- "Tabaco"
+df2_E
+```
+
+En la siguiente tabla resumimos algunas de las funciones utilizadas en el dataframe y otras básicas para un dataframe genérico df
+
+| Función        | Descripción                                                   | Ejemplo                     | Resultado                                     |
+|----------------|---------------------------------------------------------------|-----------------------------|-----------------------------------------------|
+| head           | Muestra las primeras filas del dataframe                      | head(df)                    | Primeras 6 filas del dataframe df             |
+| tail           | Muestra las últimas filas del dataframe                       | tail(df)                    | Últimas 6 filas del dataframe df              |
+| nrow           | Devuelve el número de filas del dataframe                     | nrow(df)                    | Número total de filas en df                   |
+| ncol           | Devuelve el número de columnas del dataframe                  | ncol(df)                    | Número total de columnas en df                |
+| dim            | Devuelve un vector con el número de filas y columnas          | dim(df)                     | Dimensiones del dataframe (filas, columnas)   |
+| summary        | Muestra un resumen estadístico de cada columna del dataframe  | summary(df)                 | Resumen estadístico de las columnas de df     |
+| str            | Muestra la estructura interna del dataframe                   | str(df)                     | Estructura y tipo de datos en df              |
+| colnames       | Devuelve o establece los nombres de las columnas              | colnames(df)                | Nombres de las columnas de df                 |
+| rownames       | Devuelve o establece los nombres de las filas                 | rownames(df)                | Nombres de las filas de df                    |
+| subset         | Extrae subconjuntos del dataframe basados en condiciones      | subset(df, column \> value) | Subconjunto de df donde column \> value       |
+| df\[column\]   | Selecciona una columna específica del dataframe               | df\$column                  | Vector con los datos de column                |
+| df\[row, col\] | Selecciona un elemento o subconjunto específico del dataframe | df\[1, 2\]                  | Elemento en la primera fila y segunda columna |
+| df\[, col\]    | Selecciona todas las filas para una columna específica        | df\[, 2\]                   | Todos los datos de la segunda columna         |
+| df\[row, \]    | Selecciona todas las columnas para una fila específica        | df\[1, \]                   | Todos los datos de la primera fila            |
+| apply          | Aplica una función a lo largo de las filas o columnas         | apply(df, 2, mean)          | Media de cada columna de df                   |
+| rbind          | Añade filas al dataframe                                      | rbind(df, new_row)          | Nuevo dataframe con new_row añadido           |
+| cbind          | Añade columnas al dataframe                                   | cbind(df, new_column)       | Nuevo dataframe con new_column añadido        |
+| merge          | Combina dos dataframes basados en una clave común             | merge(df1, df2, by = "key") | Dataframe combinado de df1 y df2              |
+| order          | Ordena un dataframe según una o más columnas                  | df\[order(df\$column), \]   | Dataframe df ordenado por column              |
+| na.omit        | Elimina filas con valores NA del dataframe                    | na.omit(df)                 | Dataframe df sin filas con valores NA         |
+
+## 6. Array
+
+Un array en R es una estructura de datos multi-dimensional que permite almacenar y manipular datos en más de dos dimensiones, extendiendo así las capacidades de los vectores y matrices.
+
+Los arrays son útiles cuando se necesita trabajar con datos que tienen más de dos dimensiones, como por ejemplo en análisis de series temporales, datos espaciales, o cualquier situación en la que se manejen múltiples capas de datos relacionados entre sí.
+
+Vamos a ver un ejemplo de creación de un array en el que archivamos las temperaturas diarias en tres ciudades distintas, tomadas en dos momentos del día
+
+```{r}
+# Temperaturas diarias para 3 ciudades durante 7 días
+# Cada ciudad tiene 2 temperaturas al día (mañana y tarde)
+temperaturas <- c(
+  # Ciudad 1: (mañana, tarde para 7 días)
+  20, 25,  # Día 1
+  22, 27,  # Día 2
+  24, 29,  # Día 3
+  26, 31,  # Día 4
+  28, 33,  # Día 5
+  30, 35,  # Día 6
+  32, 37,  # Día 7
+  
+  # Ciudad 2: (mañana, tarde para 7 días)
+  18, 23,  # Día 1
+  19, 24,  # Día 2
+  21, 26,  # Día 3
+  22, 27,  # Día 4
+  24, 29,  # Día 5
+  25, 30,  # Día 6
+  27, 32,  # Día 7
+  
+  # Ciudad 3: (mañana, tarde para 7 días)
+  28, 33,  # Día 1
+  29, 34,  # Día 2
+  30, 35,  # Día 3
+  32, 37,  # Día 4
+  33, 38,  # Día 5
+  35, 40,  # Día 6
+  37, 41   # Día 7
+)
+
+# Crear el array
+# Dimensiones: 7 días, 3 ciudades, 2 períodos del día (mañana y tarde)
+temp_array <- array(temperaturas, dim = c(7, 3, 2))
+
+# Asignar nombres a las dimensiones para mayor claridad
+dimnames(temp_array) <- list(
+  Días = paste("Días", 1:7),        # Nombres para los días
+  Ciudad = paste("Ciudad", 1:3),     # Nombres para las ciudades
+  Periodo = c("Mañana", "Tarde") )
+
+# Mostrar el array
+print(temp_array)
+```
+
+## 7. Lista
+
+Una lista es una estructura de datos muy flexible y versátil que permite almacenar elementos de diferentes tipos y tamaños. A diferencia de los vectores y matrices, que requieren que todos sus elementos sean del mismo tipo, las listas pueden contener elementos de tipos variados, incluyendo números, cadenas de texto, vectores, matrices, dataframes e incluso otras listas.
+
+Las listas permiten realizar manipulaciones de datos complejas. Puedes acceder a cada componente de una lista de forma individual y realizar operaciones específicas sobre ellos.
+
+Algunas funciones en R, especialmente en paquetes de análisis y modelado, devuelven resultados en forma de listas. Estas listas pueden contener múltiples componentes, como coeficientes del modelo, estadísticas, gráficos y otros resultados.
+
+Veamos un ejemplo básico de creación de una lista y a mostrar el resultado
+
+```{r}
+lista <- list(
+  Nombres = c("Carlos", "Ana"), # Vector con nombres de los sujetos
+  Edades = c(25, 30),           # Vector con edades de los sujetos
+  Calificaciones = list(c(88, 92, 75), c(90, 85, 80))  # Lista con vectores de calificaciones
+)
+
+# Mostrar la lista
+print(lista)
+```
+
+### Ejercicios con un dataframe
+
+Vamos a recuperar el dataframe df_prueba (es un archivo.csv) en tu directorio y el encabezamiento de sus variables.
+
+```{r, eval=FALSE}
+
+df_prueba <- read.csv("C:/Users/jesus.martin/OneDrive - Universidad Rey Juan Carlos/Escritorio/Prácticas/df_prueba.csv")
+
+#Ten en cuenta que debe revisarse el "pathway" del directorio
+
+head(df_prueba)
+
+```
+
+Ahora etiqueta la variable sex (0= Mujer; 1 = varón), y fum e iam (0=No; 1=Sí), pero nombra de otra forma las variables etiquetadas
+
+```{r, eval=FALSE}
+# Etiquetar las variables
+df_prueba$sex_label <- ifelse(df_prueba$sex == 0, "Mujer", "Varón")
+df_prueba$fum_label <- ifelse(df_prueba$fum == 0, "No", "Sí")
+df_prueba$iam_label <- ifelse(df_prueba$iam == 0, "No", "Sí")
+
+
+# Mostrar las primeras filas del dataframe con las nuevas etiquetas
+head(df_prueba)
+#ver la estructura del fataframe
+str (df_prueba)
+```
+
+Ves alguna diferencia entre ¿fum y fum label?
+
+Borra las variables etiquetadas y,ahora crea una variable factor y luego la etiquetas, puedes hacerlo sobre la misma variable
+
+```{r, eval=FALSE}
+
+#Las variables etiquetadas en el ejemplo anterior (sex_label,...) son variables caracter y no se puede operar con ellas. Las borramos
+# Eliminar las columnas "sex_label", "fum_label" "iam_label"
+df_prueba$fum_label <- NULL
+df_prueba$sex_label <- NULL
+df_prueba$iam_label <- NULL
+
+# Verificar que las columnas han sido eliminadas
+head(df_prueba)
+# Convertir variables a factor con etiquetas
+
+df_prueba$sex <- factor(df_prueba$sex, levels = c(0, 1), labels = c("Mujer", "Varón"))
+df_prueba$fum <- factor(df_prueba$fum, levels = c(0, 1), labels = c("No", "Sí"))
+df_prueba$iam <- factor(df_prueba$iam, levels = c(0, 1), labels = c("No", "Sí"))
+
+
+# Mostrar las primeras filas del dataframe con los factores etiquetados
+head(df_prueba)
+
+
+```
+
+Crear una nueva variable, IMC y a recategorizarla en los grupos "bajo" si IMC \<20, "normal" si 20\<=IMC\<30 y "obesidad" si 30\<=IMC
+
+```{r, eval=FALSE}
+
+df_prueba$IMC <- df_prueba$peso / (df_prueba$alt / 100)^2
+df_prueba$IMC <- round(df_prueba$IMC, 2) #redondeamos a 2 decimales
+df_prueba$IMC_r <- cut(df_prueba$IMC,
+                       breaks = c(-Inf, 20, 30, Inf),
+                       labels = c("Bajo", "Normal", "Obesidad"))
+
+#En esta orden los valores no son incluidos en la categoría inferior. 
+#Si quisiesemos que sí se incluyesen el código debería escribirse así
+
+#df_prueba$IMC_r <- cut(df_prueba$imc, breaks = c(-Inf, 20, 30, Inf/),labels = c("Bajo", "Normal", "Obesidad"),right = FALSE)
+# Verificamos la nueva columna
+table(df_prueba$IMC_r)
+
+```
+
+Qué información tienes de las variables continuas? ¿y de las variables factor?
+
+```{r, eval=FALSE}
+# Resumen de las variables cuantitativas
+summary(df_prueba[, c("edad", "alt", "peso", "colesterol", "IMC")])
+
+# Resumen de las variables categóricas (factores)
+summary(df_prueba[, c("sex", "fum", "iam", "IMC_r")])
+```
+
+Haz un descriptivo de la variable "colesterol" en hombres y en mujeres y de la variable "iam" en hombres y en mujeres
+
+```{r, eval=FALSE}
+
+summary(df_prueba$colesterol[df_prueba$sex == "Mujer"])
+summary(df_prueba$colesterol[df_prueba$sex == "Varón"])
+
+
+summary(df_prueba$iam[df_prueba$sex == "Mujer"])
+summary(df_prueba$iam[df_prueba$sex == "Varón"])
+
+```
+
+Realiza un histograma de la variable "altura" y un box plot de la variable ""colesterol"
+
+```{r, eval=FALSE}
+# Histograma de la altura
+hist(df_prueba$alt, main = "Histograma de Altura", xlab = "Altura (cm)", col = "lightblue", border = "black")
+# Boxplot del colesterol
+boxplot(df_prueba$colesterol, main = "Boxplot de Colesterol", ylab = "Colesterol", col = "lightgreen")
+```
+
+Crea un gráfico que correlacione "peso" y "altura"
+
+```{r, eval=FALSE}
+# Crear el gráfico de dispersión
+plot(df_prueba$alt, df_prueba$peso,
+     main = "Relación entre Altura y Peso",
+     xlab = "Altura (cm)",
+     ylab = "Peso (kg)",
+     pch = 19, # Tipo de punto
+     col = "lightblue")
+
+```
+
+Finalmente, selecciona en el df_prueba a los sujetos varones con colesterol \>200 y que cuya variable iam="SÍ", comprueba cuantos sujetos son y guarda el nuevo data frame como un fichero .csv. ¿En qué carpeta guardará el fichero si no especificas nada?
+
+```{r, eval=FALSE}
+df_prueba2 <- df_prueba[df_prueba$sex == "Varón" & df_prueba$colesterol > 200 & df_prueba$iam == "Sí", ]
+df_prueba2
+write.csv(df_prueba2, file = "df_prueba2.csv", row.names = FALSE)
+```

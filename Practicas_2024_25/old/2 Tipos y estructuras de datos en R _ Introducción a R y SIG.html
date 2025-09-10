@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>2 Tipos y estructuras de datos en R | Introducción a R y SIG</title>
+  <meta name="description" content="2 Tipos y estructuras de datos en R | Introducción a R y SIG">
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7">
+
+  <meta property="og:title" content="2 Tipos y estructuras de datos en R | Introducción a R y SIG">
+  <meta property="og:type" content="book">
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="2 Tipos y estructuras de datos en R | Introducción a R y SIG">
+  
+  
+  
+
+<meta name="author" content="Paúl Bravo L. &amp; Francisco Salgado C.">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="https://bookdown.org/chescosalgado/intro_r/intro.html">
+<link rel="next" href="https://bookdown.org/chescosalgado/intro_r/importar-archivos.html">
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/jquery.min.js.descarga"></script>
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/style.css" rel="stylesheet">
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-table.css" rel="stylesheet">
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-bookdown.css" rel="stylesheet">
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-highlight.css" rel="stylesheet">
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-search.css" rel="stylesheet">
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-fontsettings.css" rel="stylesheet">
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-clipboard.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/htmlwidgets.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plotly.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/typedarray.min.js.descarga"></script>
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/crosstalk.css" rel="stylesheet">
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/crosstalk.min.js.descarga"></script>
+<link href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plotly-latest.min.js.descarga"></script><style id="plotly.js-style-global"></style>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/style(1).css" type="text/css">
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary   font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary"><div class="book-search" role="search"><label for="search-box" aria-hidden="false" hidden="hidden">Type to search</label><input id="search-box" type="search" class="form-control" placeholder="Type to search (Enter for navigation)" title="Use Enter or the &lt;Down&gt; key to navigate to the next match, or the &lt;Up&gt; key to the previous match"></div>
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://bookdown.org/chescosalgado/intro_r/">Contenidos</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="https://bookdown.org/chescosalgado/intro_r/index.html"><i class="fa fa-check"></i>Prefacio</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="https://bookdown.org/chescosalgado/intro_r/index.html#refmat"><i class="fa fa-check"></i>Referencias y material de apoyo</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html"><i class="fa fa-check"></i><b>1</b> Introducción</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#r-y-rstudio"><i class="fa fa-check"></i><b>1.1</b> R y RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#instalaci%C3%B3n"><i class="fa fa-check"></i><b>1.2</b> Instalación</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#archivos"><i class="fa fa-check"></i><b>1.3</b> Archivos</a><ul style="display: none;">
+<li class="chapter" data-level="1.3.1" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#nombres"><i class="fa fa-check"></i><b>1.3.1</b> Nombres</a></li>
+<li class="chapter" data-level="1.3.2" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#organizaci%C3%B3n"><i class="fa fa-check"></i><b>1.3.2</b> Organización</a></li>
+<li class="chapter" data-level="1.3.3" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#estructura-interna"><i class="fa fa-check"></i><b>1.3.3</b> Estructura interna</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#cargar-e-instalar-paquetes"><i class="fa fa-check"></i><b>1.4</b> Cargar e instalar paquetes</a></li>
+<li class="chapter" data-level="1.5" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#espacio-de-trabajo-y-directorios"><i class="fa fa-check"></i><b>1.5</b> Espacio de trabajo y directorios</a></li>
+<li class="chapter" data-level="1.6" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#operaciones-matem%C3%A1ticas-b%C3%A1sicas" title="1.6 Operaciones matemáticas básicas:"><i class="fa fa-check"></i><b>1.6</b> Operaciones matemáticas básicas:</a></li>
+<li class="chapter" data-level="1.7" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#operaciones-l%C3%B3gicas"><i class="fa fa-check"></i><b>1.7</b> Operaciones lógicas:</a></li>
+<li class="chapter" data-level="1.8" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#asignaci%C3%B3n-de-variables-en-r"><i class="fa fa-check"></i><b>1.8</b> Asignación de variables en R</a></li>
+<li class="chapter" data-level="1.9" data-path="intro.html"><a href="https://bookdown.org/chescosalgado/intro_r/intro.html#consejos-para-un-principiante-en-r" title="1.9 Consejos para un principiante en R"><i class="fa fa-check"></i><b>1.9</b> Consejos para un principiante en R</a></li>
+</ul></li>
+<li class="chapter active" data-level="2" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html"><i class="fa fa-check"></i><b>2</b> Tipos y estructuras de datos en R</a><ul>
+<li class="chapter" data-level="2.1" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#vectores"><i class="fa fa-check"></i><b>2.1</b> Vectores</a><ul style="display: none;">
+<li class="chapter" data-level="2.1.1" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#algunas-operaciones-con-vectores"><i class="fa fa-check"></i><b>2.1.1</b> Algunas operaciones con vectores</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#secuencias-num%C3%A9ricas"><i class="fa fa-check"></i><b>2.2</b> Secuencias numéricas</a></li>
+<li class="chapter" data-level="2.3" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#listas"><i class="fa fa-check"></i><b>2.3</b> Listas</a></li>
+<li class="chapter" data-level="2.4" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#matrices"><i class="fa fa-check"></i><b>2.4</b> Matrices</a></li>
+<li class="chapter" data-level="2.5" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#data-frames"><i class="fa fa-check"></i><b>2.5</b> Data Frames</a><ul style="display: none;">
+<li class="chapter" data-level="2.5.1" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#conjunto-de-datos-en-r"><i class="fa fa-check"></i><b>2.5.1</b> Conjunto de datos en R</a></li>
+<li class="chapter" data-level="2.5.2" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#subsetting"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#manipulaci%C3%B3n-de-datos"><i class="fa fa-check"></i><b>2.6</b> Manipulación de datos</a></li>
+<li class="chapter" data-level="2.7" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#introducci%C3%B3n-a-tidyverse-dplyr"><i class="fa fa-check"></i><b>2.7</b> Introducción a tidyverse: dplyr</a></li>
+<li class="chapter" data-level="2.8" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#valores-no-disponibles"><i class="fa fa-check"></i><b>2.8</b> Valores no disponibles</a><ul style="display: none;">
+<li class="chapter" data-level="2.8.1" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#probando-valores-no-disponibles"><i class="fa fa-check"></i><b>2.8.1</b> Probando valores no disponibles</a></li>
+<li class="chapter" data-level="2.8.2" data-path="tipos-y-estructuras-de-datos-en-r.html"><a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#excluir-valores-no-disponibles-de-los-an%C3%A1lisis"><i class="fa fa-check"></i><b>2.8.2</b> Excluir valores no disponibles de los análisis</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="importar-archivos.html"><a href="https://bookdown.org/chescosalgado/intro_r/importar-archivos.html"><i class="fa fa-check"></i><b>3</b> Importar archivos</a><ul>
+<li class="chapter" data-level="3.1" data-path="importar-archivos.html"><a href="https://bookdown.org/chescosalgado/intro_r/importar-archivos.html#csv"><i class="fa fa-check"></i><b>3.1</b> CSV</a></li>
+<li class="chapter" data-level="3.2" data-path="importar-archivos.html"><a href="https://bookdown.org/chescosalgado/intro_r/importar-archivos.html#sas"><i class="fa fa-check"></i><b>3.2</b> SAS</a></li>
+<li class="chapter" data-level="3.3" data-path="importar-archivos.html"><a href="https://bookdown.org/chescosalgado/intro_r/importar-archivos.html#spss"><i class="fa fa-check"></i><b>3.3</b> SPSS</a></li>
+<li class="chapter" data-level="3.4" data-path="importar-archivos.html"><a href="https://bookdown.org/chescosalgado/intro_r/importar-archivos.html#excel"><i class="fa fa-check"></i><b>3.4</b> Excel</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html"><i class="fa fa-check"></i><b>4</b> Visualización de datos</a><ul>
+<li class="chapter" data-level="4.1" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#gr%C3%A1ficas-base"><i class="fa fa-check"></i><b>4.1</b> Gráficas base</a><ul style="display: none;">
+<li class="chapter" data-level="4.1.1" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#histograma"><i class="fa fa-check"></i><b>4.1.1</b> Histograma</a></li>
+<li class="chapter" data-level="4.1.2" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#diagrama-de-caja-y-bigote"><i class="fa fa-check"></i><b>4.1.2</b> Diagrama de caja y bigote</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#librer%C3%ADa-ggplot2"><i class="fa fa-check"></i><b>4.2</b> Librería ggplot2</a><ul style="display: none;">
+<li class="chapter" data-level="4.2.1" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#histograma-1"><i class="fa fa-check"></i><b>4.2.1</b> Histograma</a></li>
+<li class="chapter" data-level="4.2.2" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#densidad"><i class="fa fa-check"></i><b>4.2.2</b> Densidad</a></li>
+<li class="chapter" data-level="4.2.3" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#t%C3%ADtulo-y-nombres-de-ejes"><i class="fa fa-check"></i><b>4.2.3</b> Título y nombres de ejes</a></li>
+<li class="chapter" data-level="4.2.4" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#diagrama-de-dispersi%C3%B3n"><i class="fa fa-check"></i><b>4.2.4</b> Diagrama de dispersión</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#plotly"><i class="fa fa-check"></i><b>4.3</b> Plotly</a></li>
+<li class="chapter" data-level="4.4" data-path="graficas.html"><a href="https://bookdown.org/chescosalgado/intro_r/graficas.html#m%C3%A1s-gr%C3%A1ficos"><i class="fa fa-check"></i><b>4.4</b> Más gráficos</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="http://ierse.uazuay.edu.ec/" target="blank">Una publicación del IERSE</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body fixed">
+      <div class="body-inner">
+        <div class="book-header fixed" role="navigation" style="background-color: rgb(255, 255, 255);">
+          <a class="btn pull-left js-toolbar-action" aria-label="Toggle Sidebar" title="Toggle Sidebar" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-align-justify"></i></a><a class="btn pull-left js-toolbar-action" aria-label="Search" title="Search" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-search"></i></a><div class="dropdown pull-right  js-toolbar-action"><a class="btn toggle-dropdown" aria-label="Share" title="Share" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-share-alt"></i></a><div class="dropdown-menu dropdown-left"><div class="dropdown-caret"><span class="caret-outer"></span><span class="caret-inner"></span></div><div class="buttons"><button class="button size-6 ">Facebook</button><button class="button size-6 ">Google+</button><button class="button size-6 ">Twitter</button><button class="button size-6 ">LinkedIn</button><button class="button size-6 ">Weibo</button><button class="button size-6 ">Instapaper</button></div></div></div><a class="btn pull-right js-toolbar-action" aria-label="Facebook" title="Facebook" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-facebook"></i></a><a class="btn pull-right js-toolbar-action" aria-label="Twitter" title="Twitter" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-twitter"></i></a><div class="dropdown pull-left font-settings js-toolbar-action"><a class="btn toggle-dropdown" aria-label="Font Settings" title="Font Settings" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-font"></i></a><div class="dropdown-menu dropdown-right"><div class="dropdown-caret"><span class="caret-outer"></span><span class="caret-inner"></span></div><div class="buttons"><button class="button size-2 font-reduce">A</button><button class="button size-2 font-enlarge">A</button></div><div class="buttons"><button class="button size-2 ">Serif</button><button class="button size-2 ">Sans</button></div><div class="buttons"><button class="button size-3 ">White</button><button class="button size-3 ">Sepia</button><button class="button size-3 ">Night</button></div></div></div><a class="btn pull-left js-toolbar-action" aria-label="Edit" title="Edit" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-edit"></i></a><div class="dropdown pull-left  js-toolbar-action"><a class="btn toggle-dropdown" aria-label="Download" title="Download" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-download"></i></a><div class="dropdown-menu dropdown-right"><div class="dropdown-caret"><span class="caret-outer"></span><span class="caret-inner"></span></div><div class="buttons"><button class="button size-1 ">PDF</button></div><div class="buttons"><button class="button size-1 ">EPUB</button></div></div></div><a class="btn pull-left js-toolbar-action" aria-label="Information about the toolbar" title="Information about the toolbar" href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#"><i class="fa fa-info"></i></a><h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="https://bookdown.org/chescosalgado/intro_r/">Introducción a R y SIG</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tipos-y-estructuras-de-datos-en-r" class="section level1">
+<h1><span class="header-section-number">2</span> Tipos y estructuras de datos en R</h1>
+<p>R es capaz de manejar una variedad de tipos de datos, que se almacenan en diferentes estructuras de datos como se puede observar en la tabla <a href="https://bookdown.org/chescosalgado/intro_r/tipos-y-estructuras-de-datos-en-r.html#tab:table2">2.1</a>:</p>
+<table>
+<caption><span id="tab:table2">Table 2.1: </span> Tipos de datos básicos de R</caption>
+<colgroup>
+<col width="14%">
+<col width="42%">
+<col width="42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo de dato</th>
+<th>Descripción</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Numeric</td>
+<td>Números decimales</td>
+<td><code>numero &lt;- 1.0</code></td>
+</tr>
+<tr class="even">
+<td>Integer</td>
+<td>Números enteros</td>
+<td><code>int &lt;- 1</code></td>
+</tr>
+<tr class="odd">
+<td>Character</td>
+<td>Cadenas de texto</td>
+<td><code>str &lt;- "un texto"</code></td>
+</tr>
+<tr class="even">
+<td>Complex</td>
+<td>Números complejos</td>
+<td><code>comp &lt;- 3+2i</code></td>
+</tr>
+<tr class="odd">
+<td>Logical</td>
+<td>Verdadero (TRUE) o falso (FALSE). Es a menudo el resultado de operaciones lógicas.</td>
+<td><code>a &lt;- 1; b &lt;- 2; a &lt; b</code></td>
+</tr>
+<tr class="even">
+<td>Factor</td>
+<td>Este no es estrictamente un tipo de dato, pero vale la pena describirlo aquí. Una variable factor es una variable categórica. Los vectores de caracteres a menudo se almacenan como factores para explotar funciones para tratar datos categóricos. Por ejemplo, en análisis de regresión.</td>
+<td>Aplique <code>as.factor()</code> a un vector de caracteres.</td>
+</tr>
+</tbody>
+</table>
+<div id="vectores" class="section level2">
+<h2><span class="header-section-number">2.1</span> Vectores</h2>
+<ul>
+<li>Elemento más básico en R.</li>
+<li>Contiene elementos de la misma clase (son atómicos).</li>
+<li>Se crea con la función <strong>c()</strong>, que significa ‘<strong>concatenar</strong>’ o ‘<strong>combinar</strong>’.</li>
+</ul>
+<div class="sourceCode" id="cb22"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.1</span>, <span class="dv">10</span>, <span class="fl">3.14</span>)</a>
+<a class="sourceLine" id="cb22-2" title="2">v</a></code></pre></div>
+<pre><code>## [1]  1.10 10.00  3.14</code></pre>
+<div class="sourceCode" id="cb24"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">c</span>(v,<span class="dv">555</span>,v)</a></code></pre></div>
+<pre><code>## [1]   1.10  10.00   3.14 555.00   1.10  10.00   3.14</code></pre>
+<div id="algunas-operaciones-con-vectores" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Algunas operaciones con vectores</h3>
+<div class="sourceCode" id="cb26"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">a &lt;-<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb26-2" title="2">a</a></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode" id="cb28"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">is.vector</span>(a) <span class="co"># Determinar si el objeto o la variable 'a' es un vector</span></a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb30"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">is.vector</span>(v)</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Otras operaciones:</p>
+<div class="sourceCode" id="cb32"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">v <span class="op">*</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">100</span></a></code></pre></div>
+<pre><code>## [1] 102.20 120.00 106.28</code></pre>
+<div class="sourceCode" id="cb34"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">mi_rc &lt;-<span class="st"> </span><span class="kw">sqrt</span>(v<span class="dv">-1</span>) <span class="co"># sqrt(x)  calcula la raíz cuadrada de x.</span></a>
+<a class="sourceLine" id="cb34-2" title="2">mi_rc</a></code></pre></div>
+<pre><code>## [1] 0.3162278 3.0000000 1.4628739</code></pre>
+<div class="sourceCode" id="cb36"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">mi_rc&lt;-<span class="st"> </span>v<span class="op">/</span>mi_rc</a>
+<a class="sourceLine" id="cb36-2" title="2">mi_rc</a></code></pre></div>
+<pre><code>## [1] 3.478505 3.333333 2.146460</code></pre>
+<p>Cuando indicamos a R que calcule v * 2 + 100, lo que realmente calcula es esto:</p>
+<div class="sourceCode" id="cb38"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">v <span class="op">*</span><span class="st"> </span><span class="kw">c</span> (<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">c</span> (<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>) </a></code></pre></div>
+<pre><code>## [1] 102.20 120.00 106.28</code></pre>
+<p>A esto se lo conoce como “reciclaje” de vector.</p>
+<p><strong>Reciclaje de elementos:</strong></p>
+<div class="sourceCode" id="cb40"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb40-2" title="2">w</a></code></pre></div>
+<pre><code>## [1]  1 12  3 14</code></pre>
+<div class="sourceCode" id="cb42"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</a></code></pre></div>
+<pre><code>## Warning in c(1, 2, 3, 4) + c(0, 10, 100): longer object length is not a
+## multiple of shorter object length</code></pre>
+<div class="sourceCode" id="cb44"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">w</a></code></pre></div>
+<pre><code>## [1]   1  12 103   4</code></pre>
+<p>Crear vectores adicionales:</p>
+<div class="sourceCode" id="cb46"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">b &lt;-<span class="st"> </span><span class="kw">c</span> (<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>) <span class="co"># Crear un vector numérico</span></a>
+<a class="sourceLine" id="cb46-2" title="2">c &lt;-<span class="st"> </span><span class="kw">c</span> (<span class="st">"esto"</span>, <span class="st">"eso"</span>, <span class="st">"lo otro"</span>) <span class="co"># crea un vector de caracteres</span></a>
+<a class="sourceLine" id="cb46-3" title="3">d &lt;-<span class="st"> </span><span class="kw">c</span> (<span class="dv">1</span>,<span class="dv">2</span>, <span class="st">"esto"</span>) <span class="co"># crea un vector de tipo mixto?</span></a>
+<a class="sourceLine" id="cb46-4" title="4">d</a></code></pre></div>
+<pre><code>## [1] "1"    "2"    "esto"</code></pre>
+<p>Tenga en cuenta que al crear <code>d</code>, los números se convierten en caracteres automáticamente porque un vector no puede tener tipos mixtos.</p>
+<p>Se puede acceder a los elementos de un vector, manipularlos y cambiarlos:</p>
+<div class="sourceCode" id="cb48"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">b[<span class="dv">3</span>] <span class="co"># Los corchetes se usan para acceder a los elementos.</span></a></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<div class="sourceCode" id="cb50"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">b[<span class="dv">3</span>]<span class="op">+</span>b[<span class="dv">5</span>]</a></code></pre></div>
+<pre><code>## [1] 16</code></pre>
+<div class="sourceCode" id="cb52"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1">b[<span class="dv">6</span>] &lt;-<span class="st"> </span><span class="dv">12</span></a>
+<a class="sourceLine" id="cb52-2" title="2">b</a></code></pre></div>
+<pre><code>## [1]  2  4  6  8 10 12</code></pre>
+</div>
+</div>
+<div id="secuencias-numéricas" class="section level2">
+<h2><span class="header-section-number">2.2</span> Secuencias numéricas</h2>
+<div class="sourceCode" id="cb54"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1"><span class="dv">1</span><span class="op">:</span><span class="dv">20</span></a></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<div class="sourceCode" id="cb56"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">pi<span class="op">:</span><span class="dv">10</span></a></code></pre></div>
+<pre><code>## [1] 3.141593 4.141593 5.141593 6.141593 7.141593 8.141593 9.141593</code></pre>
+<div class="sourceCode" id="cb58"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="dv">15</span><span class="op">:</span><span class="dv">1</span></a></code></pre></div>
+<pre><code>##  [1] 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1</code></pre>
+<p>x:y puede leerse como “secuencia de x <em>a(:)</em> y.”</p>
+<div class="sourceCode" id="cb60"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">20</span>)</a></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<div class="sourceCode" id="cb62"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1"><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dt">by=</span><span class="fl">0.5</span>)</a></code></pre></div>
+<pre><code>##  [1]  0.0  0.5  1.0  1.5  2.0  2.5  3.0  3.5  4.0  4.5  5.0  5.5  6.0  6.5
+## [15]  7.0  7.5  8.0  8.5  9.0  9.5 10.0</code></pre>
+<div class="sourceCode" id="cb64"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1">mi_sec &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dt">length=</span><span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb64-2" title="2">mi_sec</a></code></pre></div>
+<pre><code>##  [1]  5.000000  5.263158  5.526316  5.789474  6.052632  6.315789  6.578947
+##  [8]  6.842105  7.105263  7.368421  7.631579  7.894737  8.157895  8.421053
+## [15]  8.684211  8.947368  9.210526  9.473684  9.736842 10.000000</code></pre>
+</div>
+<div id="listas" class="section level2">
+<h2><span class="header-section-number">2.3</span> Listas</h2>
+<p>A diferencia de un vector, una lista es una colección de elementos que pueden ser de diferente tipo. Los componentes de una lista son típicamente pares clave-valor. El siguiente ejemplo muestra cómo se puede almacenar un punto (con coordenas) en una lista.</p>
+<div class="sourceCode" id="cb66"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1">coordenadas=<span class="kw">list</span>(<span class="dt">X=</span><span class="dv">10</span>, <span class="dt">Y=</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb66-2" title="2">point &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">id=</span><span class="dv">123</span>, coordenadas, <span class="dt">spatial.reference=</span><span class="st">"WGS_84"</span>)</a>
+<a class="sourceLine" id="cb66-3" title="3">point<span class="op">$</span>id <span class="co"># Los elementos de la lista generalmente se acceden por nombre</span></a></code></pre></div>
+<pre><code>## [1] 123</code></pre>
+<div class="sourceCode" id="cb68"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1">point<span class="op">$</span>coordenadas</a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb70"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1">point<span class="op">$</span>coordenadas<span class="op">$</span>X <span class="co"># Se puede acceder a los elementos anidados</span></a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb72"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1">point[<span class="dv">1</span>] <span class="co"># Los elementos están ordenados para que se pueda acceder por índice. Usar corchetes individuales, devuelve una lista</span></a></code></pre></div>
+<pre><code>## $id
+## [1] 123</code></pre>
+<div class="sourceCode" id="cb74"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1"><span class="kw">class</span>(point[<span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## [1] "list"</code></pre>
+<div class="sourceCode" id="cb76"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1"><span class="kw">class</span>(point[[<span class="dv">1</span>]]) <span class="co"># Para obtener el valor del elemento de la lista, use corchetes dobles.</span></a></code></pre></div>
+<pre><code>## [1] "numeric"</code></pre>
+<div class="sourceCode" id="cb78"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1"><span class="co"># point[1]+point[1] # Esto no funcionará</span></a>
+<a class="sourceLine" id="cb78-2" title="2">point[[<span class="dv">1</span>]]<span class="op">+</span>point[[<span class="dv">1</span>]] <span class="co"># Esto funcionará</span></a></code></pre></div>
+<pre><code>## [1] 246</code></pre>
+<p>La lista en el ejemplo tiene tres elementos de diferentes tipos de datos. <code>id</code> es numérico, <code>coordenadas</code> son otra lista y <code>spatial.reference</code> es una cadena de caracteres. La lista <code>coordenadas</code> contiene dos elementos numéricos, <code>X</code> e <code>Y</code>. Generalmente, se accede a los elementos de la lista usando su nombre, en lugar de número. En particular, muchas estructuras de datos tienen elementos con nombre a los que se puede acceder utilizando los operadores <code>$</code> o <code>@</code>.</p>
+<p><strong>Matrices y Data Frames</strong></p>
+<p>Ambos representan tipos de datos “<strong>rectangulares</strong>”, lo que significa que se usan para almacenar datos tabulares, con filas y columnas.</p>
+<p>La principal diferencia, es que las <strong>matrices</strong> solo pueden contener una <strong>única clase de datos</strong> (al igual que los vectores), mientras que los <strong>data frames</strong> pueden consistir en <strong>muchas clases diferentes</strong> de datos.</p>
+</div>
+<div id="matrices" class="section level2">
+<h2><span class="header-section-number">2.4</span> Matrices</h2>
+<p>Una matriz es una estructura bidimensional. Las filas son horizontales y las columnas son verticales. Una matriz de 4 por 3 (4 x 3), por ejemplo, tiene 4 filas y 3 columnas. Las matrices se crean comúnmente usando tablas de datos numéricos como las de una hoja de cálculo de Excel o un archivo csv.</p>
+<div class="sourceCode" id="cb80"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">mi_vector &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb80-2" title="2">mi_vector</a></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<div class="sourceCode" id="cb82"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" title="1"><span class="kw">dim</span>(mi_vector)</a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<p>Dado que la variable es un vector, no tiene un atributo <code>dim</code> (entonces es simplemente NULL).</p>
+<p>¿Qué ocurre si le damos a <code>mi_vector</code> un atributo <code>dim</code>?</p>
+<div class="sourceCode" id="cb84"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" title="1"><span class="kw">dim</span>(mi_vector) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb84-2" title="2">mi_vector</a></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    5    9   13   17
+## [2,]    2    6   10   14   18
+## [3,]    3    7   11   15   19
+## [4,]    4    8   12   16   20</code></pre>
+<div class="sourceCode" id="cb86"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1"><span class="kw">class</span>(mi_vector)</a></code></pre></div>
+<pre><code>## [1] "matrix"</code></pre>
+<p>El ejemplo que utilizamos hasta ahora tenía la intención de ilustrar la idea de que una matriz es simplemente un vector con un atributo de dimensión.</p>
+<div class="sourceCode" id="cb88"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1">mi_matriz &lt;-<span class="st"> </span>mi_vector</a></code></pre></div>
+<p>Un método más directo para crear la misma matriz utiliza la función <code>matrix</code>.</p>
+<div class="sourceCode" id="cb89"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1">mi_matriz2 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">4</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb89-2" title="2"><span class="kw">identical</span>(mi_matriz, mi_matriz2)</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb91"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">arboles &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"Tipuana tipu"</span>, <span class="st">"Myrsine andina"</span>, <span class="st">"Salix humboldtiana"</span>, <span class="st">"Ceiba pubiflora"</span>)</a>
+<a class="sourceLine" id="cb91-2" title="2"><span class="kw">cbind</span>(arboles, mi_matriz) <span class="co"># column bind o juntar por columna.</span></a></code></pre></div>
+<pre><code>##      arboles                                    
+## [1,] "Tipuana tipu"       "1" "5" "9"  "13" "17"
+## [2,] "Myrsine andina"     "2" "6" "10" "14" "18"
+## [3,] "Salix humboldtiana" "3" "7" "11" "15" "19"
+## [4,] "Ceiba pubiflora"    "4" "8" "12" "16" "20"</code></pre>
+<p>Esto se llama “coerción implícita” porque no lo hemos pedido. Solo sucedió.</p>
+<p>Sin embargo, todavía se desea trabajar con diferentes tipos de datos.</p>
+</div>
+<div id="data-frames" class="section level2">
+<h2><span class="header-section-number">2.5</span> Data Frames</h2>
+<p>Un data frame es una estructura de datos bidimensional similar a una matriz, pero funciona de manera muy diferente. Si bien un data frame parece una tabla simple, de hecho es una lista de vectores de la misma longitud. Para los nuevos usuarios de R, las matrices y los data frames parecen similares. La principal diferencia es que un data frame permite tipos de datos mixtos (por ejemplo, numérico, lógico, caracter). Esto les permite almacenar diferentes tipos de variables, lo cual es muy útil en el análisis estadístico. Por ejemplo, en un análisis de regresión. Las matrices se usan principalmente para almacenar datos numéricos, y se pueden usar para álgebra matricial.</p>
+<div class="sourceCode" id="cb93"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1">mi_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(arboles,mi_matriz) <span class="co"># se crea un data frame (df)</span></a>
+<a class="sourceLine" id="cb93-2" title="2">mi_data</a></code></pre></div>
+<pre><code>##              arboles X1 X2 X3 X4 X5
+## 1       Tipuana tipu  1  5  9 13 17
+## 2     Myrsine andina  2  6 10 14 18
+## 3 Salix humboldtiana  3  7 11 15 19
+## 4    Ceiba pubiflora  4  8 12 16 20</code></pre>
+<div class="sourceCode" id="cb95"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" title="1"><span class="kw">class</span>(mi_data)</a></code></pre></div>
+<pre><code>## [1] "data.frame"</code></pre>
+<div class="sourceCode" id="cb97"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1">cnombres &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"nombre_cientifico"</span>, <span class="st">"dap"</span>, <span class="st">"circunferencia"</span>, <span class="st">"diametro_copa"</span>, <span class="st">"edad"</span>, <span class="st">"altura"</span> )</a>
+<a class="sourceLine" id="cb97-2" title="2"><span class="kw">colnames</span>(mi_data) &lt;-<span class="st"> </span>cnombres</a>
+<a class="sourceLine" id="cb97-3" title="3">mi_data</a></code></pre></div>
+<pre><code>##    nombre_cientifico dap circunferencia diametro_copa edad altura
+## 1       Tipuana tipu   1              5             9   13     17
+## 2     Myrsine andina   2              6            10   14     18
+## 3 Salix humboldtiana   3              7            11   15     19
+## 4    Ceiba pubiflora   4              8            12   16     20</code></pre>
+<div id="conjunto-de-datos-en-r" class="section level3">
+<h3><span class="header-section-number">2.5.1</span> Conjunto de datos en R</h3>
+<p>Varios conjuntos de datos tabulados o <em>data sets</em> se icluyen en la instalación de R (en el paquete <code>datasets</code>) y por defecto se ecuentran cargados para su uso. la funcion <code>data()</code> lista todos los data sets de R.</p>
+<p>Trabajemos con el data set “iris” (<em>Edgar Anderson’s Iris Data</em>)</p>
+<div class="sourceCode" id="cb99"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="kw">str</span>(iris)</a></code></pre></div>
+<pre><code>## 'data.frame':    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p><code>iris</code> es otro data frame:</p>
+<div class="sourceCode" id="cb101"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1">iris[, <span class="st">"Species"</span>] <span class="co"># todas las observaciones de la columna 'Species'</span></a></code></pre></div>
+<pre><code>##   [1] setosa     setosa     setosa     setosa     setosa     setosa    
+##   [7] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [13] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [19] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [25] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [31] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [37] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [43] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [49] setosa     setosa     versicolor versicolor versicolor versicolor
+##  [55] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [61] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [67] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [73] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [79] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [85] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [91] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [97] versicolor versicolor versicolor versicolor virginica  virginica 
+## [103] virginica  virginica  virginica  virginica  virginica  virginica 
+## [109] virginica  virginica  virginica  virginica  virginica  virginica 
+## [115] virginica  virginica  virginica  virginica  virginica  virginica 
+## [121] virginica  virginica  virginica  virginica  virginica  virginica 
+## [127] virginica  virginica  virginica  virginica  virginica  virginica 
+## [133] virginica  virginica  virginica  virginica  virginica  virginica 
+## [139] virginica  virginica  virginica  virginica  virginica  virginica 
+## [145] virginica  virginica  virginica  virginica  virginica  virginica 
+## Levels: setosa versicolor virginica</code></pre>
+<p>Se utiliza el caracter ‘<strong>$</strong>’ para acceder a los campos o columnas.</p>
+<div class="sourceCode" id="cb103"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1">iris<span class="op">$</span>Species      <span class="co"># Lo mismo. </span></a></code></pre></div>
+<pre><code>##   [1] setosa     setosa     setosa     setosa     setosa     setosa    
+##   [7] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [13] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [19] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [25] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [31] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [37] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [43] setosa     setosa     setosa     setosa     setosa     setosa    
+##  [49] setosa     setosa     versicolor versicolor versicolor versicolor
+##  [55] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [61] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [67] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [73] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [79] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [85] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [91] versicolor versicolor versicolor versicolor versicolor versicolor
+##  [97] versicolor versicolor versicolor versicolor virginica  virginica 
+## [103] virginica  virginica  virginica  virginica  virginica  virginica 
+## [109] virginica  virginica  virginica  virginica  virginica  virginica 
+## [115] virginica  virginica  virginica  virginica  virginica  virginica 
+## [121] virginica  virginica  virginica  virginica  virginica  virginica 
+## [127] virginica  virginica  virginica  virginica  virginica  virginica 
+## [133] virginica  virginica  virginica  virginica  virginica  virginica 
+## [139] virginica  virginica  virginica  virginica  virginica  virginica 
+## [145] virginica  virginica  virginica  virginica  virginica  virginica 
+## Levels: setosa versicolor virginica</code></pre>
+<p>Cuando queremos extraer datos del data frame según una condicion, esto se complica.</p>
+<div class="sourceCode" id="cb105"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1"><span class="co">#iris[iris[,"Species"]=="setosa", ]</span></a>
+<a class="sourceLine" id="cb105-2" title="2">iris[iris<span class="op">$</span>Species<span class="op">==</span><span class="st">"setosa"</span>, ] </a></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1           5.1         3.5          1.4         0.2  setosa
+## 2           4.9         3.0          1.4         0.2  setosa
+## 3           4.7         3.2          1.3         0.2  setosa
+## 4           4.6         3.1          1.5         0.2  setosa
+## 5           5.0         3.6          1.4         0.2  setosa
+## 6           5.4         3.9          1.7         0.4  setosa
+## 7           4.6         3.4          1.4         0.3  setosa
+## 8           5.0         3.4          1.5         0.2  setosa
+## 9           4.4         2.9          1.4         0.2  setosa
+## 10          4.9         3.1          1.5         0.1  setosa
+## 11          5.4         3.7          1.5         0.2  setosa
+## 12          4.8         3.4          1.6         0.2  setosa
+## 13          4.8         3.0          1.4         0.1  setosa
+## 14          4.3         3.0          1.1         0.1  setosa
+## 15          5.8         4.0          1.2         0.2  setosa
+## 16          5.7         4.4          1.5         0.4  setosa
+## 17          5.4         3.9          1.3         0.4  setosa
+## 18          5.1         3.5          1.4         0.3  setosa
+## 19          5.7         3.8          1.7         0.3  setosa
+## 20          5.1         3.8          1.5         0.3  setosa
+## 21          5.4         3.4          1.7         0.2  setosa
+## 22          5.1         3.7          1.5         0.4  setosa
+## 23          4.6         3.6          1.0         0.2  setosa
+## 24          5.1         3.3          1.7         0.5  setosa
+## 25          4.8         3.4          1.9         0.2  setosa
+## 26          5.0         3.0          1.6         0.2  setosa
+## 27          5.0         3.4          1.6         0.4  setosa
+## 28          5.2         3.5          1.5         0.2  setosa
+## 29          5.2         3.4          1.4         0.2  setosa
+## 30          4.7         3.2          1.6         0.2  setosa
+## 31          4.8         3.1          1.6         0.2  setosa
+## 32          5.4         3.4          1.5         0.4  setosa
+## 33          5.2         4.1          1.5         0.1  setosa
+## 34          5.5         4.2          1.4         0.2  setosa
+## 35          4.9         3.1          1.5         0.2  setosa
+## 36          5.0         3.2          1.2         0.2  setosa
+## 37          5.5         3.5          1.3         0.2  setosa
+## 38          4.9         3.6          1.4         0.1  setosa
+## 39          4.4         3.0          1.3         0.2  setosa
+## 40          5.1         3.4          1.5         0.2  setosa
+## 41          5.0         3.5          1.3         0.3  setosa
+## 42          4.5         2.3          1.3         0.3  setosa
+## 43          4.4         3.2          1.3         0.2  setosa
+## 44          5.0         3.5          1.6         0.6  setosa
+## 45          5.1         3.8          1.9         0.4  setosa
+## 46          4.8         3.0          1.4         0.3  setosa
+## 47          5.1         3.8          1.6         0.2  setosa
+## 48          4.6         3.2          1.4         0.2  setosa
+## 49          5.3         3.7          1.5         0.2  setosa
+## 50          5.0         3.3          1.4         0.2  setosa</code></pre>
+<p>Así mismo, si se desea obtener las observaciones donde el ancho del sépalo sea menor a 3 y la especie sea “setosa”.</p>
+<div class="sourceCode" id="cb107"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1">iris[iris[,<span class="st">"Sepal.Width"</span>]<span class="op">&lt;=</span><span class="dv">3</span> <span class="op">&amp;</span><span class="st"> </span>iris[,<span class="st">"Species"</span>]<span class="op">==</span><span class="st">"setosa"</span>, ]</a></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 2           4.9         3.0          1.4         0.2  setosa
+## 9           4.4         2.9          1.4         0.2  setosa
+## 13          4.8         3.0          1.4         0.1  setosa
+## 14          4.3         3.0          1.1         0.1  setosa
+## 26          5.0         3.0          1.6         0.2  setosa
+## 39          4.4         3.0          1.3         0.2  setosa
+## 42          4.5         2.3          1.3         0.3  setosa
+## 46          4.8         3.0          1.4         0.3  setosa</code></pre>
+</div>
+<div id="subsetting" class="section level3">
+<h3><span class="header-section-number">2.5.2</span> Subsetting</h3>
+<p>La función <em>subset</em> nos facilita el recuperar datos cuando queremos que se cumplan ciertas condiciones.</p>
+<div class="sourceCode" id="cb109"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1"><span class="kw">subset</span>(iris, Sepal.Width <span class="op">&lt;=</span><span class="st"> </span><span class="dv">3</span>  <span class="op">&amp;</span><span class="st"> </span>Species <span class="op">==</span><span class="st"> "setosa"</span>)</a></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 2           4.9         3.0          1.4         0.2  setosa
+## 9           4.4         2.9          1.4         0.2  setosa
+## 13          4.8         3.0          1.4         0.1  setosa
+## 14          4.3         3.0          1.1         0.1  setosa
+## 26          5.0         3.0          1.6         0.2  setosa
+## 39          4.4         3.0          1.3         0.2  setosa
+## 42          4.5         2.3          1.3         0.3  setosa
+## 46          4.8         3.0          1.4         0.3  setosa</code></pre>
+<p><strong>¿Pero es la mejor opción?</strong></p>
+<ul>
+<li>¿Cómo ordeno?</li>
+<li>¿Cómo cambio de un formato “ancho” a un formato “largo” (o viceversa)?</li>
+<li>etc.</li>
+</ul>
+<p>La tendencia en la comunidad R para el tratamiento de datos, comprende el uso de <a href="https://www.tidyverse.org/" target="_blank">tidyverse.</a></p>
+</div>
+</div>
+<div id="manipulación-de-datos" class="section level2">
+<h2><span class="header-section-number">2.6</span> Manipulación de datos</h2>
+<p>A menudo se dice que el 80% del análisis de datos se gasta en el proceso de limpieza y preparación de los datos. (Dasu y Johnson, 2003)</p>
+<p>Los datos bien estructurados tienen dos propósitos:</p>
+<ul>
+<li>Hace que los datos sean adecuados para el procesamiento del software, ya sean funciones matemáticas, visualización, etc.</li>
+<li>Revela información y nuevas perspectivas.</li>
+</ul>
+<p>El artículo de Hadley Wickham sobre <a href="http://vita.had.co.nz/papers/tidy-data.html" target="_blank"> Tidy Data</a> proporciona una acertada explicación detrás del concepto de datos ordenados o “<em>tidy data</em>”</p>
+</div>
+<div id="introducción-a-tidyverse-dplyr" class="section level2">
+<h2><span class="header-section-number">2.7</span> Introducción a tidyverse: dplyr</h2>
+<p>El paquete <strong>dplyr</strong> de R es parte del marco de trabajo <strong>tidyverse</strong> de R. Este contiene un conjunto de herramientas (funciones) sumamente intuitivas y poderosas para una rápida y fácil manipulación y procesamiento de los datos. Las posibilidades de dplyr son muy extensas, pero abordaremos las más importantes.</p>
+<div class="sourceCode" id="cb111"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="kw">library</span>(readr)  <span class="co"># Se cargan los paquetes o librerías de tidyverse.</span></a>
+<a class="sourceLine" id="cb111-2" title="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: 'dplyr'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<p>A manera de ejemplo, guardamos el dataset de <code>iris</code> a un archivo csv y lo cargamos nuevamente en una nueva variable.</p>
+<div class="sourceCode" id="cb115"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1"><span class="kw">write_csv</span>(iris, <span class="st">"iris.csv"</span>)</a>
+<a class="sourceLine" id="cb115-2" title="2">mi_iris&lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"iris.csv"</span>)</a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Sepal.Length = col_double(),
+##   Sepal.Width = col_double(),
+##   Petal.Length = col_double(),
+##   Petal.Width = col_double(),
+##   Species = col_character()
+## )</code></pre>
+<div class="sourceCode" id="cb117"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1"><span class="kw">head</span>(mi_iris)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 5
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+## 1          5.1         3.5          1.4         0.2 setosa 
+## 2          4.9         3            1.4         0.2 setosa 
+## 3          4.7         3.2          1.3         0.2 setosa 
+## 4          4.6         3.1          1.5         0.2 setosa 
+## 5          5           3.6          1.4         0.2 setosa 
+## 6          5.4         3.9          1.7         0.4 setosa</code></pre>
+<p>La nueva estructura es un <strong>tibble</strong>. Los Tibbles son una versión moderna de los Data Frame.</p>
+</div>
+<div id="valores-no-disponibles" class="section level2">
+<h2><span class="header-section-number">2.8</span> Valores no disponibles</h2>
+<p>Los valores no disponibles o faltantes juegan un papel importante en las estadísticas y el análisis de datos.</p>
+<p>A menudo, los valores faltantes no deben ignorarse, sino que deben estudiarse cuidadosamente para determinar si hay un patrón subyacente o causa de su desaparición.</p>
+<p>En R, <code>NA</code> se usa para representar cualquier valor que “no está disponible <em>(<strong>N</strong>ot <strong>A</strong>vailable)</em>” o “falte” (en el sentido estadístico).</p>
+<p>Un segundo tipo de valor no disponible: <code>NaN</code>, que significa “no es un número <em>(<strong>N</strong>ot <strong>a N</strong>umber)</em>”.</p>
+<div class="sourceCode" id="cb119"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" title="1"><span class="dv">0</span><span class="op">/</span><span class="dv">0</span></a></code></pre></div>
+<pre><code>## [1] NaN</code></pre>
+<div class="sourceCode" id="cb121"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" title="1"><span class="dv">1</span><span class="op">/</span><span class="dv">0</span></a></code></pre></div>
+<pre><code>## [1] Inf</code></pre>
+<div class="sourceCode" id="cb123"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" title="1"><span class="ot">Inf</span> <span class="op">-</span><span class="st"> </span><span class="ot">Inf</span></a></code></pre></div>
+<pre><code>## [1] NaN</code></pre>
+<div id="probando-valores-no-disponibles" class="section level3">
+<h3><span class="header-section-number">2.8.1</span> Probando valores no disponibles</h3>
+<div class="sourceCode" id="cb125"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" title="1">mis_datos &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="ot">NA</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="ot">NA</span>,<span class="ot">NaN</span>,<span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb125-2" title="2">mi_na &lt;-<span class="st"> </span><span class="kw">is.na</span>(mis_datos)</a>
+<a class="sourceLine" id="cb125-3" title="3">mi_na</a></code></pre></div>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb127"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" title="1"><span class="kw">sum</span>(mi_na)</a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+</div>
+<div id="excluir-valores-no-disponibles-de-los-análisis" class="section level3">
+<h3><span class="header-section-number">2.8.2</span> Excluir valores no disponibles de los análisis</h3>
+<div class="sourceCode" id="cb129"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" title="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="ot">NA</span>,<span class="dv">3</span>,<span class="ot">NaN</span>)</a>
+<a class="sourceLine" id="cb129-2" title="2"><span class="kw">mean</span>(x) <span class="co"># retorna NA</span></a></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<div class="sourceCode" id="cb131"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" title="1"><span class="kw">mean</span>(x, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="co"># retorna 2</span></a></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<ul>
+<li>La función <code>complete.cases(nombre_variable)</code> devuelve un vector lógico que indica qué casos están completos.</li>
+<li>La función <code>na.omit()</code> devuelve el objeto con eliminación en lista de valores faltantes.</li>
+</ul>
+<div class="sourceCode" id="cb133"><button type="button" class="copy-to-clipboard-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="fa fa-copy"></i></button><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" title="1"><span class="co"># Crear nueva variable sin valores no disponibles:</span></a>
+<a class="sourceLine" id="cb133-2" title="2">nuevos_datos &lt;-<span class="st"> </span><span class="kw">na.omit</span>(mis_datos)</a>
+<a class="sourceLine" id="cb133-3" title="3">nuevos_datos</a></code></pre></div>
+<pre><code>## [1] 1 2 3 5 6 9
+## attr(,"na.action")
+## [1] 4 7 8
+## attr(,"class")
+## [1] "omit"</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="https://bookdown.org/chescosalgado/intro_r/intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="https://bookdown.org/chescosalgado/intro_r/importar-archivos.html" class="navigation navigation-next " aria-label="Next page" style="margin-right: 17px;"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/app.min.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/lunr.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/clipboard.min.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-search.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-sharing.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-fontsettings.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-bookdown.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/jquery.highlight.js.descarga"></script>
+<script src="./2 Tipos y estructuras de datos en R _ Introducción a R y SIG_files/plugin-clipboard.js.descarga"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "http://ierse.uazuay.edu.ec/02-tipos.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+
+
+
+</body></html>

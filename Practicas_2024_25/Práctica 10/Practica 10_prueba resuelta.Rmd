@@ -1,0 +1,275 @@
+---
+title: "Práctica 10. Prueba repaso."
+author: "Jesús Martín"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+### Introducción
+
+En esta práctica vamos a realizar un simulacro en el que estudiemos cómo importar una base de datos, cómo hacer descriptivos básicos y cómo calcular intervalos de confianza de una media y de una proporción. Se articulará en torno a una serie de preguntas y, finalmente habrá que compilar un documento html. El presente documento es la solución a la práctica, que habrá que construir en Rmarkdown
+
+### Ejercicio 1
+
+La primera tarea consiste en importar la base de datos df_prueba.csv. Es importante saber en qué directorio estamos trabajando
+
+```{r}
+
+getwd ()
+
+df_prueba <- read.csv("df_prueba.csv")
+
+head (df_prueba)
+
+```
+
+### Ejercicio 2
+
+Debes crear la variable edad a partir de la fecha de nacimiento, sabiendo que la fecha de fin de estudio fue el 31/12/2023.
+
+Además debes recodificar la variable imc en tres categorías: Bajo si imc\<20, normal si imc entre 20 y 30 y alto si imc\>30. Llama a la nueva variable imc_r
+
+```{r}
+#fech_nac viene definida como character, cambiamos a formato fecha
+df_prueba$fech_nac <- as.Date(df_prueba$fech_nac)
+fecha_fin <- as.Date("2023-12-31")
+df_prueba$edad <- (fecha_fin-df_prueba$fech_nac)/365.25
+df_prueba$edad <- as.numeric (round (df_prueba$edad,0))
+
+#Categorizamos imc
+df_prueba$imc_r <- cut(df_prueba$imc,
+                    breaks = c(-Inf, 20, 30, Inf),
+                    labels = c("Bajo", "Normal", "Obesidad"))
+```
+
+### Ejercicio 3
+
+Describe las proporciones de hombres y mujeres en cada una de las categorías de la variable `iam1` . Usa las funciones `table`y `prop.table`
+
+```{r}
+#Primero obtenemos las frecuencias absolutas
+
+sex_by_iam <- table(df_prueba$sex, df_prueba$iam1) 
+sex_by_iam
+
+#Ahora las proporciones por fila
+prop_sex_by_iam <- prop.table(sex_by_iam, margin = 1) * 100
+prop_sex_by_iam
+
+```
+
+### Ejercicio 4
+
+Describe la variable edad, encuentra su media y su desviación estándar, así como el recorrido intercuartil. Da tu opinión sobre si se puede distribuir como una normal o no.
+
+Puedes usar la función `describe` del paquete `psych`
+
+
+
+```{r}
+#install.packages("psych")
+
+library(psych)
+
+#Calcular estadísticas básicas para 'edad' 
+stats_edad <- describe (df_prueba$edad)
+
+stats_edad
+
+
+# Calcular la mediana
+mediana <- median(df_prueba$edad, na.rm = TRUE)
+
+# Calcular los percentiles 25 y 75
+percentiles <- quantile(df_prueba$edad, probs = c(0.25, 0.75), na.rm = TRUE)
+q1 <- percentiles[1]  # Percentil 25 
+q3 <- percentiles[2]  # Percentil 75 
+# Calcular la amplitud intercuartil
+iqr <- IQR(df_prueba$edad, na.rm = TRUE)
+
+# Mostrar resultados
+mediana
+iqr
+q1
+q3
+
+```
+
+Para acercarte a decidir si es normal o no la distribución solo con estos datos, puedes ver si la media se sitúa, más o menos en la mitad de la distribución y ver si la mediana está a igual distancia o similar, d elos percentiles 25 y 75. Si esto es así, no puedes descartar que la distribución se asemeje a una normal, pero no puedes asegurarlo. Si no es así, puedes descartarlo.
+
+Después describe la distribución de la variable `edad` en hombres y mujeres utilizando la función `by`
+
+```{r}
+stats_edad_sex <- by(df_prueba$edad, df_prueba$sex, describe)
+
+stats_edad_sex
+```
+
+### Ejercicio 5
+
+Haz un histograma con la variable `colesterol`. Después haz un boxplot de la distribución del colesterol en personas sin/con `iam` . Las funciones a utilizar son `hist` y `boxplot` . ¿Te parece que la distribución del colesterol en pacientes sin/con iam pueda asemejarse a una normal? ¿Hay diferencias esperables entre los niveles de colesterol en pacientes sin /con iam?
+
+```{r}
+hist(df_prueba$colesterol,
+     breaks = 10,
+     main = "Histograma del colesterol", 
+     xlab = "Colesterol",                 
+     ylab = "Frecuencia",           
+     col = "skyblue")        
+```
+
+```{r}
+boxplot(df_prueba$col ~ df_prueba$iam1,
+main = "Distribución del colesterol según Iam",
+xlab = "IAM",
+ylab = "Colesterol (mg/dl)",
+col = c("skyblue", "red"),
+border = c("black", "black"),
+ylim = c(100, 350)
+)
+```
+
+La distribución del colesterol es bastante asimétrica en ambos casos, no parece que se asemeje a una normal y no hay claras diferencias entre los pacientes con/sin IAM
+
+### Ejercicio 6
+
+Debes calcular la media y el IC 95% del `imc` en hombres y en mujeres. Usa la función `group.CI` del paquete `Hmisc.`
+
+Explica qué significa ese IC del 95%
+
+```{r}
+#install.packages("Rmisc")
+
+library(Rmisc)
+
+group.CI(imc ~ sex, data = df_prueba, ci = 0.95)
+```
+
+Si, en este caso, calculas un IC del 95% para la media del IMC en mujeres, el intervalo (25,61-26,09) te especificará el rango de valores entre los que encontrarás el estimador de dicha media en el 95% de las ocasiones si repitieses el proceso muchas veces, con muestras obtenidas por el mismo procedimiento.
+
+### Ejercicio 7
+
+Representa gráficamente las estimaciones y los IC del 95% del ejercicio anterior. Usa la función `plotmeans` del paquete `gplots`
+
+```{r}
+#install.packages("gplots")
+library (gplots)
+
+
+plotmeans(
+  imc ~ sex,                     # Fórmula
+  data = df_prueba,                # Datos
+  ci.label = FALSE,             # No mostrar los IC
+  n.label = TRUE,                # Mostrar n de la muestra
+  connect = FALSE,               # No conectar las medias   
+  mean.label = FALSE,           # No mostrar valores de media
+  barcol = "blue",               # Color de las barras
+  xlab = "Sexo",                 # Etiqueta del eje x
+  ylab = "IMC",                 # Etiqueta del eje y
+  main = "Media de IMC por Sexo",  # Título
+  ylim = c(23, 29),             # Ajustar los límites de y
+)
+```
+
+### Ejercicio 8
+
+Calcula la proporción de personas que sufren IAM con los métodos de Wilson y Clopper-Pearson (exacto). Instala el paquete `Hmisc` , y entonces puedes usar su función `binconf`
+
+```{r}
+#install.packages("Hmisc")
+
+library(Hmisc)
+# Contar las observaciones de "iam" y "No iam"
+iam_c <- table(df_prueba$iam1)
+
+
+# Extraer las proporciones
+n_si <-iam_c["Sí"]  # número de "Sí"
+n_no <- iam_c["No"]   # número de "No"
+n_total <- sum(iam_c)  # total
+
+# Calcular los intervalos de confianza para "Sí" usando el método de Wilson
+ci_si <- binconf(n_si, n_total, method = "wilson")
+
+# Calcular los intervalos de confianza para "No" usando el método de Wilson
+ci_no <- binconf(n_no, n_total, method = "wilson")
+
+
+
+# Calcular los intervalos de confianza para "Sí" usando el método exacto
+ci_e_si <- binconf(n_si, n_total, method = "exact")
+
+# Calcular los intervalos de confianza para "No" usando el método exacto
+ci_e_no <- binconf(n_no, n_total, method = "exact")
+
+
+
+# Mostrar resultados
+ci_si
+ci_no
+ci_e_si
+ci_e_no
+
+```
+
+### Ejercicio 9
+
+Ahora representa los IC anteriores con la función `plot`
+
+```{r}
+# Calcular el intervalo de confianza para cada categoría
+resultado_si <- prop.test(n_si, n_total, correct = FALSE)
+resultado_no <- prop.test(n_no, n_total, correct = FALSE)
+
+# Graficar las proporciones con IC
+# Ajustar los márgenes del gráfico
+par(mar = c(5, 5, 2, 5))  
+# Aumentar el margen inferior (5) y lateral izquierdo (5)
+plot(c(resultado_si$estimate, resultado_no$estimate), 
+     xaxt = "n",        # Evitar etiquetas automáticas en x
+     ylim = c(0.05, 0.95),      # Ajustar el límite de y
+     pch = 19,                       # Tipo de punto
+     col = "darkblue",               # Color de los puntos
+     xlab = "IAM",  # Etiqueta del eje x
+     ylab = "Proporción",            # Etiqueta del eje y
+     main = "Proporciones de IAM",  # Título
+     cex = 1,                        # Tamaño de los puntos
+     xlim = c(0.5, 2.5)              # Ajustar límite de eje x
+)
+
+# Añadir los nombres de las categorías en el eje x
+axis(1, at = 1:2, labels = c("Sí", "No"))
+
+# Añadir los intervalos de confianza para "Sí"
+arrows(
+  x0 = 1, 
+  y0 = resultado_si$conf.int[1], 
+  y1 = resultado_si$conf.int[2], 
+  angle = 90, 
+  code = 3, 
+  length = 0.1, 
+  col = "blue"
+)
+
+# Añadir los intervalos de confianza para "No"
+arrows(
+  x0 = 2, 
+  y0 = resultado_no$conf.int[1], 
+  y1 = resultado_no$conf.int[2], 
+  angle = 90, 
+  code = 3, 
+  length = 0.1, 
+  col = "blue"
+)
+```
+

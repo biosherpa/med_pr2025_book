@@ -1,0 +1,139 @@
+---
+title: "Práctica 11. Comparación de proporciones"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Introducción
+
+Vamos a preparar la base de datos
+
+### 1.1. Preparando nuestra base de datos
+
+En primer lugar, vamos a seleccionar, como siempre, nuestro directorio de trabajo y a obtener la dase de datos de trabajo, en este caso df_iam3_r, que puedes obtener de la Carpeta de la Práctica 11 en el Aula Virtual:
+
+```{r}
+#setwd()
+
+df_iam3<-read.csv ("df_iam3_r.csv")
+
+```
+
+En esta base se recogen una serie de características de 984 sujetos. De todos se incluyeron características sociodemográficas ( `fech_nac`, `sex` y `clas_soc` ), clínicas (`hta` , `DM`, `colesterol` , `salud`) y el hábito tabáquico (`fum`). En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio `iam`). Posteriormente se siguió a los sujetos hasta otro punto en el tiempo. Tras ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (`fum_p`) , la cifra de colesterol (`colesterol_p`), la percepción de salud posterior al infarto (`salud_p` ) y la ocurrencia de un nuevo reinfarto (`iam2`).
+
+```{r}
+head (df_iam3)
+```
+
+## 2. Contraste frente a un valor de referencia.
+
+En esta base de datos compararemos si las proporciones de hipertensos (variable `hta`) hacen pensar que la muestra es representativa de la población en la cuál la población de hipertensión es del 42%.
+
+```{r}
+
+```
+
+## 3. Comparación de proporciones muestrales, tablas de 2x2
+
+### 3.1 Test de Chi cuadrado
+
+En esta base de datos compararemos las proporciones de hipertensos (variable `hta`) en aquellos que sufrieron el primer infarto (variable `iam1` ) y los que no con una Chi cuadrado.
+
+```{r}
+
+```
+
+Como se ve, nos ofrece el resultado de la Chi cuadrado con la correción de Yates.
+
+Para desactivarla en R, se puede usar el argumento `correct = FALSE` en la función `chisq.test()`, lo cual es útil cuando las frecuencias no son tan pequeñas y la corrección se considera innecesaria.
+
+Primero vamos a aprender a obtener las frecuencias esperadas
+
+```{r}
+#Obtener frecuencias esperadas
+
+
+```
+
+
+
+Debes saber que, teniendo los datos de la tabla 2x2 se pueden calcular directamente el p-value para el valor de Chi cuadrado resultante
+
+```{r}
+```
+
+### 3.2 Test de Fisher
+
+Aunque en este caso no sería imprescindible el test de Fisher, vamos a repasara las frecuencias esperadas y a utilizarlo en el ejemplo anterior.
+
+```{r}
+
+```
+
+La hipótesis nula en el test de Fisher es que la Odds Ratio es 1.
+
+### 3.3 Datos apareados, test de McNemar
+
+Ahora vamos a comparar la proporción de fumadores inicial (`fum`) con la proporción de fumadores tras el primer infarto (`fum_p`).
+
+```{r}
+
+```
+
+```{r}
+
+
+```
+
+Pues no, no hay ninguna frecuencia esperada menor que 5, así que podíamos quitar la correción de yates
+
+```{r}
+
+```
+
+
+
+## 4. Intervalos de confianza para la diferencia de proporciones
+
+
+
+Vamos a calcular las diferencias de proporciones de fumadores (`fum` ) en pacientes con y sin infarto (`iam1`)y luego la diferencia de proporciones , interpretando su significado:
+
+```{r}
+
+
+```
+
+El valor de p es muy pequeño luego es poco probable que la diferencia se deba al azar. Pero ¿Cuál es esa diferencia?
+
+¿? Y su IC del 95%
+
+
+
+Si esta misma diferencia la encontrásemos en unas muestras mucho más pequeñas , podría ocurrir que la p no fuese significativa. Mira el ejemplo de más abajo
+
+```{r}
+# Crear la matriz original
+m_original <- matrix(c(674, 68, 185, 57), nrow = 2, byrow = TRUE, 
+                  dimnames = list(c("No fumador", "Fumador"),
+                  c("iam1 = No", "iam1 = Sí")))
+
+# Dividir la matriz por 10 y redondear sin decimales
+m_dividida_redondeada <- round(m_original / 10)
+
+# Ver la matriz redondeada
+print(m_dividida_redondeada)
+
+
+```
+
+

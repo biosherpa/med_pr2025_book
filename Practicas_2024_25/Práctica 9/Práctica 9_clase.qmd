@@ -1,0 +1,170 @@
+
+readClipboard()
+rm (list=ls())
+
+setwd ("C:\\Users\\jesus.martin\\OneDrive - Madrid Digital\\Docente\\Introducción a la AP\\Curso 2024_25\\Bioestadística 1\\Prácticas\\Práctica 9")
+getwd ()
+
+df_iam2 <- read.csv("df_iam2.csv")
+
+head (df_iam2)
+
+
+#Método de Wald
+
+
+# Crear tabla de frecuencias para la variable 'sex'
+tabla_sex <- table(df_iam2$sex)
+
+# Número total de observaciones
+n <- sum(tabla_sex)
+
+# Proporciones
+p_varones <- tabla_sex["Varón"] / n
+p_mujeres <- tabla_sex["Mujer"] / n
+
+# Definir el nivel de significancia
+alpha <- 0.05
+
+# Cálculo del error estándar para "Varón"
+SE_varones <- sqrt(p_varones * (1 - p_varones) / n)
+z <- qnorm(1 - alpha / 2)  # Valor crítico 
+
+qnorm(1 - 0.05 / 2)
+
+# Cálculo del intervalo de confianza para "Varón"
+IC_varones <- c(p_varones - z * SE_varones, p_varones + z * SE_varones)
+
+# Cálculo del error estándar para "Mujer"
+SE_mujeres <- sqrt(p_mujeres * (1 - p_mujeres) / n)
+
+# Cálculo del intervalo de confianza para "Mujer"
+IC_mujeres <- c(p_mujeres - z * SE_mujeres, p_mujeres + z * SE_mujeres)
+
+IC_varones
+IC_mujeres
+
+
+
+
+
+# La función `prop.test`. 
+
+
+# Extraer el número de "Varón" y "Mujer"
+n_varones <- tabla_sex["Varón"]
+n_mujeres <- tabla_sex["Mujer"]
+
+# Calcular intervalo de confianza para varones
+resultado_varones <- prop.test(n_varones, n, conf.level = 0.95)
+resultado_varones
+
+# Calcular intervalo de confianza para mujeres
+resultado_mujeres <- prop.test(n_mujeres, n, conf.level = 0.95)
+resultado_mujeres
+
+
+#En situaciones donde p es muy cercana a 0 o 1 o en muestras pequeñas, el método de Wald puede subestimar o sobreestimar el IC, por lo que se recomienda considerar otros enfoques, como los métodos de Agresti-Coull o Wilson, que ofrecen resultados más precisos bajo esas condiciones.
+
+## El método de Wilson
+
+
+
+
+# Comprobar si el paquete Hmisc está instalado
+if (!requireNamespace("Hmisc", quietly = TRUE)) {
+  install.packages("Hmisc")  # Instalar Hmisc si no está instalado
+}
+
+# Cargar el paquete Hmisc
+library(Hmisc)
+
+# Contar las observaciones de "Sí" y "No"
+hta_counts <- table(df_iam2$hta)
+
+
+# Extraer las proporciones
+n_si <- hta_counts["Sí"]  # número de "Sí"
+n_no <- hta_counts["No"]   # número de "No"
+n_total <- sum(hta_counts)  # total
+
+ci_si <- binconf(n_si, n_total, method = "wilson")
+
+ci_no <- binconf(n_no, n_total, method = "wilson")
+
+
+
+
+ci_si
+ci_no
+
+
+#El método exacto (aproximación de Clopper-Pearson)
+
+#Este método es especialmente útil en estudios de muestreo donde las proporciones de éxito o fracaso pueden no seguir la distribución normal.
+
+
+ci_e_si <- binconf(n_si, n_total, method = "exact")
+ci_e_no <- binconf(n_no, n_total, method = "exact")
+
+
+ci_e_si
+ci_e_no
+
+
+
+
+
+# Representación gráfica de los intervalos de confianza (IC) de una proporción.
+
+
+tabla_fum <- table(df_iam2$fum)
+
+# Número total de observaciones
+total_fum <- sum(tabla_fum)
+
+# Calcular el intervalo de confianza para cada categoría
+resultado_si <- prop.test(tabla_fum["Sí"], total_fum)
+resultado_no <- prop.test(tabla_fum["No"], total_fum)
+
+# Graficar las proporciones con IC
+# Ajustar los márgenes del gráfico
+par(mar = c(5, 5, 2, 5))  
+# Aumentar el margen inferior (5) y lateral izquierdo (5)
+
+plot(c(resultado_si$estimate, resultado_no$estimate), 
+     xaxt = "n",    # Evitar etiquetas automáticas en x
+     ylim = c(0.2, 0.8),  # Ajustar el límite de y
+     pch = 19,            # Tipo de punto
+     col = "darkblue",    # Color de los puntos
+     xlab = "Categorías de Fumador",  # Etiqueta X 
+     ylab = "Proporción",    # Etiqueta del eje y
+     main = "Proporciones de Fumadores con IC",  
+     cex = 1,                        # Tamaño de los puntos
+     xlim = c(0.5, 2.5)              # Ajustar límite de eje x
+)
+
+# Añadir los nombres de las categorías en el eje x
+axis(1, at = 1:2, labels = c("Sí", "No"))
+
+# Añadir los intervalos de confianza para "Sí"
+arrows(
+  x0 = 1, 
+  y0 = resultado_si$conf.int[1], 
+  y1 = resultado_si$conf.int[2], 
+  angle = 90, #hace que las líneas de los extremos sean horizontales
+  code = 3, #añade flechas en ambos extremos
+  length = 0.1, #, controla el tamaño de las líneas horizontales.
+  col = "blue"
+)
+
+# Añadir los intervalos de confianza para "No"
+arrows(
+  x0 = 2, 
+  y0 = resultado_no$conf.int[1], 
+  y1 = resultado_no$conf.int[2], 
+  angle = 90, 
+  code = 3, 
+  length = 0.1, 
+  col = "blue"
+)

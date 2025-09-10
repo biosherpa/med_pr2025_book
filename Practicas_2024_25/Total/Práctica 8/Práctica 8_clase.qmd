@@ -1,0 +1,179 @@
+
+
+rm (list=ls())
+#setwd ("/Práctica 8")
+getwd ()
+
+df_iam2 <- read.csv("df_iam2.csv")
+
+head (df_iam2)
+
+
+
+
+# Función para calcular intervalo de confianza
+mean.ci <- function(x, alpha) {
+  MU <- mean(x)
+  SD <- sd(x)
+  n <- length(x)
+  SE <- SD / sqrt(n)
+  ci <- MU + c(0, qt(alpha / 2, n - 1) * SE, qt(1 - alpha / 2, n - 1) * SE)
+  results <- data.frame(Mean = ci[1], lower = ci[2], upper = ci[3])
+  print(results)
+}
+
+
+qt(1-0.05/ 2, 936- 1)
+
+# Aplicación de la función a la variable "edad"
+mean.ci(df_iam2$edad, 0.05)  
+
+
+#Utilizando R base
+
+
+
+
+t.test(df_iam2$edad)
+
+
+
+
+
+t.test(df_iam2$edad, conf.level = 0.99)
+
+
+
+
+
+
+by(df_iam2$edad, df_iam2$sex, t.test)
+
+
+
+#tapply(df_iam2$edad,df_iam2$sex, t.test)
+
+
+# tapply(df_iam2$edad, df_iam2$sex, function(x) t.test(x, conf.level = 0.99))
+
+
+# Otros paquetes
+
+#install.packages("Rmisc")
+
+
+# Instalar Rmisc solo si no está instalado
+if (!requireNamespace("Rmisc", quietly = TRUE)) {
+  install.packages("Rmisc")
+}
+
+# Cargar el paquete
+library(Rmisc)
+
+
+CI(df_iam2$edad)
+
+
+
+CI(df_iam2$edad, ci = 0.99)
+
+
+
+
+
+group.CI(edad ~ sex, data = df_iam2, ci = 0.95)
+
+
+
+
+
+group.CI(edad ~ sex, data = df_iam2, ci = 0.99)
+
+
+#Representación gráfica de los intervalos de confianza (IC) alrededor de una media.
+
+
+
+# Instalar gplots solo si no está instalado
+if (!requireNamespace("gplots", quietly = TRUE)) {
+  install.packages("gplots")
+}
+
+library (gplots)
+
+
+plotmeans(
+  edad ~ sex,                     # Fórmula
+  data = df_iam2,                # Datos
+  ci.label = FALSE,             # No mostrar los IC
+  n.label = TRUE,                # Mostrar n de la muestra
+  connect = FALSE,               # No conectar las medias   
+  mean.label = FALSE,           # No mostrar valores de media
+  barcol = "blue",               # Color de las barras
+  xlab = "Sexo",                 # Etiqueta del eje x
+  ylab = "Edad",                 # Etiqueta del eje y
+  main = "Media de Edad por Sexo",  # Título
+  ylim = c(60, 65),             # Ajustar los límites de y
+)
+
+
+plotmeans(
+  edad ~ sex,                      # Fórmula
+  data = df_iam2,                  # Datos
+  ci.label = FALSE,                # No mostrar los IC
+  n.label = TRUE,                  # Mostrar n de la muestra
+  connect = FALSE,                 # No conectar las medias   
+  mean.label = FALSE,              # No mostrar valores de media
+  barcol = "blue",                 # Color de las barras
+  xlab = "Sexo",                   # Etiqueta del eje x
+  ylab = "Edad",                   # Etiqueta del eje y
+  main = "Media de Edad por Sexo", # Título
+  ylim = c(60, 65),                # Ajustar los límites de y
+  lwd = 20,                         # Aumenta el grosor de las barras de IC
+  pch = 5                         # Modificar el punto de la media
+)
+
+
+
+
+
+plotmeans(
+  edad ~ imc_r,                     
+  data = df_iam2,                # Datos
+  ci.label = FALSE,             # No mostrar los IC
+  n.label = TRUE,                # Mostrar n de la muestra
+  connect = FALSE,               # No conectar las medias   
+  mean.label = FALSE,           # No mostrar valores de media
+  barcol = "red",               # Color de las barras
+  xlab = "IMC",                 # Etiqueta del eje x
+  ylab = "Edad",                 # Etiqueta del eje y
+  main = "Media de Edad por grupo IMC",  # Título
+  ylim = c(50, 75),             # Ajustar los límites de y
+  lwd = 5,                       # Grosor de las barras de IC
+  pch = 20,                     # (20= circulo pequeño) 
+  cex = 2                # Tamaño del punto 
+)
+
+
+#Guardar
+
+png("Edad por IMC.png", width = 800, height = 400)
+
+plotmeans(
+  edad ~ imc_r,                     
+  data = df_iam2,                # Datos
+  ci.label = FALSE,             # No mostrar los IC
+  n.label = TRUE,                # Mostrar n de la muestra
+  connect = FALSE,               # No conectar las medias   
+  mean.label = FALSE,           # No mostrar valores de media
+  barcol = "blue",               # Color de las barras
+  xlab = "IMC",                 # Etiqueta del eje x
+  ylab = "Edad",                 # Etiqueta del eje y
+  main = "Media de Edad por grupo IMC",  # Título
+  ylim = c(55, 75),             # Ajustar los límites de y
+  lwd = 5,                       # Grosor de las barras de IC
+  pch = 20,                     # (20= circulo pequeño) 
+  cex = 2                # Tamaño del punto 
+)
+
+dev.off()

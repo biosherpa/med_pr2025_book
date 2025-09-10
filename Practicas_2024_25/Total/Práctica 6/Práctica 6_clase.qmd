@@ -1,0 +1,251 @@
+ Estadística descriptiva 2. Representaciones gráficas
+
+ #Gráficos de barras y sectores.
+
+
+
+
+#setwd("~/Práctica 6")
+
+#La ruta o pathway es diferente para cada uno.
+#getwd ()
+
+rm(list=ls())
+
+df_iam2 <- read.csv("df_iam2.csv")
+
+
+
+
+head(df_iam2)
+
+
+#Vamos a dibujar un diagrama de sectores con los hombres y mujeres 
+
+
+pie(prop.table(table(df_iam2$sex)))
+
+
+
+
+
+
+pie(prop.table(table(df_iam2$sex)), col = c("skyblue", "red"), 
+    labels = c("Femenino", "Masculino"), 
+    main = "Distribución por género", border = "black", 
+    lwd = 2)
+
+
+# Crearemos un gráfico de barras con la variable clas_soc
+
+
+
+barplot(table(df_iam2$clas_soc), 
+        main = " Clase Social", 
+        xlab = "Grupos sociales", 
+        ylab = "Frecuencia", 
+        col = c("skyblue", "red"), #puedes cambiar el color de las barras
+        border = "black")  # Opcional: color del borde de las barras
+        
+        
+        
+#Usando paquete ggplot
+
+install.packages ("ggplot2")
+library(ggplot2)
+
+# Convertimos la tabla en un data frame para poder usarla en ggplot2
+df_clas_soc <- as.data.frame(table(df_iam2$clas_soc))
+
+# Creamos el gráfico de barras
+
+ggplot(df_clas_soc, aes(x = Var1, y = Freq, fill = Var1)) +
+  geom_bar(stat = "identity", color = "black") +  # "color" define el borde de las barras
+  scale_fill_manual(values = c("skyblue", "red", "green")) +  # Define los colores de las barras
+  labs(title = "Frecuencia de Clase Social", x = "Clase Social", y = "Frecuencia") +
+  theme_minimal()  # Opcional: el estilo del gráfico
+# Histogramas
+
+
+#Vamos a hacer un histograma de la variable edad, en intervalos de 10 años, con la función `hist`
+
+
+hist(df_iam2$edad,breaks = 6)
+
+hist(df_iam2$edad,
+     breaks = 10,
+     main = "Histograma de la Edad", 
+     xlab = "Edad",                 
+     ylab = "Frecuencia",           
+     col = "skyblue")             
+
+
+# Para guardar la salida gráfica en un formato png, procederiamos así
+
+
+png("histograma_edad.png", width = 800, height = 400)
+
+#widht = and height= pueden ser cambiados 
+
+hist(df_iam2$edad,
+     breaks = 10,
+     main = "Histograma de la Edad", 
+     xlab = "Edad",                 
+     ylab = "Frecuencia",           
+     col = "skyblue")             
+
+dev.off()
+
+
+
+
+#png("/ruta/completa/histograma_edad_por_sex.png", width = 800, height = 400)
+
+#Usamos el paquete ggplot
+
+# Histograma con 10 intervalos
+ggplot(df_iam2, aes(x = edad)) +
+  geom_histogram(bins = 10, fill = "skyblue", color = "black") +
+  labs(title = "Histograma de la Edad", 
+       x = "Edad", 
+       y = "Frecuencia")
+
+#steam and leaf
+
+stem(df_iam2$edad)
+
+
+#Vamos a construir un boxplot de la variable col con la función `boxplot`
+
+
+boxplot(df_iam2$col,
+main = "Distribución del colesterol",
+ylab = "Colesterol (mg/dl)",
+col = "skyblue",
+border = "black")
+
+
+# `colesterol` en cada uno de los dos valores de `sex`
+
+
+boxplot(df_iam2$peso ~ df_iam2$sex,
+main = "Distribución del colesterol en hombres y mujeres",
+xlab = "Sexo",
+ylab = "Colesterol (mg/dl)",
+col = c("skyblue", "red"),
+border = c("black", "black"))
+
+#Boxplot con ggplot
+
+ggplot(df_iam2, aes(x = sex, y = colesterol, fill = sex)) +
+  stat_boxplot(geom = "errorbar", width = 0.2, color = "black") +  # Añadir bigotes correctamente
+  geom_boxplot(color = "black", lwd = 0.8) +  # Dibujar la caja con grosor
+  scale_fill_manual(values = c("skyblue", "red")) +
+  labs(title = "Distribución del colesterol en hombres y mujeres",
+       x = "Sexo",
+       y = "Colesterol (mg/dl)") +
+  coord_cartesian(ylim = c(100, 350)) +  # Ajustar el rango visual sin excluir datos
+  theme_minimal()
+
+
+#theme_minimal(): Usa un tema más limpio y minimalista para mejorar la apariencia (opcional).
+
+
+
+# Q-Q plot frente a una distribución normal de la variable `colesterol`
+
+
+qqnorm(df_iam2$colesterol, 
+       main="QQ Plot de Colesterol",
+       ylab="Cuantiles de Colesterol", 
+       xlab="Cuantiles Teóricos")
+qqline(df_iam2$colesterol, col="black", lwd=2) 
+
+
+#Q-Q plot con ggplot
+ggplot(df_iam2, aes(sample = colesterol)) +
+  stat_qq(color = "blue") +
+  stat_qq_line(color = "black", size = 1.2) +
+  labs(title = "QQ Plot de Colesterol", 
+       x = "Cuantiles Teóricos", 
+       y = "Cuantiles de Colesterol") +
+  theme_minimal()
+
+
+
+
+#Mira el histograma de la variable `colesterol`para entender mejor el significado del QQ-plot
+
+
+hist(df_iam2$colesterol,
+     main="Histograma de Colesterol",
+     xlab="Valores de Colesterol",
+     ylab="Frecuencia",
+     col="skyblue",
+     border="black",
+     breaks=15) 
+
+
+# Scatterplot
+
+
+
+#Vamos a hacer un `stripchart` de la variable `colesterol`  (primero en vertical y luego en horizontal)`
+
+
+stripchart(df_iam2$colesterol, 
+           main= "Dispersión de los niveles de Colesterol",
+           method = "jitter", 
+           vertical = TRUE, 
+           pch = 15, 
+           col = "blue", 
+           xlab = "Niveles de colesterol",
+           ylab = "Valores (mg/dl)")
+
+stripchart(df_iam2$colesterol, 
+           main= "Dispersión de los niveles de Colesterol",
+           method = "jitter", 
+           vertical = FALSE, 
+           pch = 15, 
+           col = "blue", 
+           xlab = "Valores (mg/dl)",
+           ylab = "Niveles de colesterol")
+
+
+# Y un `scaterplott` entre las variables `imc` `colesterol
+
+
+plot(df_iam2$imc, df_iam2$colesterol, 
+     main="Relación entre IMC y Colesterol", 
+     xlab="IMC", 
+     ylab="Niveles de Colesterol (mg/dl)", 
+     pch=19,     # Tipo de punto, sólido
+     col="blue") # Color de los puntos
+
+
+#Se puede añadir una línea de tendencia, pero para ello hay que "modelizar" la relación entre `imc` y `colesterol` , por ejemplo con una regresión lineal
+
+
+
+plot(df_iam2$imc, df_iam2$colesterol, 
+     main="Relación entre IMC y Colesterol", 
+     xlab="IMC", 
+     ylab="Niveles de Colesterol (mg/dl)", 
+     pch=15,     
+     col="blue") 
+     
+# Ajustar un modelo de regresión lineal
+modelo <- lm(colesterol ~ imc, data=df_iam2)
+
+# Añadir la línea de tendencia
+abline(modelo, col="red", lwd=2) 
+
+# Scatterplot con linea de tendencia con ggplot
+
+ggplot(df_iam2, aes(x = imc, y = colesterol)) +
+  geom_point(color = "blue", size = 3, shape = 15) +  # Puntos azules, forma cuadrada
+  geom_smooth(method = "lm", color = "red", se = FALSE, size = 1.5) +  # Línea de regresión
+  labs(title = "Relación entre IMC y Colesterol",
+       x = "IMC", 
+       y = "Niveles de Colesterol (mg/dl)") +
+  theme_minimal()

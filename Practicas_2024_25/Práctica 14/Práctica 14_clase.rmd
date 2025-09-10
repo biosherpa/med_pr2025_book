@@ -1,0 +1,244 @@
+---
+title: "Práctica 14. Comparación de medias (II)"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+En primer lugar, vamos a preparar una base de datos de nuestro directorio de trabajo, df_iam4_r, que puedes obtener de la Carpeta de la Práctica 14 en el Aula Virtual:
+
+```{r}
+
+df_iam4<-read.csv ("df_iam4_r.csv")
+
+```
+
+Recurda sus características. Se incluyeron características sociodemográficas de 984 sujetos ( `fech_nac`, `sex` y `clas_soc` ), clínicas (`hta` , `DM`, `colesterol` , `salud`) y el hábito tabáquico (`fum`). En un momento en el tiempo se recogió qué sujetos habían tenido un evento tipo infarto de miocardio `iam`). Posteriormenete se siguió a los sujetos hasta otro punto en el tiempo. Tras ese punto t, sólo se recogió si el sujeto seguía fumando tras el primer infarto (`fum_p`) , la cifra de colesterol (`colesterol_p`), la percepción de salud posterior al infarto (`salud_p` ) y la ocurrencia de un nuevo reinfarto (`iam2`). Asumimos (lo que puede tener poca plausibilidad) que quien no tuvo `iam1` en el tiempo t, no tuvo nuevo infarto.
+
+## 1. ANOVA de una vía
+
+Se pretende comparar las cifras de colesterol por clase social. Para ello usaremos un ANOVA de una vía. 
+
+Primero evaluaremos visualmente las diferencias
+
+```{r}
+boxplot(colesterol ~ clas_soc, data = df_iam4,
+        main = "Colesterol en cada clase Social",
+        xlab = "Clase Social",
+        ylab = "Colesterol (mg/dl)",
+        col = c("red", "blue"),  # Colores para las cajas
+        border = "black")  # Color del borde
+```
+
+Parece que la clase "Alta" tiene valores más bajos de colesterol, vamos a estudiarlo formalmente con una ANOVA. Se puede hacer directamente con el paquete base `Stats` o con la librería `cars`
+
+```{r}
+
+# Debemos asegurarnos de que la variable clas_soc es un factor()
+df_iam4$clas_soc<- as.factor(df_iam4$clas_soc)
+
+test_anova<-aov(colesterol~clas_soc,data=df_iam4)
+anova(test_anova)
+```
+
+Con el paquete `cars`
+
+```{r}
+library(car)
+
+# Crear el modelo lineal
+test_anova2 <- lm(colesterol ~ clas_soc, data = df_iam4)
+
+# Realizar el ANOVA
+anova(test_anova2)
+```
+
+El método requiere que se cumplan ciertos supuestos, como la normalidad de los datos y la homocedasticidad (igualdad de varianzas) entre los grupos.
+
+### 1.1 Comprobación de supuestos de normalidad y homogeneidad de la varianza
+
+Para verificar la normalidad, usaremos Shapiro-Wilk y para las varianzas la prueba de Levene del paquete `car`
+
+```{r}
+shapiro_results <- by(df_iam4$colesterol, df_iam4$clas_soc, shapiro.test)
+
+shapiro_results
+```
+
+Parece que la variable no tiene una distribución normal, al menos en dos de los tres casos, porque los p-value son pequeños y se rechaza la hipótesis nula que presupone que la distribución se ajusta a una normal.
+
+Ahora recurriremos al paquete `car` para hacer la prueba de Levene
+
+```{r}
+library(car)
+leveneTest(colesterol ~ clas_soc, data = df_iam4)
+```
+
+Otra forma de valorar los supuestos de aplicación de la prueba es mediante el análisis de residuales. Por ejemplo haciendo un Q-Q-plot. Esto solo puede hacerse tras generar el modelo
+
+```{r}
+qqnorm(residuals(test_anova))
+qqline(residuals(test_anova))
+```
+
+Existe cierto incumplimiento del modelo en el extremo inferior de la distribución. No obstante el ANOVA es bastante resistente a la falta de normalidad, por lo que vamos a analizar sus resultados
+
+### 1.2 ANOVA de una vía
+
+Vamos a realizar el modelo ANOVA y a interpretar la salida en R
+
+```{r}
+# Realizar ANOVA
+anova_results <- anova(test_anova)
+
+# Mostrar los resultados
+print(anova_results)
+
+# Extraer información específica
+grados_libertad <- anova_results$Df
+suma_cuadrados <- anova_results$`Sum Sq`
+media_cuadrados <- anova_results$`Mean Sq`
+estadistico_F <- anova_results$`F value`
+p_valor <- anova_results$`Pr(>F)`
+
+# Imprimir resultados específicos usando paste() 
+print(paste("Grados de libertad:", grados_libertad))
+print(paste("Suma de cuadrados:", suma_cuadrados))
+print(paste("Media de cuadrados:", media_cuadrados))
+print(paste("Estadístico F:", estadistico_F))
+print(paste("P-valor:", p_valor))
+
+```
+
+
+## 2. Comparaciones post-hoc tras un ANOVA
+
+ 
+
+### 2.1 Varianzas homogéneas
+
+Vamos a valorar si hay diferencias entre grupos con las correcciones de Bonferroni y Tukey, Primero usaremos la función `pairwise.t.test`
+
+```{r}
+resultado <- pairwise.t.test(df_iam4$colesterol, 
+    df_iam4$clas_soc, p.adjust.method = "bonferroni")
+resultado
+```
+
+El resultado nos ofrece el p-value, pero no las diferencias. Esto si nos lo ofrece la función `TukeyHSD` siempre que previamente usemos la función `aov`
+
+```{r}
+
+anova_result <- aov(colesterol ~ clas_soc, data = df_iam4)
+tukey_result <- TukeyHSD(anova_result)
+
+tukey_result
+```
+
+
+También se pueden realizar comparaciones post-hoc utilizando la función `pairwiseTest` del paquete pairwiseCI en R. Con la sintaxis que utilizamos no ofrece IC.
+
+```{r}
+#install.packages("pairwiseCI") 
+# Solo hay que hacerlo una vez
+library(pairwiseCI)
+# Solo p-value sin ajuste
+pw<-pairwiseTest(colesterol ~ clas_soc, data = df_iam4)
+pw
+
+```
+
+Este paquete no permite otros métodos, pero sí comparar frente a un grupo control, por ejemplo la primera categoría (este sería un método a priori, no post-hoc, pero con más de una comparación):
+
+```{r}
+ci_control <- pairwiseCI(colesterol ~ clas_soc, data = df_iam4, 
+              control = "Baja", conf.level = 1 - (0.05 /
+              (length(unique(df_iam4$clas_soc)) - 1)))
+ci_control
+```
+
+
+Para hacer comparaciones post-hoc con sus intervalos de confianza el paquete más adecuado es `emmeans` . Primero usaremos la corrección de Bonferroni,
+
+```{r}
+
+#install.packages("emmeans")#solo si no está instalado previamente
+library(emmeans)
+
+#Recuerda que tenemos test_anova
+
+emm <- emmeans(test_anova, ~ clas_soc)
+results_bonferroni<-pairs(emm, adjust = "bonferroni", infer = TRUE) 
+# infer = TRUE para IC
+results_bonferroni
+
+
+```
+
+Ahora con las correcciones de Tukey, Holm-Bonferroni y Dunnett,
+
+```{r}
+results_tukey <- pairs(emm, adjust = "tukey", infer = TRUE)
+results_tukey
+
+results_holm <- pairs(emm, adjust = "holm", infer = TRUE)
+results_holm
+
+results_dunnett <- pairs(emm, adjust = "dunnett", infer = TRUE)
+results_dunnett
+
+```
+
+### 2.2 Varianzas no homogéneas
+
+La última función utilizada permite ser usada en casos de varianzas no homogéneas, pero la comparación formal post-hoc para varianzas no homogéneas es el test de Tamhane, que necesita del paquete `PMCMRplus`
+
+```{r}
+#install.packages("PMCMRplus")  
+library(PMCMRplus)  
+df_iam4$clas_soc<- as.factor(df_iam4$clas_soc)
+
+anova <- aov(colesterol ~ clas_soc, data = df_iam4)
+
+# Aplicar el test de Tamhane T2
+summary(T2b <- tamhaneT2Test(anova, welch = FALSE))
+```
+
+Si se sospecha que las varianzas de los grupos son significativamente diferentes, se debería usar welch = TRUE para realizar una versión de ANOVA de Welch y asegurar resultados más robustos.
+
+## 3. Test de Kruskal-Wallis
+
+
+Vamos a valorar si hay diferencias en el `imc` por clase social. Primero dibujamos unos diagramas de cajas
+
+```{r}
+boxplot(imc ~ clas_soc, data = df_iam4,
+        main = "Boxplot de IMC por Clase Social",
+        xlab = "Clase Social",
+        ylab = "Índice de Masa Corporal (IMC)",
+        col = c("red", "blue"),  # Colores para las cajas
+        border = "black")  # Color del borde
+```
+
+Parece no haber grandes diferencias. Vamos a estudiarlo con un test. Primero estudiamos la normalidad e igualdad de varianzas
+
+```{r}
+by(df_iam4$imc, df_iam4$clas_soc, shapiro.test)
+leveneTest(imc ~ clas_soc, data = df_iam4)
+```
+
+No se cumple el supuesto de normalidad pero si el de homogeneidad de varianzas. Utilizamos la prueba de Kruskal Wallis:
+
+```{r}
+kruskal_test_result <- kruskal.test(imc ~ clas_soc, data = df_iam4)
+
+# Mostrar el resultado
+print(kruskal_test_result)
+```
+
+Efectivamente, no se observan diferencias entre grupos.
+

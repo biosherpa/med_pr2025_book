@@ -1,0 +1,146 @@
+---
+title: "Práctica 12. Comparación de proporciones (2)"
+author: "Mi nombre"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Preparando la base de datos
+
+Utilizamos df_iam3, de la Carpeta de la Práctica 12 en el Aula Virtual:
+
+```{r}
+df_iam3<-read.csv ("df_iam3.csv")
+```
+
+Recuerda que , en esta base se recogen una serie de características de 984 sujetos. 
+
+Calculamos la variable edad (en años cumplidos), suponiendo que la fecha final de seguimiento es el 31/12/2023 a partir de la variable `fech_nac`
+
+```{r}
+#fech_nac viene definida como character, cambiamos a formato fecha
+df_iam3$fech_nac <- as.Date(df_iam3$fech_nac)
+fecha_fin <- as.Date("2023-12-31")
+df_iam3$edad <- (fecha_fin-df_iam3$fech_nac)/365.25
+df_iam3$edad <- as.numeric (round (df_iam3$edad,0))
+
+
+```
+
+Seguidamente vamos a convertir en factor las variables `sex` (etiquetas: 0="mujer; 1= "Varón"), `hta` , `DM` , `fum` , `fum_p` , `iam1` e `iam2` , con las etiquetas (0="No", 1="Sí") y la variable `clas_soc` con las etiquetas (0= "baja"; 1=" Media", 2= Alta"), y `salud` y `salud_p` con las etiquetas (0="Muy mala"; 1="Mala"; 2= "Regular"; 3= "Buena"; 4= "Muy buena")
+
+```{r}
+df_iam3$sex <- factor(df_iam3$sex, levels = c(0, 1), 
+                      labels = c("Mujer", "Varón"))
+df_iam3$hta <- factor(df_iam3$hta, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$DM <- factor(df_iam3$DM, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$fum <- factor(df_iam3$fum, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$fum_p <- factor(df_iam3$fum_p, 
+                        levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$salud <- factor(df_iam3$salud, 
+                        levels = c(0,1, 2,3,4), 
+                        labels = c("Muy mala", "Mala",
+                                   "Regular", "Buena", "Muy buena"))
+df_iam3$salud_p <- factor(df_iam3$salud_p, 
+                        levels = c(0,1, 2,3,4), 
+                        labels = c("Muy mala", "Mala",
+                                   "Regular", "Buena", "Muy buena"))
+df_iam3$iam1 <- factor(df_iam3$iam1, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$iam2 <- factor(df_iam3$iam2, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam3$clas_soc <- factor(df_iam3$clas_soc, 
+                           levels = c(0, 1, 2), 
+                           labels = c("Baja", "Media", "Alta"))
+```
+
+Comprueba que ha funcionado todo bien
+
+```{r}
+head (df_iam3)
+```
+
+
+## 2. Comparación de proporciones para datos agrupados
+
+Vamos a comparar la proporción de fumadores inicial (`fum`) con la proporción de fumadores tras el primer infarto (`fum_p`).
+
+
+```{r}
+
+
+```
+
+## 3. Volviendo sobre el estudio de las diferencias de proporciones
+
+
+
+Vamos a comparar las proporciones de infartos `iam1`, en personas con/sin `DM`
+
+```{r}
+
+```
+
+## 4. Comparación de proporciones, tablas de n x m
+
+### 4.1 Datos independientes
+
+
+Vamos a ver si las proporciones de hipertensos son diferentes en las diferentes categorías de la variable `clas_soc`
+
+```{r}
+# Crear la tabla de contingencia
+
+```
+
+No hay ninguna frecuencia esperada menos que 5, podríamos hacer el test de Chi cuadrado sin la corrección de Yates
+
+```{r}
+
+```
+
+
+
+### 4.2 Datos apareados
+
+Vamos a utilizar los datos de percepción del estado de salud antes y después del primer infarto para ver si hay diferencias (`salud` y `salud_p` )
+
+
+
+```{r}
+
+
+
+```
+
+
+
+## 5. Test de tendencia lineal
+
+
+Podríamos preguntarnos si hay menos proporción de fumadores a medida que aumenta el nivel social. Vamos a intentar resolver esta cuestión con un test de tendencia lineal.
+
+Primero generamos la tabla
+
+```{r}
+
+
+```
+
+Y ahora hay que disponer los datos para poder usar la función `prop.trend.test`
+
+```{r}
+
+
+
+
+
+```
+
+

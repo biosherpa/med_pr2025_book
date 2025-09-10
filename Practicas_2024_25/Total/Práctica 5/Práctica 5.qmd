@@ -1,0 +1,428 @@
+---
+title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 5. Estadística descriptiva 1</span>" 
+
+author: "Jesús Martín Fernández"
+format: 
+  pdf:
+       pdf-engine: pdflatex
+       toc: true
+       toc-title: "Contenidos"
+       toc-location: left
+editor: visual
+---
+
+## 1. Introducción
+
+La estadística descriptiva es una rama de la estadística que se encarga de resumir y organizar los datos obtenidos de una muestra de manera clara y comprensible, utilizando medidas como la media, la mediana, la moda, y la desviación estándar, además de representaciones gráficas como histogramas o diagramas de dispersión. Es crucial en cualquier estudio porque permite obtener una visión general de las características de la muestra, lo que facilita la interpretación inicial de los datos. Al conocer bien nuestra muestra, podemos evaluar si es representativa de la población objetivo, lo que impacta en la validez externa del estudio, es decir, en la posibilidad de generalizar los resultados. Además, la estadística descriptiva nos ayuda a valorar la calidad de nuestros datos, detectando posibles sesgos, errores o valores atípicos que podrían afectar el análisis posterior.
+
+Por otra parte, las variables cualitativas y cuantitativas requieren diferentes medidas de resumen según su naturaleza. Las **cualitativas nominales** se clasifican en categorías sin orden y se describen con frecuencias y porcentajes (también la moda), mientras que las **ordinales**, al tener jerarquía, también pueden resumirse con la mediana y percentiles. Las **cuantitativas discretas** se cuentan y se resumen con medidas como la media, la moda y también percentiles, que permiten describir su distribución. Con cierta precauciones también se pueden estudiar sus medidas de dispersión. Las **cuantitativas continuas** se miden en un rango infinito y se describen con medidas como la media, mediana, desviación estándar y percentiles para reflejar tanto la tendencia central como la dispersión.
+
+### 1.1. Creando un entorno de trabajo para el análisis descriptivo.
+
+Vamos a crear el directorio de trabajo y comprobar que estamos en él
+
+```{r}
+setwd ("C:/Users/jesus.martin/OneDrive - Madrid Digital/Docente/Introducción a la AP/Curso 2024_25/Bioestadística 1/Prácticas/Práctica 5")  
+#La ruta o pathway es diferente para cada uno.
+getwd ()
+```
+
+Ahora recuperamos la base de datos iam (df_iam Aula Virtual, Práctica 5), es un archivo.csv
+
+```{r}
+df_iam <- read.csv ("df_iam.csv")
+```
+
+Vamos a ver cómo está construido el archivo
+
+```{r}
+head(df_iam)
+```
+
+Vamos a atribuir valores a las categorías de las variables que lo permiten
+
+```{r}
+
+
+# Convertir variables a factor con etiquetas
+
+df_iam$sex <- factor(df_iam$sex, 
+          levels = c(0, 1), labels = c("Mujer", "Varón"))
+df_iam$hta <- factor(df_iam$hta, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam$fum <- factor(df_iam$fum, levels = c(0, 1), labels = c("No", "Sí"))
+df_iam$clas_soc <- factor(df_iam$clas_soc, levels = c(0, 1),
+                          labels = c("Baja", "Alta"))
+df_iam$iam <- factor(df_iam$iam, levels = c(0, 1), labels = c("No", "Sí"))
+
+
+
+# Mostrar las primeras filas del dataframe con los factores etiquetados
+head(df_iam)
+
+
+```
+
+Crear la variable edad en años cumplidos (edad) teniendo sabiendo que `fech_nac` es la fecha de nacimiento y que el estudio finalizó el 31/12/2023
+
+```{r}
+#fech_nac viene definida como character, cambiamos a formato fecha
+df_iam$fech_nac <- as.Date(df_iam$fech_nac)
+fecha_fin <- as.Date("2023-12-31")
+df_iam$edad <- (fecha_fin-df_iam$fech_nac)/365.25
+
+df_iam$edad <- as.numeric (round (df_iam$edad,0))
+
+print (df_iam$edad [1:10])
+
+
+```
+
+Crea una nueva variable, IMC y recategorizala en los grupos "bajo" si IMC \<20, "normal" si 20\<=IMC\<30 y "obesidad" si 30\<=IMC
+
+```{r, eval=FALSE}
+
+df_iam$imc <- df_iam$peso / (df_iam$alt / 100)^2
+df_iam$imc <- round(df_iam$imc, 2) #redondeamos a 2 decimales
+df_iam$imc_r <- cut(df_iam$imc,
+                       breaks = c(-Inf, 20, 30, Inf),
+                       labels = c("Bajo", "Normal", "Obesidad"))
+
+#En esta orden los valores no son incluidos en la categoría inferior. 
+
+# Verificamos la nueva columna
+head (df_iam$imc_r)
+
+```
+
+## 2. Análisis descriptivo variables cualitativas
+
+En primer lugar calcularemos las frecuencias absolutas de las variables sex y hta.
+
+Para calcular las frecuencias absolutas de una variable categórica, usamos la función `table()` en **R**.
+
+```{r}
+frecuencias_sex <- table(df_iam$sex)
+frecuencias_hta <- table(df_iam$hta)
+print (frecuencias_sex)
+print (frecuencias_hta)
+```
+
+En segundo lugar vamos a calcular las proporciones de varones y de hipertensos con la función `prop.table()`
+
+```{r}
+
+proporciones_sex <- prop.table(frecuencias_sex) * 100
+proporciones_hta <- prop.table(frecuencias_hta) * 100
+# Multiplicamos por 100 para porcentaje
+
+
+print(proporciones_sex)
+print (proporciones_hta)
+```
+
+Se pueden redondear a dos cifras las proporciones y añadirles el signo `%`, con las funciones `round()` y `paste()`
+
+```{r}
+proporciones_sex <- round(proporciones_sex, 2)
+proporciones_sex <- paste(proporciones_sex,"%")
+
+proporciones_hta <- round(proporciones_hta, 2)
+proporciones_hta <- paste(proporciones_hta,"%")
+
+print (proporciones_sex)
+print (proporciones_hta)
+```
+
+Vamos a averiguar las frecuencias absolutas de hta en varones y mujeres
+
+```{r}
+hta_by_sex <- table(df_iam$hta, df_iam$sex) 
+#primero filas y después columnas
+
+print(hta_by_sex)
+
+```
+
+Y ahora las proporciones
+
+```{r}
+proporciones_filas <- prop.table(hta_by_sex, margin = 1) * 100
+#margin=1, se puede sustituir simplemente por 1
+print (proporciones_filas)
+
+proporciones_columnas <- prop.table(hta_by_sex, margin = 2) * 100
+print (proporciones_columnas)
+
+```
+
+Redondeamos los valores de las proporciones y les acompañamos del símbolo `%`
+
+```{r}
+proporciones_filas <- round(proporciones_filas, 2)
+proporciones_filas <- paste(proporciones_filas,"%")
+
+proporciones_columnas <- round(proporciones_columnas, 2)
+proporciones_columnas <- paste(proporciones_columnas,"%")
+
+print (proporciones_filas)
+print (proporciones_columnas)
+```
+
+Ahora vamos a estudiar las frecuencias y proporciones de la hta por sexo en cada clase social. La función `table()` permite hacerlo, pero construye un array.
+
+```{r}
+# Crear la tabla de contingencia entre 'hta', 'sex' y 'clas_soc'
+hta_by_sex_clas_soc <- table(df_iam$hta, df_iam$sex, df_iam$clas_soc)
+
+# Imprimir la tabla de contingencia
+print("Tabla de contingencia entre hta, sex y clas_soc:")
+print(hta_by_sex_clas_soc)
+```
+
+Si queremos saber la suma de las proporciones de hta por sex en cada grupo de clas_soc hay que hacer los siguiente
+
+```{r}
+proporciones_hta_sex_clas_soc <- prop.table(hta_by_sex_clas_soc, 
+                                  margin = c(2, 3))*100
+print (proporciones_hta_sex_clas_soc)
+```
+
+Redondeamos los valores de las proporciones y les acompañamos del símbolo `%`
+
+```{r}
+proporciones_hta_sex_clas_soc <- round(proporciones_hta_sex_clas_soc, 2)
+proporciones_hta_sex_clas_soc <- paste0(proporciones_hta_sex_clas_soc, "%")
+print (proporciones_hta_sex_clas_soc)
+
+```
+
+Podemos ver una presentación más "amigable"
+
+```{r}
+hta_sex_clas_soc <- table(df_iam$hta, df_iam$sex, df_iam$clas_soc)
+
+# Calcular las proporciones de hta por sex en cada grupo de clas_soc
+proporciones_hta_sex_clas_soc <- prop.table(hta_sex_clas_soc,
+                                      margin = c(2, 3)) * 100
+
+# Convertir la tabla de proporciones a un dataframe
+df_proporciones <- as.data.frame(proporciones_hta_sex_clas_soc)
+
+# Renombrar las columnas para mayor claridad
+colnames(df_proporciones) <- c("HTA", "Sex", "Clas_Soc", "Proporcion")
+
+# Redondear las proporciones a 2 decimales y añadir el símbolo %
+df_proporciones$Proporcion <- paste0(round(df_proporciones$Proporcion, 2), "%")
+
+print(df_proporciones)
+```
+
+## 3. Análisis descriptivo variables cuantitativas
+
+### 3.1 Medidas resumen de una distribución
+
+En primer lugar vamos a calcular el rango , el máximo y el mínimo de las variables `alt` y `peso` , ya mencionamos las funciones en prácticas anteriores. Calcula también los quintiles
+
+```{r}
+
+# Rango
+rango_alt <- range(df_iam$alt, na.rm = TRUE)
+rango_peso <- range(df_iam$peso, na.rm = TRUE)
+
+#sabemos que no hay valores faltantes, pero eso no es lo habitual
+
+# Diferencia entre máximo y mínimo (rango)
+rango_alt_valor <- diff(rango_alt)
+rango_peso_valor <- diff(rango_peso)
+
+# Máximo
+max_alt <- max(df_iam$alt, na.rm = TRUE)
+max_peso <- max(df_iam$peso, na.rm = TRUE)
+
+# Mínimo
+min_alt <- min(df_iam$alt, na.rm = TRUE)
+min_peso <- min(df_iam$peso, na.rm = TRUE)
+
+# Quintiles
+quintiles_alt <- quantile(df_iam$alt, 
+                          probs = seq(0, 1, by = 0.20), 
+                          na.rm = TRUE)
+quintiles_peso <- quantile(df_iam$peso, 
+                           probs = seq(0, 1, by = 0.20), 
+                           na.rm = TRUE)
+
+#Con esta función puedes calcular deciles, cuartiles, ...by = 0.10, by= 0.25,...
+
+# Resultados
+rango_alt_valor
+rango_peso_valor
+
+max_alt
+max_peso
+
+min_alt
+min_peso
+
+quintiles_alt
+quintiles_peso
+```
+
+Ahora obtén la media y la mediana de ambas variables. También conoces las funciones. Sin poder asegurarlo, ¿dirías que ambas variables se distribuyen como una normal?
+
+```{r}
+media_alt <- mean(df_iam$alt, na.rm = TRUE)
+media_peso <- mean(df_iam$peso, na.rm = TRUE)
+
+#sabemos que no hay valores faltantes, pero eso no es lo habitual
+
+media_alt
+media_peso 
+
+
+mediana_alt <- median(df_iam$alt, na.rm = TRUE)
+mediana_peso <- median(df_iam$peso, na.rm = TRUE)
+
+mediana_alt 
+mediana_peso 
+
+```
+
+Calcula la varianza y la desviación típica de las distribuciones de `alt` y `peso`
+
+```{r}
+varianza_alt <- var(df_iam$alt, na.rm=TRUE)
+varianza_peso <- var(df_iam$peso, na.rm=TRUE)
+
+desv_alt <- sd(df_iam$alt, na.rm=TRUE)
+desv_peso <- sd(df_iam$peso, na.rm=TRUE)
+
+varianza_alt 
+varianza_peso 
+
+desv_alt 
+desv_peso 
+```
+
+Ahora calcula la medida de `alt` y `peso` en varones y en mujeres
+
+```{r}
+# Media de alt para varones
+media_alt_V <- mean(df_iam$alt[df_iam$sex == "Varón"], na.rm = TRUE)
+
+# Media de alt para mujeres
+media_alt_M <- mean(df_iam$alt[df_iam$sex == "Mujer"], na.rm = TRUE)
+
+# Media de peso para varones
+media_peso_V <- mean(df_iam$peso[df_iam$sex == "Varón"], na.rm = TRUE)
+
+# Media de peso para mujeres
+media_peso_M <- mean(df_iam$peso[df_iam$sex == "Mujer"], na.rm = TRUE)
+
+# Mostrar los resultados
+media_alt_V
+media_alt_M
+media_peso_V
+media_peso_M
+```
+
+Una forma más conveniente de estudiar las variables respecto a las caracteriísticas de una variable factor es con la función `tapply()`.
+
+La función `tapply()` es muy útil para realizar cálculos de estadísticas descriptivas para subconjuntos de datos definidos por un factor. Es especialmente conveniente cuando necesitas aplicar la misma función a diferentes grupos dentro de un dataset, permitiendo análisis comparativos entre esos grupos. Mira un ejemplo que nos permite valorar la distribución de `alt` y `peso` en varones y en mujeres.
+
+```{r}
+
+# Calcular la media de alt por grupo de sexo
+media_alt <- tapply(df_iam$alt, df_iam$sex, mean, na.rm = TRUE)
+
+# Calcular la varianza de alt por grupo de sexo
+varianza_alt <- tapply(df_iam$alt, df_iam$sex, var, na.rm = TRUE)
+
+# Calcular la desviación estándar de alt por grupo de sexo
+desviacion_alt <- tapply(df_iam$alt, df_iam$sex, sd, na.rm = TRUE)
+
+# Calcular la media de peso por grupo de sexo
+media_peso <- tapply(df_iam$peso, df_iam$sex, mean, na.rm = TRUE)
+
+# Calcular la varianza de peso por grupo de sexo
+varianza_peso <- tapply(df_iam$peso, df_iam$sex, var, na.rm = TRUE)
+
+# Calcular la desviación estándar de peso por grupo de sexo
+desviacion_peso <- tapply(df_iam$peso, df_iam$sex, sd, na.rm = TRUE)
+
+# Mostrar resultados
+media_alt 
+varianza_alt 
+desviacion_alt 
+media_peso 
+varianza_peso 
+desviacion_peso 
+
+```
+
+Otra forma de hacer los mismo, la función `by`
+
+```{r}
+# Calcular la media de peso por grupo de sexo
+media_peso <- by(df_iam$peso, df_iam$sex, function(x) mean(x, na.rm = TRUE))
+
+# Calcular la varianza de peso por grupo de sexo
+varianza_peso <- by(df_iam$peso, df_iam$sex, function(x) var(x, na.rm = TRUE))
+
+# Calcular la desviación estándar de peso por grupo de sexo
+desviacion_peso <- by(df_iam$peso, df_iam$sex, function(x) sd(x, na.rm = TRUE))
+```
+
+El paquete `psych` tiene una función , denominada `describe` que ofrece la información sobre toda la distribución de una variable contínua. Vamos a ver un ejemplo
+
+```{r}
+#install.packages("psych")
+
+library(psych)
+
+# Calcular estadísticas básicas para 'alt' y 'peso'
+stats_alt <- describe (df_iam$alt)
+stats_peso <- describe(df_iam$peso)
+
+
+
+# Mostrar los resultados
+stats_alt
+stats_peso
+
+
+```
+
+### 3.2 Medidas sobre la forma de una distribución
+
+Las medidas que evalúan la forma de una distribuión son la asimetría ("skewness") y el puntamiento ("curtosis"). La **asimetría** indica el grado y la dirección de la falta de simetría de una distribución. Un valor de asimetría cercano a 0 sugiere una distribución simétrica, un valor positivo indica que la distribución tiene una cola más larga o pesada a la derecha (asimetría positiva), y un valor negativo refleja que la cola es más larga o pesada a la izquierda (asimetría negativa). El **apuntamiento** (curtosis), por otro lado, mide la "altura" o el grado de concentración de los datos en el centro de la distribución. Una curtosis normalizada de 0 indica una distribución similar a la normal (mesocúrtica), un valor positivo sugiere que la distribución es más apuntada y tiene colas más pesadas (leptocúrtica), mientras que un valor negativo indica una distribución más plana y con colas menos pronunciadas (platicúrtica).
+
+Vamos a calcula los valores de asimetría y curtosis de las distribuciones de las variables `alt` y `peso.`
+
+Existen dos formas, una es implementar la fórmular de la asimetría y la curtosis y luego aplicar la función a las distribuciones, y una más sencilla, que utilizaremos aquí. Vamos a descargar el paquete `e1071`, que también tiene funciones directas para calcular la asimetría y curtosis.(hay que obtener
+
+```{r}
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+install.packages("e1071")
+library(e1071) 
+asimetria_alt <- skewness(df_iam$alt, na.rm = TRUE) 
+asimetria_peso <- skewness(df_iam$peso, na.rm = TRUE) 
+
+curtosis_alt <- kurtosis(df_iam$alt, na.rm = TRUE) 
+curtosis_peso <- kurtosis(df_iam$peso, na.rm = TRUE)  
+
+asimetria_alt
+asimetria_peso
+curtosis_alt
+curtosis_peso
+```
+
+Calcula la asimetría y curtosis de `alt` y `peso` en las mujeres
+
+```{r}
+
+asimetria_alt_M <- skewness(df_iam$alt[df_iam$sex == "Mujer"], na.rm = TRUE)
+curtosis_alt_M <- kurtosis(df_iam$alt[df_iam$sex == "Mujer"], na.rm = TRUE)
+
+asimetria_alt_M 
+curtosis_alt_M 
+```

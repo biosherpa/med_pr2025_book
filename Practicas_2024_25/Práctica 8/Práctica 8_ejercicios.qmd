@@ -1,0 +1,103 @@
+---
+title: "<span style ='font-size:40px; font-weight:bold;'>Ejercicios Práctica 8.  Construcción de intervalos de confianza alrededor de una media.</span>" 
+
+
+author: "Jesús Martín Fernández"
+format: 
+  pdf:
+    pdf-engine: pdflatex
+    toc: FALSE
+    toc-title: "Contenidos"
+    toc-location: left
+editor: visual
+---
+
+Primero recupera Ahora recuperamos la base de datos iam (df_iam2 Aula Virtual, Práctica 8), es un archivo.csv
+
+```{r, eval=FALSE}
+df_iam2 <- read.csv("df_iam2.csv")
+
+head (df_iam2)
+```
+
+```{}
+```
+
+### 1. Intervalos de confianza alrededor de una media
+
+Vamos a construir la fórmula del IC del del 95 % para la media (copia el código solo tienes que entenderlo), y luego la aplicaremos a la variable `colesterol`
+
+```{r, eval=FALSE}
+# Función para calcular intervalo de confianza
+mean.ci <- function(x, alpha) {
+  MU <- mean(x)
+  SD <- sd(x)
+  n <- length(x)
+  SE <- SD / sqrt(n)
+  ci <- MU + c(0, qt(alpha / 2, n - 1) * SE, qt(1 - alpha / 2, n - 1) * SE)
+  results <- data.frame(Mean = ci[1], lower = ci[2], upper = ci[3])
+  print(results)
+}
+
+# Aplicación de la función a la variable "colesterol"
+mean.ci(df_iam2$colesterol, 0.05)  # Nivel de confianza 95%
+```
+
+Repetimos la operación utilizando la función `t.test`
+
+```{r, eval=FALSE}
+t.test(df_iam2$colesterol)
+```
+
+Y lo repetimos para obtener un intervalo con una confianza del 99%
+
+```{r, eval=FALSE}
+t.test(df_iam2$colesterol, conf.level = 0.99)
+```
+
+Interpreta la amplitud del intervalo en función del nivel de confianza elegido
+
+Ahora vamos a estimar para la variable `colesterol` dentro de cada grupo de la variable `clas_soc` usando la función `by`
+
+```{r, eval=FALSE}
+by(df_iam2$colesterol, df_iam2$clas_soc, t.test)
+```
+
+Intenta la misma operación utilizando la función `tapply`, pero de manera que el intervalo tenga una confianza del 99%
+
+```{r, eval=FALSE}
+tapply(df_iam2$colesterol, df_iam2$clas_soc, function(x) t.test(x, conf.level = 0.99))
+```
+
+Finalmente, aprende a usar la función `ci` para estimar los IC de la variable `colesterol`en cada categoría de la variable `clas_soc`con un nivel de confianza del 99%
+
+```{r, eval=FALSE}
+#install.packages("Rmisc")
+library (Rmisc)
+
+group.CI(colesterol ~ clas_soc, data = df_iam2, ci = 0.99)
+```
+
+### 2. Representación gráfica de los intervalos de confianza (IC)
+
+Hemos calculado los IC de la variable `colesterol`en cada categoría de la variable `clas_soc`con un nivel de confianza del 99%. Vamos a utilizar la función `plotmeans` del paquete `gplots` para visualizar estos IC de manera gráfica. Copia y trata de entender el código
+
+```{r, eval=FALSE}
+#install.packages("gplots")
+library (gplots)
+
+
+plotmeans(
+  colesterol ~ clas_soc,                     # Fórmula
+  data = df_iam2,                # Datos
+  ci.label = FALSE,             # No mostrar los IC
+  n.label = TRUE,                # Mostrar n de la muestra
+  connect = FALSE,               # No conectar las medias   
+  mean.label = FALSE,           # No mostrar valores de media
+  barcol = "blue",               # Color de las barras
+  xlab = "Clase social",          # Etiqueta del eje x
+  ylab = "Colesterol",             # Etiqueta del eje y
+  main = "Media de colesterol por clase social",  # Título
+  ylim = c(180, 195),             # Ajustar los límites de y
+)
+```
