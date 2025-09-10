@@ -1,5 +1,5 @@
 ---
-title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 1. Introducción a R y RStudio</span>" 
+title: "<span style ='font-size:16px; font-weight:bold;'>Práctica 1. Introducción a R y RStudio</span>" 
 
 author: "Jesús Martín Fernández"
 format: 
