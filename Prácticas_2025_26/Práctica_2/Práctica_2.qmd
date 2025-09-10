@@ -1,51 +1,53 @@
 ---
-title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 2. Introducción y manipulación de datos en R (1)</span>" 
-
-author: "Jesús Martín Fernández"
-format: 
-  pdf:
-    toc: true
-    toc-title: "Contenidos"
-    toc-location: left
-    code-fold: true
-    line-wrap: true
-    includes:
-      in_header: preamble.tex
-editor: visual
+# title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 2. Introducción y manipulación de datos en R (1)</span>" 
+# 
+# author: "Jesús Martín Fernández"
+# format: 
+#   pdf:
+#     toc: true
+#     toc-title: "Contenidos"
+#     toc-location: left
+#     code-fold: true
+#     line-wrap: true
+#     includes:
+#       in_header: preamble.tex
+# editor: visual
 ---
 
 ## 1.Tipos de objetos en R.
 
-R es capaz de gestionar diversos tipos de datos, que se organizan en distintas estructuras de datos. A continuación se presenta una tabla que describe los tipos de datos básicos en R:
+R es capaz de gestionar diversos tipos de datos, que se organizan en distintas estructuras de datos.
+A continuación se presenta una tabla que describe los tipos de datos básicos en R:
 
-| **Tipo de dato** | **Descripción**                                                                                                                                                                                                                       | **Ejemplo**                                             |
-|-------------|-----------------------------------------------|-------------|
-| Numeric          | Números decimales                                                                                                                                                                                                                     | `numero <- 1.0`                                         |
-| Integer          | Números enteros                                                                                                                                                                                                                       | `int <- 1`                                              |
-| Character        | Cadenas de texto                                                                                                                                                                                                                      | `str <- "un texto"`                                     |
-| Complex          | Números complejos                                                                                                                                                                                                                     | `comp <- 3+2i`                                          |
-| Logical          | Valores de verdad: `TRUE` o `FALSE`, a menudo generados como resultado de operaciones lógicas.                                                                                                                                        | `a <- 1; b <- 2; a < b`                                 |
-| Factor           | Los factores son un tipo de variable, no de dato, las variables categóricas. Los vectores de caracteres suelen convertirse en factores para aprovechar las funciones que manejan datos categóricos, como en el análisis de regresión. | Convertir un vector de caracteres usando `as.factor()`. |
+| **Tipo de dato** | **Descripción** | **Ejemplo** |
+|---------------|------------------------------------------|---------------|
+| Numeric | Números decimales | `numero <- 1.0` |
+| Integer | Números enteros | `int <- 1` |
+| Character | Cadenas de texto | `str <- "un texto"` |
+| Complex | Números complejos | `comp <- 3+2i` |
+| Logical | Valores de verdad: `TRUE` o `FALSE`, a menudo generados como resultado de operaciones lógicas. | `a <- 1; b <- 2; a < b` |
+| Factor | Los factores son un tipo de variable, no de dato, las variables categóricas. Los vectores de caracteres suelen convertirse en factores para aprovechar las funciones que manejan datos categóricos, como en el análisis de regresión. | Convertir un vector de caracteres usando `as.factor()`. |
 
-Las estructuras de datos son objetos que contienen datos y organizados de diferentes maneras. Las estructuras vienen definidas por su número de dimensiones y por la homogeneidad o no de sus datos.
+Las estructuras de datos son objetos que contienen datos y organizados de diferentes maneras.
+Las estructuras vienen definidas por su número de dimensiones y por la homogeneidad o no de sus datos.
 
 La siguiente tabla muestra las principales estructuras de datos que maneja R.
 
-| Objeto     | Modos                                                          | Descripción                                                                                                                             | ¿Múltiples Modos ? | Dimensiones                                                 |
-|------------|------------|--------------------------|------------|------------|
-| Vector     | Numérico, Carácter, Complejo, Lógico                           | Secuencia de elementos del mismo tipo (numérico, carácter, complejo, lógico).                                                           | No                 | 1D                                                          |
-| Array      | Numérico, Carácter, Complejo, Lógico                           | Datos en varias dimensiones con elementos del mismo tipo (numérico, carácter, complejo, lógico).                                        | No                 | Multi-dimensional (2D, 3D, ...)                             |
-| Matriz     | Numérico, Carácter, Complejo, Lógico                           | Colección bidimensional de elementos del mismo tipo (numérico, carácter, complejo, lógico).                                             | No                 | 2D                                                          |
-| Data Frame | Numérico, Carácter, Complejo, Lógico                           | Similar a una matriz pero puede contener diferentes tipos de datos (numéricos, caracteres, etc.) en sus columnas.                       | Sí                 | 2D                                                          |
-| TS         | Numérico, Carácter, Complejo, Lógico                           | Serie temporal (time series), un conjunto de datos ordenados por tiempo, del mismo tipo (numérico, carácter, complejo, lógico).         | No                 | 1D (univariada) o 2D (multivariada)                         |
-| Lista      | Numérico, Carácter, Complejo, Lógico, Función, Expresión, etc. | Contenedor flexible que puede almacenar elementos de diferentes tipos (numérico, carácter, complejo, lógico, función, expresión, etc.). | Sí                 | 1D (pero puede contener estructuras de cualquier dimensión) |
+| Objeto | Modos | Descripción | ¿Múltiples Modos ? | Dimensiones |
+|-------------|-------------|--------------------|-------------|-------------|
+| Vector | Numérico, Carácter, Complejo, Lógico | Secuencia de elementos del mismo tipo (numérico, carácter, complejo, lógico). | No | 1D |
+| Array | Numérico, Carácter, Complejo, Lógico | Datos en varias dimensiones con elementos del mismo tipo (numérico, carácter, complejo, lógico). | No | Multi-dimensional (2D, 3D, ...) |
+| Matriz | Numérico, Carácter, Complejo, Lógico | Colección bidimensional de elementos del mismo tipo (numérico, carácter, complejo, lógico). | No | 2D |
+| Data Frame | Numérico, Carácter, Complejo, Lógico | Similar a una matriz pero puede contener diferentes tipos de datos (numéricos, caracteres, etc.) en sus columnas. | Sí | 2D |
+| TS | Numérico, Carácter, Complejo, Lógico | Serie temporal (time series), un conjunto de datos ordenados por tiempo, del mismo tipo (numérico, carácter, complejo, lógico). | No | 1D (univariada) o 2D (multivariada) |
+| Lista | Numérico, Carácter, Complejo, Lógico, Función, Expresión, etc. | Contenedor flexible que puede almacenar elementos de diferentes tipos (numérico, carácter, complejo, lógico, función, expresión, etc.). | Sí | 1D (pero puede contener estructuras de cualquier dimensión) |
 
 ## 2. Operadores básicos en R
 
 Vamos a hacer un resumen de los principales operadores y las funciones matemáticas más utilizadas en R
 
 | Operador |                  Descripción                  | Ejemplo             |
-|----------------|:--------------------------------------:|-----------------|
+|-----------------|:------------------------------------:|-----------------|
 | ==       |                    Igual a                    | x == 5              |
 | !=       |                  Distinto de                  | x != 3              |
 | \>       |                   Mayor que                   | x \> 3              |
@@ -60,34 +62,37 @@ Vamos a hacer un resumen de los principales operadores y las funciones matemáti
 
 Ahora vamos a recordar las funciones matemáticas básicas más utilizadas
 
-| Función   | Descripción                                             | Ejemplo           | Resultado |
-|-------------|----------------------------------|--------------|-------------|
-| \+        | Suma dos números                                        | 5 + 3             | 8         |
-| \-        | Resta un número a otro                                  | 5 - 3             | 2         |
-| \*        | Multiplica dos números                                  | 5 \* 3            | 15        |
-| /         | Divide un número por otro                               | 6 / 3             | 2         |
-| \^        | Exponenciación                                          | 2\^3              | 8         |
-| %%        | Resto de la división (módulo)                           | 5 %% 2            | 1         |
-| %/%       | División entera                                         | 5 %/% 2           | 2         |
-| round()   | Redondea a un número especificado de decimales          | round(3.14159, 2) | 3.14      |
-| ceiling() | Redondea al entero superior más cercano                 | ceiling(2.3)      | 3         |
-| floor()   | Redondea al entero inferior más cercano                 | floor(2.7)        | 2         |
-| trunc()   | Trunca la parte decimal, dejando solo la parte entera   | trunc(2.7)        | 2         |
-| sqrt()    | Calcula la raíz cuadrada                                | sqrt(16)          | 4         |
-| exp()     | Calcula el exponencial de un número (e\^x)              | exp(1)            | 2.71882   |
-| log()     | Calcula el logaritmo natural (base e)                   | log(10)           | 2.302585  |
-| log10()   | Calcula el logaritmo en base 10                         | log10(100)        | 2         |
-| log2()    | Calcula el logaritmo en base 2                          | log2(8)           | 3         |
-| abs()     | Calcula el valor absoluto                               | abs(-5)           | 5         |
-| sum()     | Suma todos los elementos de un vector                   | sum(c(1, 2, 3))   | 6         |
-| prod()    | Calcula el producto de todos los elementos de un vector | prod(c(1, 2, 3))  | 6         |
-| mean()    | Calcula el promedio de un conjunto de números           | mean(c(1, 2, 3))  | 2         |
-| min()     | Encuentra el mínimo valor en un conjunto de números     | min(c(1, 2, 3))   | 1         |
-| max()     | Encuentra el máximo valor en un conjunto de números     | max(c(1, 2, 3))   | 3         |
+| Función | Descripción | Ejemplo | Resultado |
+|---------------|-----------------------------|---------------|---------------|
+| \+ | Suma dos números | 5 + 3 | 8 |
+| \- | Resta un número a otro | 5 - 3 | 2 |
+| \* | Multiplica dos números | 5 \* 3 | 15 |
+| / | Divide un número por otro | 6 / 3 | 2 |
+| \^ | Exponenciación | 2\^3 | 8 |
+| %% | Resto de la división (módulo) | 5 %% 2 | 1 |
+| %/% | División entera | 5 %/% 2 | 2 |
+| round() | Redondea a un número especificado de decimales | round(3.14159, 2) | 3.14 |
+| ceiling() | Redondea al entero superior más cercano | ceiling(2.3) | 3 |
+| floor() | Redondea al entero inferior más cercano | floor(2.7) | 2 |
+| trunc() | Trunca la parte decimal, dejando solo la parte entera | trunc(2.7) | 2 |
+| sqrt() | Calcula la raíz cuadrada | sqrt(16) | 4 |
+| exp() | Calcula el exponencial de un número (e\^x) | exp(1) | 2.71882 |
+| log() | Calcula el logaritmo natural (base e) | log(10) | 2.302585 |
+| log10() | Calcula el logaritmo en base 10 | log10(100) | 2 |
+| log2() | Calcula el logaritmo en base 2 | log2(8) | 3 |
+| abs() | Calcula el valor absoluto | abs(-5) | 5 |
+| sum() | Suma todos los elementos de un vector | sum(c(1, 2, 3)) | 6 |
+| prod() | Calcula el producto de todos los elementos de un vector | prod(c(1, 2, 3)) | 6 |
+| mean() | Calcula el promedio de un conjunto de números | mean(c(1, 2, 3)) | 2 |
+| min() | Encuentra el mínimo valor en un conjunto de números | min(c(1, 2, 3)) | 1 |
+| max() | Encuentra el máximo valor en un conjunto de números | max(c(1, 2, 3)) | 3 |
 
 ## 3. Vectores
 
-Un **vector** es una secuencia ordenada de datos del mismo tipo (siendo éstos númericos, cadenas, fechas, etc). Es la estructura de datos más sencilla. Un simple valor (por ejemplo el número 5) constituye un vector numérico. Los escalares son vectores de longitud 1
+Un **vector** es una secuencia ordenada de datos del mismo tipo (siendo éstos númericos, cadenas, fechas, etc).
+Es la estructura de datos más sencilla.
+Un simple valor (por ejemplo el número 5) constituye un vector numérico.
+Los escalares son vectores de longitud 1
 
 ```{r}
 x<- 5
@@ -151,7 +156,12 @@ x<-sequence(4:5)
 x
 ```
 
-La función `seq` es una función más general y flexible para generar secuencias numéricas. seq(from, to, by, length.out, along.with), Sus parámetros son from: El valor inicial de la secuencia. to: El valor final de la secuencia. by: El incremento (o decremento si es negativo) entre elementos de la secuencia. length.out: El número total de elementos en la secuencia. Si se especifica, el valor de by se ajusta automáticamente.
+La función `seq` es una función más general y flexible para generar secuencias numéricas.
+seq(from, to, by, length.out, along.with), Sus parámetros son from: El valor inicial de la secuencia.
+to: El valor final de la secuencia.
+by: El incremento (o decremento si es negativo) entre elementos de la secuencia.
+length.out: El número total de elementos en la secuencia.
+Si se especifica, el valor de by se ajusta automáticamente.
 
 ```{r}
 x<- seq(1, 2, by= 0.1)
@@ -186,7 +196,8 @@ x
 
 #### Vector formado por caracteres:
 
-Cada uno de los elementos de un vector de caracteres debe escribirse entre comillas. En caso contrario, la máquina devuelve un mensaje de error.
+Cada uno de los elementos de un vector de caracteres debe escribirse entre comillas.
+En caso contrario, la máquina devuelve un mensaje de error.
 
 ```{r}
 ciudades<- c("Jaen", "Córdoba", "Sevilla")
@@ -226,7 +237,8 @@ v0
 is.vector(v0) # Verificar si el objeto o variable 'v0' es un vector.
 ```
 
-Una vez creados los vectores, pueden ser modificados posteriormente. Por ejemplo, si deseamos agregar un elemento a un vector ya existente, lo añadimos asignándolo a nuestro vector original.
+Una vez creados los vectores, pueden ser modificados posteriormente.
+Por ejemplo, si deseamos agregar un elemento a un vector ya existente, lo añadimos asignándolo a nuestro vector original.
 
 Vamos a operar con el vector `v1(2,5,10)`
 
@@ -244,7 +256,8 @@ v2
 
 Ahora tenemos dos vectores `v1(2,5,10) , v2(2,5,10,8)`
 
-Se pueden realizar operaciones aritméticas con vectores. Se pueden sumar `v1` y `v2`
+Se pueden realizar operaciones aritméticas con vectores.
+Se pueden sumar `v1` y `v2`
 
 ```{r}
 v1+v2
@@ -252,7 +265,8 @@ v1+v2
 
 ```
 
-Aviso en v1 + v2 : longitud de objeto mayor no es múltiplo de la longitud de uno menor. Al último valor de v2, le suma el primero de V1 ("reciclaje")\
+Aviso en v1 + v2 : longitud de objeto mayor no es múltiplo de la longitud de uno menor.
+Al último valor de v2, le suma el primero de V1 ("reciclaje")\
 No ocurriría si v1 y v2 tuviesen igual tamaño.
 
 También pueden multiplicarse `v1` y `v2`
@@ -262,7 +276,9 @@ v1*v2
 
 ```
 
-Aviso en v1\*v2 : longitud de objeto mayor no es múltiplo de la longitud de uno menor. Multiplica último valor de v2, por el primero de V1 ("reciclaje"). #No ocurriría si v1 y v2 tuviesen igual tamaño.
+Aviso en v1\*v2 : longitud de objeto mayor no es múltiplo de la longitud de uno menor.
+Multiplica último valor de v2, por el primero de V1 ("reciclaje").
+#No ocurriría si v1 y v2 tuviesen igual tamaño.
 
 Se pueden elevar al cuadrado los términos de un vector
 
@@ -289,7 +305,8 @@ Se puede calcular la media de los términos de un vector con la función ´mean�
 mean (v2) #v2(2,5,10,8)
 ```
 
-Atención, si un vector tiene valores ausentes `NA` hay que hacérselo notar a la función. Imaginemos `v3(0,10,8,NA,6)`
+Atención, si un vector tiene valores ausentes `NA` hay que hacérselo notar a la función.
+Imaginemos `v3(0,10,8,NA,6)`
 
 ```{r}
 v3<-c(0,10,8,NA,6)
@@ -326,11 +343,13 @@ Algunas operaciones se pueden escribir de forma simplificada
 v2 + c (2, 10)
 ```
 
-Esta operación suma 2 a los valores impares y 10 a los pares. Recuerde que `v2(2,5,10,8)`
+Esta operación suma 2 a los valores impares y 10 a los pares.
+Recuerde que `v2(2,5,10,8)`
 
 \`
 
-Los elementos de un vector se pueden recuperar, por medio de corchetes. Siendo `v1(2,5,10) v2(2,5,10,8)`
+Los elementos de un vector se pueden recuperar, por medio de corchetes.
+Siendo `v1(2,5,10) v2(2,5,10,8)`
 
 ```{r}
 v1[2]
@@ -343,7 +362,8 @@ Se puede operar con valores de determinada posición de los vectores, vamos a su
 v1[2] +v2[3]
 ```
 
-También se pueden añadir los corchetes para añadir un valor en una posición o para cambiarlo. Veamos `v1(2,5,10)`
+También se pueden añadir los corchetes para añadir un valor en una posición o para cambiarlo.
+Veamos `v1(2,5,10)`
 
 ```{r}
 v1[4] <- 12
@@ -353,7 +373,8 @@ v1
 
 ```
 
-Los elementos de un vector se pueden recuperar en función de una orden lógica. Siendo `v1(2,12,10,12)`
+Los elementos de un vector se pueden recuperar en función de una orden lógica.
+Siendo `v1(2,12,10,12)`
 
 ```{r}
 v1 > 7
@@ -361,7 +382,8 @@ v1 < 7
 v1 == 12
 ```
 
-También puede usarse la función `which`. Tenemos `v3(0,10,8,NA,6)`
+También puede usarse la función `which`.
+Tenemos `v3(0,10,8,NA,6)`
 
 ```{r}
 which(v3 > 2) # Posiciones de los elementos mayores que 2
@@ -491,7 +513,8 @@ m3[3,c("Columna 1","Columna 2")] # La fila 3 y todas las columnas, llamadas por 
 
 ### 5.1 Ejercicios con vectores
 
-Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos veces. Luego, encuentra la suma, la media y la desviación estándar de los valores en el vector.
+Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos veces.
+Luego, encuentra la suma, la media y la desviación estándar de los valores en el vector.
 
 Este es el código que se puede usar (piensa que puede haber otras alternativas, si el resultado es el mismo, serán válidas)
 
@@ -534,7 +557,8 @@ print(suma_v100)
 
 ```
 
-Crea dos vectores de la misma longitud, `vector_a (1,2,3,4,5)` y `vector_b (5,4,3,2,1)`. Realiza las siguientes operaciones: Suma elemento a elemento, resta elemento a elemento, multiplicación elemento a elemento y divide elemento a elemento.
+Crea dos vectores de la misma longitud, `vector_a (1,2,3,4,5)` y `vector_b (5,4,3,2,1)`.
+Realiza las siguientes operaciones: Suma elemento a elemento, resta elemento a elemento, multiplicación elemento a elemento y divide elemento a elemento.
 
 ```{r, eval=FALSE}
 
@@ -559,7 +583,8 @@ division_elemento <- vector_a / vector_b
 print(division_elemento)  # Imprime: 0.2 0.5 1 2 5
 ```
 
-Crea un vector `v3` con los números del 1 al 15. Luego extrae los elementos en las posiciones 3, 5 y 7, y después extrae todos los elementos que sean mayores a 10.
+Crea un vector `v3` con los números del 1 al 15.
+Luego extrae los elementos en las posiciones 3, 5 y 7, y después extrae todos los elementos que sean mayores a 10.
 
 ```{r, eval=FALSE}
 # Crear el vector
@@ -575,7 +600,8 @@ print(mayores10)  # Imprime: 11 12 13 14 15
 
 ```
 
-Crea un vector lógico `vlog (TRUE, FALSE, TRUE, TRUE, FALSE)` . Realiza las siguientes operaciones: calcula la cantidad de `TRUE` en el vector, verifica si todos los valores en el vector son `TRUE`, verifica si al menos uno de los valores en el vector es `TRUE`.
+Crea un vector lógico `vlog (TRUE, FALSE, TRUE, TRUE, FALSE)` .
+Realiza las siguientes operaciones: calcula la cantidad de `TRUE` en el vector, verifica si todos los valores en el vector son `TRUE`, verifica si al menos uno de los valores en el vector es `TRUE`.
 
 ```{r, eval=FALSE}
 # Crear el vector
@@ -595,7 +621,9 @@ print(al_menos_un_true)  # Imprime: TRUE
 
 ```
 
-Vamos a crear un vector de 10 números aleatorios `v_aleat` y encuentra el valor máximo y mínimo. Después ordena el vector de menor a mayor. Ten en cuenta que los resultados pueden ser diferentes cada vez que ejecutes el código
+Vamos a crear un vector de 10 números aleatorios `v_aleat` y encuentra el valor máximo y mínimo.
+Después ordena el vector de menor a mayor.
+Ten en cuenta que los resultados pueden ser diferentes cada vez que ejecutes el código
 
 ```{r, eval=FALSE}
 
@@ -641,7 +669,9 @@ print(m1)
 # [5,]   21   22   23   24   25
 ```
 
-Usa la matriz `m1` creada anteriormente. Accede al elemento en la tercera fila y cuarta columna. También, extrae la segunda fila completa y la cuarta columna completa.
+Usa la matriz `m1` creada anteriormente.
+Accede al elemento en la tercera fila y cuarta columna.
+También, extrae la segunda fila completa y la cuarta columna completa.
 
 ```{r, eval=FALSE}
 # Acceder al elemento en la tercera fila y cuarta columna

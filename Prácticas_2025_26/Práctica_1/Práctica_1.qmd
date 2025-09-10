@@ -1,17 +1,17 @@
 ---
-title: "<span style ='font-size:14px; font-weight:bold;'>Práctica 1. Introducción a R y RStudio</span>" 
-
-author: "Jesús Martín Fernández"
-format: 
-  html:
-    toc: true
-    toc-title: "Contenidos"
-    toc-location: left
-    code-fold: true
-    line-wrap: true
-    includes:
-      in_header: preamble.tex
-editor: source
+# title: "<span style ='font-size:14px; font-weight:bold;'>Práctica 1. Introducción a R y RStudio</span>" 
+# 
+# author: "Jesús Martín Fernández"
+# format: 
+#   html:
+#     toc: true
+#     toc-title: "Contenidos"
+#     toc-location: left
+#     code-fold: true
+#     line-wrap: true
+#     includes:
+#       in_header: preamble.tex
+# editor: source
 ---
 
 ## 

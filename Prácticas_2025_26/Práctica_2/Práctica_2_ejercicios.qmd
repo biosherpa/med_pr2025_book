@@ -1,24 +1,25 @@
 ---
-title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 2. Introducción y manipulación de datos en R (1)</span>" 
-
-author: "Jesús Martín Fernández"
-format: 
-  pdf:
-    toc: true
-    toc-title: "Contenidos"
-    toc-location: left
-    code-fold: true
-    line-wrap: true
-    includes:
-      in_header: preamble.tex
-editor: visual
+# title: "<span style ='font-size:40px; font-weight:bold;'>Práctica 2. Introducción y manipulación de datos en R (1)</span>" 
+# 
+# author: "Jesús Martín Fernández"
+# format: 
+#   pdf:
+#     toc: true
+#     toc-title: "Contenidos"
+#     toc-location: left
+#     code-fold: true
+#     line-wrap: true
+#     includes:
+#       in_header: preamble.tex
+# editor: visual
 ---
 
 ## Ejercicios
 
 ### 1 Ejercicios con vectores
 
-Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos veces. Luego, encuentra la suma, la media y la desviación estándar de los valores en el vector.
+Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos veces.
+Luego, encuentra la suma, la media y la desviación estándar de los valores en el vector.
 
 Este es el código que se puede usar (piensa que puede haber otras alternativas, si el resultado es el mismo, serán válidas)
 
@@ -61,7 +62,8 @@ print(suma_v100)
 
 ```
 
-Crea dos vectores de la misma longitud, `vector_a (1,2,3,4,5)` y `vector_b (5,4,3,2,1)`. Realiza las siguientes operaciones: Suma elemento a elemento, resta elemento a elemento, multiplicación elemento a elemento y divide elemento a elemento.
+Crea dos vectores de la misma longitud, `vector_a (1,2,3,4,5)` y `vector_b (5,4,3,2,1)`.
+Realiza las siguientes operaciones: Suma elemento a elemento, resta elemento a elemento, multiplicación elemento a elemento y divide elemento a elemento.
 
 ```{r, eval=FALSE}
 
@@ -86,7 +88,8 @@ division_elemento <- vector_a / vector_b
 print(division_elemento)  # Imprime: 0.2 0.5 1 2 5
 ```
 
-Crea un vector `v3` con los números del 1 al 15. Luego extrae los elementos en las posiciones 3, 5 y 7, y después extrae todos los elementos que sean mayores a 10.
+Crea un vector `v3` con los números del 1 al 15.
+Luego extrae los elementos en las posiciones 3, 5 y 7, y después extrae todos los elementos que sean mayores a 10.
 
 ```{r, eval=FALSE}
 # Crear el vector
@@ -102,7 +105,8 @@ print(mayores10)  # Imprime: 11 12 13 14 15
 
 ```
 
-Crea un vector lógico `vlog (TRUE, FALSE, TRUE, TRUE, FALSE)` . Realiza las siguientes operaciones: calcula la cantidad de `TRUE` en el vector, verifica si todos los valores en el vector son `TRUE`, verifica si al menos uno de los valores en el vector es `TRUE`.
+Crea un vector lógico `vlog (TRUE, FALSE, TRUE, TRUE, FALSE)` .
+Realiza las siguientes operaciones: calcula la cantidad de `TRUE` en el vector, verifica si todos los valores en el vector son `TRUE`, verifica si al menos uno de los valores en el vector es `TRUE`.
 
 ```{r, eval=FALSE}
 # Crear el vector
@@ -122,7 +126,9 @@ print(al_menos_un_true)  # Imprime: TRUE
 
 ```
 
-Vamos a crear un vector de 10 números aleatorios `v_aleat` y encuentra el valor máximo y mínimo. Después ordena el vector de menor a mayor. Ten en cuenta que los resultados pueden ser diferentes cada vez que ejecutes el código
+Vamos a crear un vector de 10 números aleatorios `v_aleat` y encuentra el valor máximo y mínimo.
+Después ordena el vector de menor a mayor.
+Ten en cuenta que los resultados pueden ser diferentes cada vez que ejecutes el código
 
 ```{r, eval=FALSE}
 
@@ -168,7 +174,9 @@ print(m1)
 # [5,]   21   22   23   24   25
 ```
 
-Usa la matriz `m1` creada anteriormente. Accede al elemento en la tercera fila y cuarta columna. También, extrae la segunda fila completa y la cuarta columna completa.
+Usa la matriz `m1` creada anteriormente.
+Accede al elemento en la tercera fila y cuarta columna.
+También, extrae la segunda fila completa y la cuarta columna completa.
 
 ```{r, eval=FALSE}
 # Acceder al elemento en la tercera fila y cuarta columna
