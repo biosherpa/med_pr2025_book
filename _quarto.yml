@@ -8,21 +8,27 @@ book:
   author: "Jesús Esteban Hernández y Jesús Martín Fernández"
   date: "4/9/2025"
   chapters:
+  
     - index.qmd
-    - Practicas_2024_25/Practica_1/Practica_1_pdf.qmd
-    # - Practica 1_ejercicios_pdf.qmd
-    - Practicas_2024_25/Práctica_2/Práctica_2.1_pdf.qmd
-    
-    # - Práctica 2.1.qmd 
-    # - Práctica 2.1_Ejercicios_pdf.qmd 
-    # - Práctica 2.1_pdf.qmd 
-    # - Práctica 2.2.qmd 
-    # - Práctica 2.2_ejercicios_pdf.qmd 
-    # - Práctica 2.2_pdf.qmd 
-    # - Práctica 2.qmd 
-    # - Práctica 2_clase.qmd 
-    # - Práctica 2_ejercicios_pdf.qmd 
-    # - Práctica 3_ejercicios_pdf.qmd 
+    - part: "Instalación de R, RStudio y manejo básico."
+      chapters: 
+        - Prácticas_2025_26/Práctica_1/Práctica_1.qmd
+        - Prácticas_2025_26/Práctica_1/Práctica_1_ejercicios.qmd
+        - Prácticas_2025_26/Práctica_2/Práctica_2.qmd
+        - Prácticas_2025_26/Práctica_2/Práctica_2_ejercicios.qmd
+          
+          
+    # - Practicas_2024_25/Practica_3/Practica_3_pdf.qmd
+    #   chapters:
+    #     - Practicas_2024_25/Practica_3/Practica_3_ejercicios_pdf.qmd
+    # 
+    # - Practicas_2024_25/Practica_4/Practica_4.qmd
+    #   chapters:
+    #     - Practicas_2024_25/Practica_4/Practica_4_ejercicios.qmd
+
+  
+
+
     # - Práctica 3_pdf.qmd 
     # - Práctica 4.qmd 
     # - Práctica 4_ejercicios.qmd 
@@ -52,11 +58,13 @@ book:
     # - Práctica 14_ejercicios.qmd 
     - references.qmd
 
-bibliography: MasterUE.bib
+lang: es
+bibliography: references.bib
+csl: apa.csl
 
 format:
   html:
     theme: cosmo
+    css: styles.css
   pdf:
-    documentclass: scrreprt
-    latex-engine: "C:/texlive/2025/bin/windows/xelatex.exe"
+    documentclass: scrbook

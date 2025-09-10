@@ -1,0 +1,56 @@
+project:
+  type: book
+  output-dir: _book
+  preview:
+    port: 9001
+    browser: true
+
+
+book:
+  title: "Taller de Introducción a R"
+  author:
+    - "Felipe Ortega"
+    - "María Jesús Algar"
+    - "Emilio López Cano"
+  date: "2024/10/03"
+  chapters:
+    - index.qmd
+    - part: "Instalación y conceptos básicos"
+      chapters:
+        - 01-Rlang.qmd
+        - 02-install.qmd
+        - 03-workflow.qmd
+    - part: "El lenguaje R"
+      chapters:
+        - 04-Rbase.qmd
+        - 05-data-types.qmd
+        - 06-tidy-data.qmd
+        - 07-data-in-out.qmd
+    - part: "Ejemplo práctico"
+      chapters:
+        - 08-EDA.qmd
+        - 09-visual.qmd
+        - 10-models.qmd
+    - 11-add-resources.qmd
+    - references.qmd
+  appendices:
+    - A-command-ref.qmd
+    - B-IDEs.qmd
+    - C-packages.qmd
+    - app-refs.qmd
+
+lang: es
+bibliography: references.bib
+csl: apa.csl
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+  pdf:
+    documentclass: scrbook
+
+
+
+
+

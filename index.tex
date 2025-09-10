@@ -198,7 +198,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, frame hidden, borderline west={3pt}{0pt}{shadecolor}, breakable, interior hidden, enhanced, boxrule=0pt]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, boxrule=0pt, breakable, sharp corners, interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -208,93 +208,144 @@
 }
 \bookmarksetup{startatroot}
 
-\hypertarget{section}{%
-\chapter{}\label{section}}
+\hypertarget{prefacio}{%
+\chapter{\texorpdfstring{{Prefacio}}{Prefacio}}\label{prefacio}}
 
-\bookmarksetup{startatroot}
+Asignatura de Bioestadística. Grado de Medicina. URJC.
+
+\hfill\break
+
+En este sitio web encontrarás lo fundamental de las prácticas de la
+asignatura de Bioestadística del grado de medicina de la URJC para el
+curso 2023-2024.
+
+\textbf{ALGUNAS RECOMENDACIONES}
+
+\begin{itemize}
+\item
+  Las prácticas son secuenciales, por lo que es difícil seguir una
+  práctica si no se revisó la práctica anterior.
+\item
+  Por la misma razón, no dude en consultar todas las dudas que tenga al
+  profesorado. Si no la resuelves a tiempo, te costará seguir las
+  prácticas siguientes.
+\item
+  Aunque no es obligatorio, asistir a las clases prácticas es muy
+  recomendable.
+\end{itemize}
+
+\emph{Material necesario}
+
+\begin{itemize}
+\item
+  Todo lo necesario deberías encontrarlo en el aula en el que se
+  desarrollan las prácticas.
+\item
+  Si en alguna práctica hiciese falta llevar algún material adicional,
+  se te indicaría con tiempo suficiente.
+\end{itemize}
+
+\part{Instalación de R, RStudio y manejo básico.}
 
 \hypertarget{pruxe1ctica-1.-introducciuxf3n-a-r-y-rstudio}{%
 \chapter{\texorpdfstring{{Práctica 1. Introducción a R y
 RStudio}}{Práctica 1. Introducción a R y RStudio}}\label{pruxe1ctica-1.-introducciuxf3n-a-r-y-rstudio}}
 
-R es un lenguaje de programación y un entorno de software diseñado
-especialmente para el análisis estadístico y la manipulación de datos. A
-diferencia de otros lenguajes de programación que necesitan ser
-compilados en un archivo ejecutable antes de su uso, R es un lenguaje
-interpretado. Esto significa que puedes escribir y ejecutar comandos de
-forma interactiva, lo que te permite ver los resultados de inmediato sin
-necesidad de un proceso de compilación previo. Esta característica hace
-que R sea especialmente útil para tareas exploratorias y análisis
-rápidos.
+R es un lenguaje de programación y un entorno de software creado con el
+propósito de facilitar el análisis estadístico, la visualización de
+datos y la manipulación de información en distintos formatos. Desde su
+origen, se ha consolidado como una de las herramientas más utilizadas en
+disciplinas como la estadística, la ciencia de datos, las ciencias de la
+salud, la economía y muchas otras áreas que requieren un manejo
+intensivo de datos.
+
+A diferencia de otros lenguajes de programación que necesitan compilar
+el código en un archivo ejecutable antes de poder utilizarlo, R es un
+lenguaje interpretado. Esto significa que el usuario puede escribir y
+ejecutar instrucciones de manera interactiva, observando los resultados
+de forma inmediata sin pasar por un proceso de compilación previo. Esta
+característica favorece la experimentación, ya que permite probar
+diferentes enfoques, realizar ajustes rápidos y explorar conjuntos de
+datos con mayor agilidad.
+
+Además, R cuenta con una amplia comunidad que ha desarrollado miles de
+paquetes adicionales, lo que amplía enormemente sus capacidades. Estos
+paquetes permiten realizar desde análisis estadísticos avanzados hasta
+la creación de gráficos altamente personalizados, integrando incluso
+técnicas modernas de aprendizaje automático y minería de datos.
+
+Gracias a esta combinación de flexibilidad, interactividad y ecosistema
+colaborativo, R se ha convertido en una herramienta indispensable tanto
+para quienes se inician en el análisis de datos, como es nuestro caso,
+como para profesionales que trabajan en proyectos de investigación o en
+aplicaciones prácticas de gran escala.
 
 \hypertarget{un-poco-de-historia}{%
 \subsection{1.1 Un poco de historia}\label{un-poco-de-historia}}
 
-La historia de R comienza en 1992, cuando Robert Gentleman y Ross Ihaka,
-del Departamento de Estadística de la Universidad de Auckland en Nueva
-Zelanda, empezaron a desarrollar el lenguaje. Sin embargo, si se rastrea
-más atrás, se descubre que R tiene sus raíces en el lenguaje S,
-desarrollado por John Chambers y su equipo en los Laboratorios Bell
-(ahora Alcatel-Lucent) en Nueva Jersey desde finales de los años 70. El
-lenguaje S fue diseñado para el análisis de datos y sentó las bases para
-muchas herramientas estadísticas posteriores.
+La historia de \textbf{R} comienza en 1992, cuando Robert Gentleman y
+Ross Ihaka, del Departamento de Estadística de la Universidad de
+Auckland (Nueva Zelanda), iniciaron el desarrollo de un nuevo lenguaje
+de programación orientado al análisis estadístico. Sin embargo, sus
+orígenes se remontan más atrás, ya que R tiene sus raíces en el
+\textbf{lenguaje S}, creado a finales de los años setenta por John
+Chambers y su equipo en los Laboratorios Bell (hoy Alcatel-Lucent) en
+Nueva Jersey. El nombre ``S'', abreviatura de statistics, hacía alusión
+al célebre lenguaje C ---también desarrollado en Bell Labs--- y fue
+diseñado para facilitar el análisis de datos, sentando las bases de
+muchas de las herramientas estadísticas modernas.
 
-R se creó combinando las fortalezas de dos lenguajes existentes: S y
-Scheme. Según los propios diseñadores, ``el lenguaje resultante es muy
-similar en apariencia a S, pero en el uso de fondo y la semántica, es
-derivado de Scheme''. El nombre ``R'' fue elegido en parte para
-reconocer la influencia de S y en parte para destacar sus propias
-innovaciones.
+Con el paso del tiempo, S fue evolucionando y eventualmente se
+comercializó bajo el nombre \textbf{S-Plus}, al añadírsele una interfaz
+gráfica de usuario (GUI). No obstante, la aparición de R marcaría un
+punto de inflexión: no solo retomaba las fortalezas de S, sino que
+incorporaba elementos del lenguaje \textbf{Scheme}, lo que le otorgaba
+mayor flexibilidad en la gestión de objetos y estructuras. Según sus
+creadores, ``el lenguaje resultante es muy similar en apariencia a S,
+pero en su semántica de fondo deriva de Scheme''. El nombre \textbf{R}
+fue elegido en parte como homenaje a S, y en parte por la inicial de los
+nombres de sus desarrolladores.
 
-La primera versión de R, la 0.16, fue una versión alfa desarrollada por
-Ihaka y Gentleman y presentó muchas de las características descritas en
-el ``White Book''. En 1997, se lanzó la versión 0.49, la versión más
-antigua cuyo código se conserva y que aún compila en algunas plataformas
-UNIX. Este año también marcó el inicio del CRAN (Comprehensive R Archive
-Network) con tres espejos y doce paquetes. En diciembre de 1997, R se
-convirtió en parte del Proyecto GNU, una iniciativa para desarrollar
-software libre. Como parte de esta integración, el código fuente de R
-empezó a gestionarse y controlarse mediante CVS (Concurrent Versions
-System), una herramienta para el manejo de versiones de software. Esto
-permitió un control más organizado y colaborativo sobre el desarrollo y
-las actualizaciones del código de R.
+En sus primeras etapas, R se distribuía como software experimental. La
+versión 0.16, una versión alfa, ya incluía varias de las funcionalidades
+descritas en el llamado White Book de S. En 1997, apareció la versión
+0.49, la más antigua cuyo código aún se conserva y que podía compilarse
+en sistemas UNIX. Ese mismo año se fundó el \textbf{CRAN (Comprehensive
+R Archive Network)} con tres servidores espejo y apenas doce paquetes.
+También en 1997, R fue adoptado como parte del \textbf{Proyecto GNU},
+consolidando su condición de software libre y comenzando a gestionarse
+con el sistema CVS, lo que permitió un desarrollo más colaborativo y
+organizado.
 
-A lo largo de los años, R ha evolucionado significativamente. La versión
-1.0.0, lanzada el 29 de febrero de 2000, fue la primera versión
-considerada suficientemente estable para su uso en producción. En
-versiones posteriores, se introdujeron importantes mejoras como los
-métodos S4 en la versión 1.4.0, el soporte para UTF-8 en la versión
-2.1.0, y el ``lazy loading'' para una carga rápida de datos en la
-versión 2.0.0. En 2004, Insightful Corporation adquirió S y agregó un
-entorno gráfico, y en 2008, TIBCO compró Insightful.
+El avance de R fue constante. En el año 2000 se lanzó la versión 1.0.0,
+considerada la primera estable para su uso en producción. Luego se
+añadieron innovaciones importantes: los métodos S4 en la versión 1.4.0,
+el soporte para UTF-8 en la versión 2.1.0 y el sistema de lazy loading
+en la 2.0.0, que mejoró la eficiencia en la carga de datos. Con la
+llegada de la versión 2.11.0, R amplió su soporte a Windows de 64 bits,
+y en versiones posteriores se optimizó la internacionalización y la
+velocidad de serialización. La versión 3.0.0, publicada en abril de
+2013, introdujo mejoras en la interfaz gráfica, en la gestión de memoria
+y en el rendimiento general. Posteriormente, la versión \textbf{3.4.0}
+(2017) habilitó por defecto el compilador \textbf{JIT (Just-In-Time)} en
+nivel 3, lo que supuso un salto notable en velocidad de ejecución.
 
-La evolución de R continuó con mejoras constantes en el rendimiento y la
-funcionalidad, incluyendo soporte para sistemas Windows de 64 bits en la
-versión 2.11.0 y mejoras en la internacionalización y la velocidad de
-serialización en versiones posteriores. La versión 3.0.0, lanzada en
-abril de 2013, introdujo mejoras en la interfaz gráfica de usuario,
-funciones gráficas, gestión de memoria y rendimiento. La versión 3.4.0,
-lanzada en abril de 2017, habilitó el compilador JIT (``Just In Time'')
-en el nivel 3 de forma predeterminada, marcando un hito importante en la
-optimización del rendimiento.
+En paralelo, mientras S y S-Plus quedaban relegados, R fue ganando
+terreno por dos razones fundamentales: era gratuito y contaba con una
+comunidad cada vez más amplia que contribuía activamente a su expansión.
+Por este motivo, en ocasiones se le ha denominado GNU S, en
+reconocimiento a su naturaleza de software libre y a su vínculo con el
+Proyecto GNU.
 
-Hoy en día, R sigue siendo desarrollado y mantenido por el R Development
-Core Team, y es una herramienta esencial en el análisis estadístico y la
-visualización de datos, con una comunidad activa que contribuye a su
-constante evolución. Para conocer más sobre los autores y
-desarrolladores actuales de R, se puede consultar la lista de
-contribuyentes usando el comando \texttt{contributors();} en el entorno
-de R..
-
-Pero además de sus creadores existe una ``comunidad'' alrededor de R que
-juega un papel crucial en el éxito y la expansión del lenguaje de
-programación R. Su importancia radica no solo en la cantidad de usuarios
-que confían en R para sus análisis estadísticos y científicos, sino
-también en la vibrante red de colaboración y soporte que impulsa
-continuamente la evolución del lenguaje. La participación activa de sus
-miembros ha sido clave para el desarrollo de una vasta cantidad de
-recursos, herramientas y conocimientos compartidos que enriquecen el
-ecosistema R.
+Hoy en día, R sigue siendo mantenido por el \textbf{R Development Core
+Team} y se ha consolidado como una de las herramientas más influyentes
+en la estadística, la ciencia de datos y la investigación aplicada. Sin
+embargo, su éxito no se debe únicamente a sus características técnicas,
+sino también a la comunidad global de usuarios y desarrolladores que lo
+rodea. Esta red ha impulsado la creación de miles de paquetes, guías,
+foros y proyectos colaborativos que enriquecen continuamente el
+ecosistema de R, asegurando que siga siendo una plataforma viva,
+innovadora y en constante evolución.
 
 \uline{La Comunidad R}
 
@@ -339,7 +390,7 @@ solo la bondad de ajuste o los coeficientes de cada modelo, sin tener
 que lidiar con una salida masiva de información. Esto hace que R sea más
 flexible y eficiente en el manejo de datos complejos.
 
-\includegraphics{Practicas_2024_25/Practica_1/images/clipboard-988688670.png}
+\includegraphics{Prácticas_2025_26/Práctica_1/images/clipboard-988688670.png}
 
 Esquema del funcionamiento de R (tomado de Paradis, E. (2005).~ \emph{R
 for Beginners}. Institut des Sciences de l'Evolution. Université
@@ -377,7 +428,7 @@ R}\label{comenzando-a-trabajar-con-r}}
 Para instalar R vamos a la página web de~R project:
 \href{http://www.r-project.org/}{\textbf{http://www.r-project.org}}\textbf{.}
 
-\includegraphics{Practicas_2024_25/Practica_1/Imagenes/CRAN_2.jpeg}
+\includegraphics{Prácticas_2025_26/Práctica_1/Imagenes/CRAN_2.jpeg}
 
 Después seleccionamos el ``espejo'' más conveniente, en nuestro país una
 opción adecuada está en la Red Iris The Comprehensive R Archive Network
@@ -408,7 +459,7 @@ Pero también puedes encontrarla en MyApps
 
 Esta es la apariencia de RStudio
 
-\includegraphics{Practicas_2024_25/Practica_1/Imagenes/Rstudio_consola.png}
+\includegraphics{Prácticas_2025_26/Práctica_1/Imagenes/Rstudio_consola.png}
 
 En RStudio, la \textbf{consola} se encuentra por defecto en el panel
 inferior izquierdo, en la pestaña etiquetada como Console. Aquí es donde
@@ -810,7 +861,7 @@ Existen otras funciones de ayuda en R
 Recuerda que en RStudio en el panel de la parte inferior derecha hay
 también una pestaña de ayuda con un buscador de términos
 
-\includegraphics{Practicas_2024_25/Practica_1/Imagenes/Ayuda RStudio.jpg}
+\includegraphics{Prácticas_2025_26/Práctica_1/Imagenes/Ayuda RStudio.jpg}
 
 \hypertarget{operando-con-r.}{%
 \section{3. Operando con R.}\label{operando-con-r.}}
@@ -954,8 +1005,10 @@ análisis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{numeros }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}  \CommentTok{\# Crear un vector lógico que indica si los números son mayores que 3 }
-\NormalTok{mayor\_que\_tres }\OtherTok{\textless{}{-}}\NormalTok{ numeros }\SpecialCharTok{\textgreater{}} \DecValTok{3}  \CommentTok{\# Mostrar el vector lógico }
+\NormalTok{numeros }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}  
+\CommentTok{\# Crear un vector lógico que indica si los números son mayores que 3 }
+\NormalTok{mayor\_que\_tres }\OtherTok{\textless{}{-}}\NormalTok{ numeros }\SpecialCharTok{\textgreater{}} \DecValTok{3}  
+\CommentTok{\# Mostrar el vector lógico }
 \FunctionTok{print}\NormalTok{(mayor\_que\_tres)}
 \end{Highlighting}
 \end{Shaded}
@@ -1188,7 +1241,7 @@ realizado}\label{guardando-el-trabajo-realizado}}
 
 En RStudio, existen varias formas de \textbf{guardar tu trabajo}
 dependiendo de lo que deseas conservar (scripts, resultados, gráficos,
-etc.). Aquí te explico las principales opciones:
+etc.). Aquí se explican las principales opciones:
 
 \uline{1. Guardar scripts o archivos de código R}
 
@@ -1252,7 +1305,7 @@ utilizando funciones como \texttt{png()}, \texttt{pdf()}, o
 
 \uline{5. Guardar datos}
 
-Si has trabajado con datos (por ejemplo un dataframe, ya ceremos más
+Si has trabajado con datos (por ejemplo un dataframe, ya veremos más
 adelante) y deseas guardarlos en archivos externos (como CSV, Excel,
 etc.), puedes hacerlo utilizando funciones específicas para escribir
 archivos. En algunos casos hay que cargar previamente alguna librería,
@@ -1268,21 +1321,189 @@ por ejemplo para guardar un excel
 \end{Highlighting}
 \end{Shaded}
 
-\bookmarksetup{startatroot}
+\hypertarget{recuperando-archivos}{%
+\section{5. Recuperando archivos}\label{recuperando-archivos}}
+
+A veces necesitamos volver a abrir un archivo o recuperar la ruta donde
+guardamos nuestro trabajo en R. Para hacerlo de manera rápida, podemos
+aprovechar el portapapeles de Windows y algunas funciones de R.
+
+\textbf{Usando el portapapeles}
+
+En Windows, la función \texttt{readClipboard()} permite leer
+directamente lo que tenemos copiado en el portapapeles. Esto resulta
+útil cuando copiamos la ruta de un archivo desde el explorador de
+Windows y queremos usarla en R.
+
+Por ejemplo, si copiamos la ruta de un archivo como:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Recuperar código desde el portapapeles}
+\FunctionTok{readClipboard}\NormalTok{()}
+
+\CommentTok{\#readClipboard() hace legible la ruta Windows en R (añade doble barra)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Nota importante}:\\
+
+Recordamos que Windows usa la barra invertida \texttt{\textbackslash{}}
+en sus rutas, pero R requiere doble barra
+\texttt{\textbackslash{}\textbackslash{}} o una barra normal \texttt{/}.
+La función \texttt{readClipboard()} hace automáticamente la conversión,
+lo cual facilita mucho el trabajo.
+
+\textbf{Iniciando una sesión limpia y cargando el archivo}
+
+Supongamos que previamente hemos trabajado en un script o sesión de R y
+queremos recuperar nuestro trabajo rápidamente. Una forma de hacerlo es
+copiando el código desde un archivo o desde el portapapeles y luego
+ejecutarlo en R. Para esto, R ofrece la función
+\texttt{readClipboard()}, que permite leer directamente lo que tenemos
+copiado en el portapapeles.
+
+Por ejemplo, imaginemos que copiamos nuestro código desde un archivo
+llamado
+\texttt{"C:\textbackslash{}\textbackslash{}\textasciitilde{}mi\_trabajo.RData"}
+en Windows y queremos recuperarlo en R:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Recuperar código desde el portapapeles}
+\FunctionTok{readClipboard}\NormalTok{()}
+
+\CommentTok{\#readClipboard() hace legible la ruta Windows en R (añade doble barra)}
+
+\CommentTok{\# Limpiar el entorno para empezar desde cero}
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+
+\CommentTok{\# Definir el directorio de trabajo}
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"C:}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{mi\_usuario}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Documentos}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{MiProyecto"}\NormalTok{)}
+
+\CommentTok{\# Cargar el archivo RData}
+\FunctionTok{load}\NormalTok{(archivo.RData)}
+
+\CommentTok{\# Comprobar que estamos en el directorio correcto}
+\FunctionTok{getwd}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Con estos pasos, recuperamos fácilmente nuestros datos y configuramos el
+directorio de trabajo en la misma carpeta donde se encuentra el archivo.
+
+\hypertarget{pruxe1ctica-1.-introducciuxf3n-a-r-y-rstudio.-ejercicios}{%
+\chapter{\texorpdfstring{{Práctica 1. Introducción a R y RStudio.
+Ejercicios}}{Práctica 1. Introducción a R y RStudio. Ejercicios}}\label{pruxe1ctica-1.-introducciuxf3n-a-r-y-rstudio.-ejercicios}}
+
+Cambia el directorio de trabajo a una carpeta en tu escritorio (puedes
+usar MyApps) y comprueba cuál es el directorio actual
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"C:\textasciitilde{}/Documentos"}\NormalTok{)}
+
+\CommentTok{\#Tu dirección en MyApps será diferente, la virgulilla (Alt Gr+4) }
+\CommentTok{\#sustituye esa parte de la dirección}
+
+\CommentTok{\# Verificar el directorio de trabajo actual}
+\FunctionTok{getwd}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Crea una variable x de valor 10, una variable y de valor 5 y obtén su
+suma, resta, producto y cociente
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{10}
+\NormalTok{y }\OtherTok{\textless{}{-}} \DecValTok{5}
+
+\NormalTok{suma }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{+}\NormalTok{ y}
+\NormalTok{diferencia }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{{-}}\NormalTok{ y}
+\NormalTok{producto }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{*}\NormalTok{ y}
+\NormalTok{cociente }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{/}\NormalTok{ y}
+
+\NormalTok{suma }
+\NormalTok{diferencia}
+\NormalTok{producto }
+\NormalTok{cociente }
+\end{Highlighting}
+\end{Shaded}
+
+Instala y carga el paquete \texttt{stringr}. Luego, verifica que el
+paquete esté correctamente cargado.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Instalar el paquete stringr }
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"stringr"}\NormalTok{)}
+
+\CommentTok{\# Cargar el paquete stringr}
+\FunctionTok{library}\NormalTok{(stringr)}
+
+\CommentTok{\# Verificar que el paquete está cargado}
+\FunctionTok{find.package}\NormalTok{(}\StringTok{"stringr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Genera una carpeta llamada Practica\_1 en tu carpeta de trabajo
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dir.create}\NormalTok{(}\StringTok{"C:/\textasciitilde{}/Documentos/Practica1"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Ahora cambia a esa carpeta el directorio de trabajo y comprueba que
+estás trabajando en él
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"C:/\textasciitilde{}Documentos/Practica1"}\NormalTok{)}
+
+\CommentTok{\#Tu ruta de acceso debe ser diferente}
+
+\FunctionTok{getwd}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Guarda la imagen del área de trabajo con el nombre Practica1.Rdata.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{save.image}\NormalTok{(}\AttributeTok{file =} \StringTok{"Practica1.Rdata"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Cierra R y vuelve a abrirlo.
+
+Carga el área de trabajo desde el archivo Practica1.Rdata.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{"C:\textasciitilde{}/Documentos/Practica1/Practica1.Rdata"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+¿Ves toda la información que tenías? Todos los objetos del espacio de
+trabajo deberían estar disponibles. Si no ves los objetos, verifica que
+la ruta y el nombre del archivo sean correctos y que el archivo se haya
+guardado en el lugar correcto.
 
 \hypertarget{pruxe1ctica-2.-introducciuxf3n-y-manipulaciuxf3n-de-datos-en-r-1}{%
 \chapter{\texorpdfstring{{Práctica 2. Introducción y manipulación de
 datos en R
 (1)}}{Práctica 2. Introducción y manipulación de datos en R (1)}}\label{pruxe1ctica-2.-introducciuxf3n-y-manipulaciuxf3n-de-datos-en-r-1}}
 
-R es capaz de gestionar diversos tipos de \textbf{datos}, que se
-organizan en distintas estructuras de datos. A continuación se presenta
-una tabla que describe los tipos de datos básicos en R:
+R es capaz de gestionar diversos tipos de datos, que se organizan en
+distintas estructuras de datos. A continuación se presenta una tabla que
+describe los tipos de datos básicos en R:
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1831}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6056}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2113}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1781}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6438}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1781}}@{}}
 \toprule()
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Tipo de dato}
@@ -1295,7 +1516,8 @@ una tabla que describe los tipos de datos básicos en R:
 \endhead
 Numeric & Números decimales & \texttt{numero\ \textless{}-\ 1.0} \\
 Integer & Números enteros & \texttt{int\ \textless{}-\ 1} \\
-Character & Cadenas de texto & \texttt{str\ \textless{}-\ "texto"} \\
+Character & Cadenas de texto &
+\texttt{str\ \textless{}-\ "un\ texto"} \\
 Complex & Números complejos & \texttt{comp\ \textless{}-\ 3+2i} \\
 Logical & Valores de verdad: \texttt{TRUE} o \texttt{FALSE}, a menudo
 generados como resultado de operaciones lógicas. &
@@ -1303,13 +1525,14 @@ generados como resultado de operaciones lógicas. &
 Factor & Los factores son un tipo de variable, no de dato, las variables
 categóricas. Los vectores de caracteres suelen convertirse en factores
 para aprovechar las funciones que manejan datos categóricos, como en el
-análisis de regresión. & Usando \texttt{as.factor()}. \\
+análisis de regresión. & Convertir un vector de caracteres usando
+\texttt{as.factor()}. \\
 \bottomrule()
 \end{longtable}
 
-Las \textbf{estructuras de datos} son objetos que contienen datos y
-organizados de diferentes maneras. Las estructuras vienen definidas por
-su número de dimensiones y por la homogeneidad o no de sus datos.
+Las estructuras de datos son objetos que contienen datos y organizados
+de diferentes maneras. Las estructuras vienen definidas por su número de
+dimensiones y por la homogeneidad o no de sus datos.
 
 La siguiente tabla muestra las principales estructuras de datos que
 maneja R.
@@ -1396,8 +1619,8 @@ Ahora vamos a recordar las funciones matemáticas básicas más utilizadas
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1757}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4730}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1757}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4595}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1892}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1757}}@{}}
 \toprule()
 \begin{minipage}[b]{\linewidth}\raggedright
@@ -1427,8 +1650,8 @@ trunc() & Trunca la parte decimal, dejando solo la parte entera &
 trunc(2.7) & 2 \\
 sqrt() & Calcula la raíz cuadrada & sqrt(16) & 4 \\
 exp() & Calcula el exponencial de un número (e\^{}x) & exp(1) &
-2.718.282 \\
-log() & Calcula el logaritmo natural (base e) & log(10) & 2.302.585 \\
+2.71882 \\
+log() & Calcula el logaritmo natural (base e) & log(10) & 2.302585 \\
 log10() & Calcula el logaritmo en base 10 & log10(100) & 2 \\
 log2() & Calcula el logaritmo en base 2 & log2(8) & 3 \\
 abs() & Calcula el valor absoluto & abs(-5) & 5 \\
@@ -1489,15 +1712,16 @@ datos lógicos
 \end{verbatim}
 
 \hypertarget{creaciuxf3n-de-vectores}{%
-\subsection{3.1 Creación de vectores}\label{creaciuxf3n-de-vectores}}
+\subsection{\texorpdfstring{\textbf{3.1 Creación de
+vectores}}{3.1 Creación de vectores}}\label{creaciuxf3n-de-vectores}}
 
 El vector es el elemento más básico en R, y contiene elementos de la
 misma clase.
 
-Se crea con la función \textbf{c()}, que significa `\textbf{concatenar}'
-o `\textbf{combinar}' y el paréntesis debe incluir r los datos que
-deseamos integrar en ese vector, separados por comas (y en caso de datos
-de tipo \texttt{charater} flanqueados por comillas).
+Se crea con la función c(), que significa `concatenar' o `combinar' y el
+paréntesis debe incluir r los datos que deseamos integrar en ese vector,
+separados por comas (y en caso de datos de tipo \texttt{charater}
+flanqueados por comillas).
 
 \hypertarget{vector-formado-por-nuxfameros-enteros}{%
 \subsubsection{Vector formado por números
@@ -1629,8 +1853,8 @@ normal con la función \texttt{rnorm}
 \end{Shaded}
 
 \begin{verbatim}
- [1] 44.45927 47.03191 56.34272 53.96220 59.61554 48.02661 45.75717 51.43149
- [9] 48.09040 46.05561
+ [1] 55.64386 49.29801 57.36460 53.51572 42.29043 43.43340 45.35323 55.67335
+ [9] 56.25918 51.97084
 \end{verbatim}
 
 Se puede crear un vector con elementos repetidos en forma de series con
@@ -2466,10 +2690,606 @@ Columna 1 Columna 2
         5         7 
 \end{verbatim}
 
-\bookmarksetup{startatroot}
+\hypertarget{ejercicios}{%
+\section{5. Ejercicios}\label{ejercicios}}
+
+\hypertarget{ejercicios-con-vectores}{%
+\subsection{5.1 Ejercicios con vectores}\label{ejercicios-con-vectores}}
+
+Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos
+veces. Luego, encuentra la suma, la media y la desviación estándar de
+los valores en el vector.
+
+Este es el código que se puede usar (piensa que puede haber otras
+alternativas, si el resultado es el mismo, serán válidas)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v1 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{times =} \DecValTok{5}\NormalTok{)}
+
+\CommentTok{\# Mostrar el vector}
+\FunctionTok{print}\NormalTok{(v1)}
+
+
+\CommentTok{\# Calcular la suma}
+\NormalTok{sum\_v1}
+\FunctionTok{print}\NormalTok{(sum\_v1)}
+\CommentTok{\# Imprime: 45}
+
+\CommentTok{\# Calcular la media}
+\NormalTok{media\_v1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(v1)}
+\FunctionTok{print}\NormalTok{(media\_v1)}
+\CommentTok{\# Imprime: 2.5}
+
+\CommentTok{\# Calcular la desviación estándar}
+\NormalTok{sd\_v1 }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(sd\_v1)}
+\FunctionTok{print}\NormalTok{(sd\_v1)}
+\CommentTok{\# Imprime: 0.8164966}
+\end{Highlighting}
+\end{Shaded}
+
+Encuentra el valor de la suma de los primeros 100 números naturales
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear el vector con números naturales del 1 al 100}
+\NormalTok{v100 }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{100}
+
+\CommentTok{\# Mostrar el vector (no es necesario)}
+\FunctionTok{print}\NormalTok{(v100)}
+
+\CommentTok{\# Calcular la suma de los valores del vector}
+\NormalTok{suma\_v100 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(v100)}
+\FunctionTok{print}\NormalTok{(suma\_v100)}
+\CommentTok{\# Imprime: 5050}
+\end{Highlighting}
+\end{Shaded}
+
+Crea dos vectores de la misma longitud, \texttt{vector\_a\ (1,2,3,4,5)}
+y \texttt{vector\_b\ (5,4,3,2,1)}. Realiza las siguientes operaciones:
+Suma elemento a elemento, resta elemento a elemento, multiplicación
+elemento a elemento y divide elemento a elemento.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear los vectores}
+\NormalTok{vector\_a }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\NormalTok{vector\_b }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Suma elemento a elemento}
+\NormalTok{suma\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{+}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(suma\_elemento)  }\CommentTok{\# Imprime: 6 6 6 6 6}
+
+\CommentTok{\# Resta elemento a elemento}
+\NormalTok{resta\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{{-}}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(resta\_elemento)  }\CommentTok{\# Imprime: {-}4 {-}2 0 2 4}
+
+\CommentTok{\# Multiplicación elemento a elemento}
+\NormalTok{multiplicacion\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{*}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(multiplicacion\_elemento)  }\CommentTok{\# Imprime: 5 8 9 8 5}
+
+\CommentTok{\# División elemento a elemento}
+\NormalTok{division\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{/}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(division\_elemento)  }\CommentTok{\# Imprime: 0.2 0.5 1 2 5}
+\end{Highlighting}
+\end{Shaded}
+
+Crea un vector \texttt{v3} con los números del 1 al 15. Luego extrae los
+elementos en las posiciones 3, 5 y 7, y después extrae todos los
+elementos que sean mayores a 10.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear el vector}
+\NormalTok{v3 }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{15}
+
+\CommentTok{\# Extraer elementos en posiciones 3, 5 y 7}
+\NormalTok{el\_selecc }\OtherTok{\textless{}{-}}\NormalTok{ v3[}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{)]}
+\FunctionTok{print}\NormalTok{(el\_selec)  }\CommentTok{\# Imprime: 3 5 7}
+
+\CommentTok{\# Extraer todos los elementos mayores a 10}
+\NormalTok{mayores10 }\OtherTok{\textless{}{-}}\NormalTok{ v3[v3 }\SpecialCharTok{\textgreater{}} \DecValTok{10}\NormalTok{]}
+\FunctionTok{print}\NormalTok{(mayores10)  }\CommentTok{\# Imprime: 11 12 13 14 15}
+\end{Highlighting}
+\end{Shaded}
+
+Crea un vector lógico
+\texttt{vlog\ (TRUE,\ FALSE,\ TRUE,\ TRUE,\ FALSE)} . Realiza las
+siguientes operaciones: calcula la cantidad de \texttt{TRUE} en el
+vector, verifica si todos los valores en el vector son \texttt{TRUE},
+verifica si al menos uno de los valores en el vector es \texttt{TRUE}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear el vector}
+\NormalTok{vlog }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{)}
+
+\CommentTok{\# Contar la cantidad de TRUE}
+\NormalTok{cantidad\_true }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(vlog)}
+\FunctionTok{print}\NormalTok{(cantidad\_true)  }\CommentTok{\# Imprime: 3}
+
+\CommentTok{\# Verificar si todos los valores son TRUE}
+\NormalTok{todos\_true }\OtherTok{\textless{}{-}} \FunctionTok{all}\NormalTok{(vlog)}
+\FunctionTok{print}\NormalTok{(todos\_true)  }\CommentTok{\# Imprime: FALSE}
+
+\CommentTok{\# Verificar si al menos uno es TRUE}
+\NormalTok{al\_menos\_un\_true }\OtherTok{\textless{}{-}} \FunctionTok{any}\NormalTok{(vlog)}
+\FunctionTok{print}\NormalTok{(al\_menos\_un\_true)  }\CommentTok{\# Imprime: TRUE}
+\end{Highlighting}
+\end{Shaded}
+
+Vamos a crear un vector de 10 números aleatorios \texttt{v\_aleat} y
+encuentra el valor máximo y mínimo. Después ordena el vector de menor a
+mayor. Ten en cuenta que los resultados pueden ser diferentes cada vez
+que ejecutes el código
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear un vector con 10 números aleatorios}
+\NormalTok{v\_aleat }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+
+\CommentTok{\# Mostrar el vector}
+\FunctionTok{print}\NormalTok{(v\_aleat)}
+\CommentTok{\# Ejemplo de salida: 55  7  2  80 35 19 74  6 48 63}
+
+\CommentTok{\# Encontrar el valor máximo}
+\NormalTok{maximo }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(v\_aleat)}
+\FunctionTok{print}\NormalTok{(maximo)}
+\CommentTok{\# Ejemplo de salida: 80}
+
+\CommentTok{\# Encontrar el valor mínimo}
+\NormalTok{minimo }\OtherTok{\textless{}{-}} \FunctionTok{min}\NormalTok{(v\_aleat)}
+\FunctionTok{print}\NormalTok{(minimo)}
+\CommentTok{\# Ejemplo de salida: 2}
+
+\CommentTok{\# Ordenar el vector de menor a mayor}
+\NormalTok{v\_ordenado }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(v\_aleat)}
+\FunctionTok{print}\NormalTok{(v\_ordenado)}
+\CommentTok{\# Ejemplo de salida: 2  6  7 19 35 48 55 63 74 80}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ejercicios-con-matrices}{%
+\subsection{5.2 Ejercicios con matrices}\label{ejercicios-con-matrices}}
+
+Crea una matriz \texttt{m1} de dimensiones 5x5 con los números del 1 al
+25 creados por filas
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear una matriz de 5 filas y 5 columnas con números del 1 al 25 por filas}
+\NormalTok{m1 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{25}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{5}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{5}\NormalTok{, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Mostrar la matriz}
+\FunctionTok{print}\NormalTok{(m1)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    1    2    3    4    5}
+\CommentTok{\# [2,]    6    7    8    9   10}
+\CommentTok{\# [3,]   11   12   13   14   15}
+\CommentTok{\# [4,]   16   17   18   19   20}
+\CommentTok{\# [5,]   21   22   23   24   25}
+\end{Highlighting}
+\end{Shaded}
+
+Usa la matriz \texttt{m1} creada anteriormente. Accede al elemento en la
+tercera fila y cuarta columna. También, extrae la segunda fila completa
+y la cuarta columna completa.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Acceder al elemento en la tercera fila y cuarta columna}
+\NormalTok{elemento }\OtherTok{\textless{}{-}}\NormalTok{ m1[}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\FunctionTok{print}\NormalTok{(elemento)}
+\CommentTok{\# Imprime: 14}
+
+\CommentTok{\# Extraer la segunda fila completa}
+\NormalTok{fila2 }\OtherTok{\textless{}{-}}\NormalTok{ m1[}\DecValTok{2}\NormalTok{, ]}
+\FunctionTok{print}\NormalTok{(fila2)}
+\CommentTok{\# Imprime: 6 7 8 9 10}
+
+\CommentTok{\# Extraer la cuarta columna completa}
+\NormalTok{columna4 }\OtherTok{\textless{}{-}}\NormalTok{ m1[ , }\DecValTok{4}\NormalTok{]}
+\FunctionTok{print}\NormalTok{(columna4)}
+\CommentTok{\# Imprime: 4 9 14 19 24}
+\end{Highlighting}
+\end{Shaded}
+
+Usa la matriz \texttt{m1} y realiza las siguientes operaciones: suma
+todos los elementos de la matriz, encuentra la media de los elementos de
+la matriz, multiplica cada elemento de la matriz por 3.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Sumar todos los elementos de la matriz}
+\NormalTok{suma\_m1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(m1)}
+\FunctionTok{print}\NormalTok{(suma\_m1)}
+\CommentTok{\# Imprime: 325}
+
+\CommentTok{\# Encontrar la media de los elementos de la matriz}
+\NormalTok{media\_m1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(m1)}
+\FunctionTok{print}\NormalTok{(media\_m1)}
+\CommentTok{\# Imprime: 13}
+
+\CommentTok{\# Multiplicar cada elemento de la matriz por 3}
+\NormalTok{m1\_multiplicada }\OtherTok{\textless{}{-}}\NormalTok{ m1 }\SpecialCharTok{*} \DecValTok{3}
+\FunctionTok{print}\NormalTok{(m1\_multiplicada)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    3    6    9   12   15}
+\CommentTok{\# [2,]   18   21   24   27   30}
+\CommentTok{\# [3,]   33   36   39   42   45}
+\CommentTok{\# [4,]   48   51   54   57   60}
+\CommentTok{\# [5,]   63   66   69   72   75}
+\end{Highlighting}
+\end{Shaded}
+
+Traspón la matriz \texttt{m1} y después sustituye el valor en la primera
+fila y primera columna a 100 y el valor en la tercera fila y quinta
+columna a 200.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Transponer la matriz}
+\NormalTok{m1\_transpuesta }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(m1)}
+
+\CommentTok{\# Mostrar la matriz transpuesta}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Matriz transpuesta:"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(m1\_transpuesta)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    1    6   11   16   21}
+\CommentTok{\# [2,]    2    7   12   17   22}
+\CommentTok{\# [3,]    3    8   13   18   23}
+\CommentTok{\# [4,]    4    9   14   19   24}
+\CommentTok{\# [5,]    5   10   15   20   25}
+
+\CommentTok{\# Cambiar el valor en la primera fila y primera columna a 100}
+\NormalTok{m1\_transpuesta[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{100}
+
+\CommentTok{\# Cambiar el valor en la tercera fila y quinta columna a 200}
+\NormalTok{m1\_transpuesta[}\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{200}
+
+\CommentTok{\# Mostrar la matriz transpuesta modificada}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Matriz transpuesta modificada:"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(m1\_transpuesta)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]  100    6   11   16   21}
+\CommentTok{\# [2,]    2    7   12   17   22}
+\CommentTok{\# [3,]    3    8   13   18  200}
+\CommentTok{\# [4,]    4    9   14   19   24}
+\CommentTok{\# [5,]    5   10   15   20   25}
+\end{Highlighting}
+\end{Shaded}
+
+Añade a \texttt{m1} una fila con los valores 26, 27, 28 , 29 y 30.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fila6 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{26}\NormalTok{, }\DecValTok{27}\NormalTok{, }\DecValTok{28}\NormalTok{, }\DecValTok{29}\NormalTok{, }\DecValTok{30}\NormalTok{)}
+\NormalTok{m1\_mod }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(m1, fila6)}
+
+\CommentTok{\# Mostrar la matriz con la nueva fila añadida}
+
+\FunctionTok{print}\NormalTok{(m1\_mod)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    1    2    3    4    5}
+\CommentTok{\# [2,]    6    7    8    9   10}
+\CommentTok{\# [3,]   11   12   13   14   15}
+\CommentTok{\# [4,]   16   17   18   19   20}
+\CommentTok{\# [5,]   21   22   23   24   25}
+\CommentTok{\# [6,]   26   27   28   29   30}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{section}{%
+\section{}\label{section}}
+
+\hypertarget{pruxe1ctica-2.-introducciuxf3n-y-manipulaciuxf3n-de-datos-en-r-1-1}{%
+\chapter{\texorpdfstring{{Práctica 2. Introducción y manipulación de
+datos en R
+(1)}}{Práctica 2. Introducción y manipulación de datos en R (1)}}\label{pruxe1ctica-2.-introducciuxf3n-y-manipulaciuxf3n-de-datos-en-r-1-1}}
+
+\hypertarget{ejercicios-con-vectores-1}{%
+\subsection{1 Ejercicios con vectores}\label{ejercicios-con-vectores-1}}
+
+Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos
+veces. Luego, encuentra la suma, la media y la desviación estándar de
+los valores en el vector.
+
+Este es el código que se puede usar (piensa que puede haber otras
+alternativas, si el resultado es el mismo, serán válidas)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v1 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{times =} \DecValTok{5}\NormalTok{)}
+
+\CommentTok{\# Mostrar el vector}
+\FunctionTok{print}\NormalTok{(v1)}
+
+
+\CommentTok{\# Calcular la suma}
+\NormalTok{sum\_v1}
+\FunctionTok{print}\NormalTok{(sum\_v1)}
+\CommentTok{\# Imprime: 45}
+
+\CommentTok{\# Calcular la media}
+\NormalTok{media\_v1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(v1)}
+\FunctionTok{print}\NormalTok{(media\_v1)}
+\CommentTok{\# Imprime: 2.5}
+
+\CommentTok{\# Calcular la desviación estándar}
+\NormalTok{sd\_v1 }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(sd\_v1)}
+\FunctionTok{print}\NormalTok{(sd\_v1)}
+\CommentTok{\# Imprime: 0.8164966}
+\end{Highlighting}
+\end{Shaded}
+
+Encuentra el valor de la suma de los primeros 100 números naturales
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear el vector con números naturales del 1 al 100}
+\NormalTok{v100 }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{100}
+
+\CommentTok{\# Mostrar el vector (no es necesario)}
+\FunctionTok{print}\NormalTok{(v100)}
+
+\CommentTok{\# Calcular la suma de los valores del vector}
+\NormalTok{suma\_v100 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(v100)}
+\FunctionTok{print}\NormalTok{(suma\_v100)}
+\CommentTok{\# Imprime: 5050}
+\end{Highlighting}
+\end{Shaded}
+
+Crea dos vectores de la misma longitud, \texttt{vector\_a\ (1,2,3,4,5)}
+y \texttt{vector\_b\ (5,4,3,2,1)}. Realiza las siguientes operaciones:
+Suma elemento a elemento, resta elemento a elemento, multiplicación
+elemento a elemento y divide elemento a elemento.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear los vectores}
+\NormalTok{vector\_a }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\NormalTok{vector\_b }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Suma elemento a elemento}
+\NormalTok{suma\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{+}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(suma\_elemento)  }\CommentTok{\# Imprime: 6 6 6 6 6}
+
+\CommentTok{\# Resta elemento a elemento}
+\NormalTok{resta\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{{-}}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(resta\_elemento)  }\CommentTok{\# Imprime: {-}4 {-}2 0 2 4}
+
+\CommentTok{\# Multiplicación elemento a elemento}
+\NormalTok{multiplicacion\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{*}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(multiplicacion\_elemento)  }\CommentTok{\# Imprime: 5 8 9 8 5}
+
+\CommentTok{\# División elemento a elemento}
+\NormalTok{division\_elemento }\OtherTok{\textless{}{-}}\NormalTok{ vector\_a }\SpecialCharTok{/}\NormalTok{ vector\_b}
+\FunctionTok{print}\NormalTok{(division\_elemento)  }\CommentTok{\# Imprime: 0.2 0.5 1 2 5}
+\end{Highlighting}
+\end{Shaded}
+
+Crea un vector \texttt{v3} con los números del 1 al 15. Luego extrae los
+elementos en las posiciones 3, 5 y 7, y después extrae todos los
+elementos que sean mayores a 10.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear el vector}
+\NormalTok{v3 }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{15}
+
+\CommentTok{\# Extraer elementos en posiciones 3, 5 y 7}
+\NormalTok{el\_selecc }\OtherTok{\textless{}{-}}\NormalTok{ v3[}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{)]}
+\FunctionTok{print}\NormalTok{(el\_selec)  }\CommentTok{\# Imprime: 3 5 7}
+
+\CommentTok{\# Extraer todos los elementos mayores a 10}
+\NormalTok{mayores10 }\OtherTok{\textless{}{-}}\NormalTok{ v3[v3 }\SpecialCharTok{\textgreater{}} \DecValTok{10}\NormalTok{]}
+\FunctionTok{print}\NormalTok{(mayores10)  }\CommentTok{\# Imprime: 11 12 13 14 15}
+\end{Highlighting}
+\end{Shaded}
+
+Crea un vector lógico
+\texttt{vlog\ (TRUE,\ FALSE,\ TRUE,\ TRUE,\ FALSE)} . Realiza las
+siguientes operaciones: calcula la cantidad de \texttt{TRUE} en el
+vector, verifica si todos los valores en el vector son \texttt{TRUE},
+verifica si al menos uno de los valores en el vector es \texttt{TRUE}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear el vector}
+\NormalTok{vlog }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{TRUE}\NormalTok{, }\ConstantTok{FALSE}\NormalTok{)}
+
+\CommentTok{\# Contar la cantidad de TRUE}
+\NormalTok{cantidad\_true }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(vlog)}
+\FunctionTok{print}\NormalTok{(cantidad\_true)  }\CommentTok{\# Imprime: 3}
+
+\CommentTok{\# Verificar si todos los valores son TRUE}
+\NormalTok{todos\_true }\OtherTok{\textless{}{-}} \FunctionTok{all}\NormalTok{(vlog)}
+\FunctionTok{print}\NormalTok{(todos\_true)  }\CommentTok{\# Imprime: FALSE}
+
+\CommentTok{\# Verificar si al menos uno es TRUE}
+\NormalTok{al\_menos\_un\_true }\OtherTok{\textless{}{-}} \FunctionTok{any}\NormalTok{(vlog)}
+\FunctionTok{print}\NormalTok{(al\_menos\_un\_true)  }\CommentTok{\# Imprime: TRUE}
+\end{Highlighting}
+\end{Shaded}
+
+Vamos a crear un vector de 10 números aleatorios \texttt{v\_aleat} y
+encuentra el valor máximo y mínimo. Después ordena el vector de menor a
+mayor. Ten en cuenta que los resultados pueden ser diferentes cada vez
+que ejecutes el código
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear un vector con 10 números aleatorios}
+\NormalTok{v\_aleat }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+
+\CommentTok{\# Mostrar el vector}
+\FunctionTok{print}\NormalTok{(v\_aleat)}
+\CommentTok{\# Ejemplo de salida: 55  7  2  80 35 19 74  6 48 63}
+
+\CommentTok{\# Encontrar el valor máximo}
+\NormalTok{maximo }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(v\_aleat)}
+\FunctionTok{print}\NormalTok{(maximo)}
+\CommentTok{\# Ejemplo de salida: 80}
+
+\CommentTok{\# Encontrar el valor mínimo}
+\NormalTok{minimo }\OtherTok{\textless{}{-}} \FunctionTok{min}\NormalTok{(v\_aleat)}
+\FunctionTok{print}\NormalTok{(minimo)}
+\CommentTok{\# Ejemplo de salida: 2}
+
+\CommentTok{\# Ordenar el vector de menor a mayor}
+\NormalTok{v\_ordenado }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(v\_aleat)}
+\FunctionTok{print}\NormalTok{(v\_ordenado)}
+\CommentTok{\# Ejemplo de salida: 2  6  7 19 35 48 55 63 74 80}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ejercicios-con-matrices-1}{%
+\subsection{2 Ejercicios con matrices}\label{ejercicios-con-matrices-1}}
+
+Crea una matriz \texttt{m1} de dimensiones 5x5 con los números del 1 al
+25 creados por filas
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear una matriz de 5 filas y 5 columnas con números del 1 al 25 por filas}
+\NormalTok{m1 }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{25}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{5}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{5}\NormalTok{, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Mostrar la matriz}
+\FunctionTok{print}\NormalTok{(m1)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    1    2    3    4    5}
+\CommentTok{\# [2,]    6    7    8    9   10}
+\CommentTok{\# [3,]   11   12   13   14   15}
+\CommentTok{\# [4,]   16   17   18   19   20}
+\CommentTok{\# [5,]   21   22   23   24   25}
+\end{Highlighting}
+\end{Shaded}
+
+Usa la matriz \texttt{m1} creada anteriormente. Accede al elemento en la
+tercera fila y cuarta columna. También, extrae la segunda fila completa
+y la cuarta columna completa.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Acceder al elemento en la tercera fila y cuarta columna}
+\NormalTok{elemento }\OtherTok{\textless{}{-}}\NormalTok{ m1[}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\FunctionTok{print}\NormalTok{(elemento)}
+\CommentTok{\# Imprime: 14}
+
+\CommentTok{\# Extraer la segunda fila completa}
+\NormalTok{fila2 }\OtherTok{\textless{}{-}}\NormalTok{ m1[}\DecValTok{2}\NormalTok{, ]}
+\FunctionTok{print}\NormalTok{(fila2)}
+\CommentTok{\# Imprime: 6 7 8 9 10}
+
+\CommentTok{\# Extraer la cuarta columna completa}
+\NormalTok{columna4 }\OtherTok{\textless{}{-}}\NormalTok{ m1[ , }\DecValTok{4}\NormalTok{]}
+\FunctionTok{print}\NormalTok{(columna4)}
+\CommentTok{\# Imprime: 4 9 14 19 24}
+\end{Highlighting}
+\end{Shaded}
+
+Usa la matriz \texttt{m1} y realiza las siguientes operaciones: suma
+todos los elementos de la matriz, encuentra la media de los elementos de
+la matriz, multiplica cada elemento de la matriz por 3.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Sumar todos los elementos de la matriz}
+\NormalTok{suma\_m1 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(m1)}
+\FunctionTok{print}\NormalTok{(suma\_m1)}
+\CommentTok{\# Imprime: 325}
+
+\CommentTok{\# Encontrar la media de los elementos de la matriz}
+\NormalTok{media\_m1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(m1)}
+\FunctionTok{print}\NormalTok{(media\_m1)}
+\CommentTok{\# Imprime: 13}
+
+\CommentTok{\# Multiplicar cada elemento de la matriz por 3}
+\NormalTok{m1\_multiplicada }\OtherTok{\textless{}{-}}\NormalTok{ m1 }\SpecialCharTok{*} \DecValTok{3}
+\FunctionTok{print}\NormalTok{(m1\_multiplicada)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    3    6    9   12   15}
+\CommentTok{\# [2,]   18   21   24   27   30}
+\CommentTok{\# [3,]   33   36   39   42   45}
+\CommentTok{\# [4,]   48   51   54   57   60}
+\CommentTok{\# [5,]   63   66   69   72   75}
+\end{Highlighting}
+\end{Shaded}
+
+Traspón la matriz \texttt{m1} y después sustituye el valor en la primera
+fila y primera columna a 100 y el valor en la tercera fila y quinta
+columna a 200.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Transponer la matriz}
+\NormalTok{m1\_transpuesta }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(m1)}
+
+\CommentTok{\# Mostrar la matriz transpuesta}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Matriz transpuesta:"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(m1\_transpuesta)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    1    6   11   16   21}
+\CommentTok{\# [2,]    2    7   12   17   22}
+\CommentTok{\# [3,]    3    8   13   18   23}
+\CommentTok{\# [4,]    4    9   14   19   24}
+\CommentTok{\# [5,]    5   10   15   20   25}
+
+\CommentTok{\# Cambiar el valor en la primera fila y primera columna a 100}
+\NormalTok{m1\_transpuesta[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{100}
+
+\CommentTok{\# Cambiar el valor en la tercera fila y quinta columna a 200}
+\NormalTok{m1\_transpuesta[}\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{200}
+
+\CommentTok{\# Mostrar la matriz transpuesta modificada}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Matriz transpuesta modificada:"}\NormalTok{)}
+\FunctionTok{print}\NormalTok{(m1\_transpuesta)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]  100    6   11   16   21}
+\CommentTok{\# [2,]    2    7   12   17   22}
+\CommentTok{\# [3,]    3    8   13   18  200}
+\CommentTok{\# [4,]    4    9   14   19   24}
+\CommentTok{\# [5,]    5   10   15   20   25}
+\end{Highlighting}
+\end{Shaded}
+
+Añade a \texttt{m1} una fila con los valores 26, 27, 28 , 29 y 30.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fila6 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{26}\NormalTok{, }\DecValTok{27}\NormalTok{, }\DecValTok{28}\NormalTok{, }\DecValTok{29}\NormalTok{, }\DecValTok{30}\NormalTok{)}
+\NormalTok{m1\_mod }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(m1, fila6)}
+
+\CommentTok{\# Mostrar la matriz con la nueva fila añadida}
+
+\FunctionTok{print}\NormalTok{(m1\_mod)}
+\CommentTok{\# Imprime:}
+\CommentTok{\#      [,1] [,2] [,3] [,4] [,5]}
+\CommentTok{\# [1,]    1    2    3    4    5}
+\CommentTok{\# [2,]    6    7    8    9   10}
+\CommentTok{\# [3,]   11   12   13   14   15}
+\CommentTok{\# [4,]   16   17   18   19   20}
+\CommentTok{\# [5,]   21   22   23   24   25}
+\CommentTok{\# [6,]   26   27   28   29   30}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{section-1}{%
-\chapter{}\label{section-1}}
+\section{}\label{section-1}}
+
+\bookmarksetup{startatroot}
+
+\hypertarget{section-2}{%
+\chapter{}\label{section-2}}
 
 
 

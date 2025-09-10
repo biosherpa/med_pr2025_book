@@ -1,0 +1,101 @@
+---
+title: "<span style ='font-size:16px; font-weight:bold;'>Práctica 1. Introducción a R y RStudio. Ejercicios</span>" 
+
+author: "Jesús Martín Fernández"
+format: 
+  pdf:
+    toc: true
+    number-depth: 3
+    toc-title: "Contenidos"
+    toc-location: left
+    code-fold: true
+    line-wrap: true
+    includes:
+      in_header: preamble.tex
+editor: source
+---
+
+## 
+
+Cambia el directorio de trabajo a una carpeta en tu escritorio (puedes usar MyApps) y comprueba cuál es el directorio actual
+
+```{r eval=FALSE}
+# Cambiar el directorio de trabajo
+setwd("C:/Users/jesus.martin/OneDrive - Universidad Rey Juan Carlos/
+      Documentos")
+
+#Tu dirección en MyApps será diferente
+
+# Verificar el directorio de trabajo actual
+getwd()
+```
+
+Crea una variable x de valor 10, una variable y de valor 5 y obtén su suma, resta, producto y cociente
+
+```{r eval=FALSE }
+x <- 10
+y <- 5
+
+suma <- x + y
+diferencia <- x - y
+producto <- x * y
+cociente <- x / y
+
+suma 
+diferencia
+producto 
+cociente 
+```
+
+Instala y carga el paquete `stringr`. Luego, verifica que el paquete esté correctamente cargado.
+
+```{r eval=FALSE }
+
+# Instalar el paquete stringr 
+install.packages("stringr")
+
+# Cargar el paquete stringr
+library(stringr)
+
+# Verificar que el paquete está cargado
+find.package("stringr")
+
+```
+
+Genera una carpeta llamada Practica_1 en tu carpeta de trabajo
+
+```{r eval=FALSE}
+dir.create("C:/Users/jesus.martin/OneDrive - Universidad Rey Juan Carlos/Documentos/Practica1")
+
+```
+
+Ahora cambia a esa carpeta el directorio de trabajo y comprueba que estás trabajando en él
+
+```{r eval=FALSE}
+setwd("C:/Users/jesus.martin/OneDrive - Universidad Rey Juan Carlos/Documentos/Practica1")
+
+#Tu ruta de acceso debe ser diferente
+
+getwd()
+```
+Guarda la imagen del área de trabajo con el nombre Practica1.Rdata.
+
+```{r eval=FALSE}
+save.image(file = "Practica1.Rdata")
+```
+
+Cierra R y vuelve a abrirlo.
+
+Carga el área de trabajo desde el archivo Practica1.Rdata.
+
+
+```{r eval=FALSE}
+load("C:/Users/jesus.martin/OneDrive - Universidad Rey Juan Carlos/Documentos/Practica1/Practica1.Rdata")
+
+ 
+ 
+
+```
+
+¿Ves toda la información que tenías?
+Todos los objetos del espacio de trabajo deberían estar disponibles. Si no ves los objetos, verifica que la ruta y el nombre del archivo sean correctos y que el archivo se haya guardado en el lugar correcto.
