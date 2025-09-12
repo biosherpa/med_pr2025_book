@@ -202,7 +202,7 @@
 \begin{document}
 \frontmatter
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, boxrule=0pt, frame hidden, breakable, interior hidden, borderline west={3pt}{0pt}{shadecolor}, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, enhanced, interior hidden, frame hidden, breakable]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Tabla de contenidos}
 {
@@ -252,7 +252,7 @@ curso 2023-2024.
 \part{Instalación de R, RStudio y manejo básico.}
 
 \hypertarget{quuxe9-es-r-y-cuxf3mo-funciona-r}{%
-\chapter{1. ¿Qué es R y cómo funciona
+\chapter{¿Qué es R y cómo funciona
 R?}\label{quuxe9-es-r-y-cuxf3mo-funciona-r}}
 
 R es un lenguaje de programación y un entorno de software creado con el
@@ -423,11 +423,11 @@ necesario, lo que convierte a R en una herramienta altamente flexible
 para el análisis de datos.
 
 \hypertarget{comenzando-a-trabajar-con-r}{%
-\section{2. Comenzando a trabajar con
+\section{Comenzando a trabajar con
 R}\label{comenzando-a-trabajar-con-r}}
 
 \hypertarget{instalaciuxf3n-de-r}{%
-\subsection{2.1 Instalación de R}\label{instalaciuxf3n-de-r}}
+\subsection{Instalación de R}\label{instalaciuxf3n-de-r}}
 
 Para instalar R vamos a la página web de~R project:
 \href{http://www.r-project.org/}{\textbf{http://www.r-project.org}}\textbf{.}
@@ -449,7 +449,7 @@ instalarlo por separado, ya que está disponible desde el inicio para que
 puedas empezar a trabajar con R de inmediato.
 
 \hypertarget{rstudio-una-interfaz-para-usar-r}{%
-\subsection{2.2 RStudio: una interfaz para usar
+\subsection{RStudio: una interfaz para usar
 R}\label{rstudio-una-interfaz-para-usar-r}}
 
 Aunque puedes ejecutar R directamente desde la línea de comandos,
@@ -612,7 +612,7 @@ Entre las pestañas destacadas se encuentran:
 \end{itemize}
 
 \hypertarget{establecer-el-directorio-de-trabajo}{%
-\subsection{2.3 Establecer el directorio de
+\subsection{Establecer el directorio de
 trabajo}\label{establecer-el-directorio-de-trabajo}}
 
 Antes de empezar a trabajar en R, debes fijar el directorio donde se
@@ -658,7 +658,7 @@ decir, podras escibir
 \texttt{C:\textbackslash{}\textbackslash{}Users\textbackslash{}\textbackslash{}Usuario\textbackslash{}\textbackslash{}Documents\textbackslash{}\textbackslash{}Archivo.txt}.
 
 \hypertarget{instalaciuxf3n-y-uso-de-paquetes}{%
-\subsection{2.4 Instalación y uso de
+\subsection{Instalación y uso de
 paquetes}\label{instalaciuxf3n-y-uso-de-paquetes}}
 
 Un paquete es un conjunto de funciones, datos y documentación que están
@@ -741,7 +741,7 @@ está ubicado en \texttt{R\ HOME/library/base/R/base}, y contiene un
 archivo en formato ASCII que incluye todas las funciones del paquete.
 
 \hypertarget{la-ayuda-en-r}{%
-\subsection{2.5 La ayuda en R}\label{la-ayuda-en-r}}
+\subsection{La ayuda en R}\label{la-ayuda-en-r}}
 
 Existen diversas formas de buscar ayuda en R
 
@@ -868,7 +868,7 @@ también una pestaña de ayuda con un buscador de términos
 \includegraphics{Prácticas_2025_26/Práctica_1/Imagenes/Ayuda RStudio.jpg}
 
 \hypertarget{operando-con-r.}{%
-\section{3. Operando con R.}\label{operando-con-r.}}
+\section{Operando con R.}\label{operando-con-r.}}
 
 En \textbf{R}, el lenguaje es \textbf{case-sensitive}, lo que significa
 que distingue entre mayúsculas y minúsculas, haciendo que
@@ -1240,7 +1240,7 @@ que las convierte en un componente clave para escribir código adaptable
 y robusto.
 
 \hypertarget{guardando-el-trabajo-realizado}{%
-\section{4. Guardando el trabajo
+\section{Guardando el trabajo
 realizado}\label{guardando-el-trabajo-realizado}}
 
 En RStudio, existen varias formas de \textbf{guardar tu trabajo}
@@ -1326,7 +1326,7 @@ por ejemplo para guardar un excel
 \end{Shaded}
 
 \hypertarget{recuperando-archivos}{%
-\section{5. Recuperando archivos}\label{recuperando-archivos}}
+\section{Recuperando archivos}\label{recuperando-archivos}}
 
 A veces necesitamos volver a abrir un archivo o recuperar la ruta donde
 guardamos nuestro trabajo en R. Para hacerlo de manera rápida, podemos
@@ -1396,15 +1396,15 @@ en Windows y queremos recuperarlo en R:
 Con estos pasos, recuperamos fácilmente nuestros datos y configuramos el
 directorio de trabajo en la misma carpeta donde se encuentra el archivo.
 
-\hypertarget{cambiar-el-directorio-de-trabajo}{%
-\chapter{Cambiar el directorio de
-trabajo}\label{cambiar-el-directorio-de-trabajo}}
+\hypertarget{ejercicio-pruxe1ctica-1.}{%
+\chapter{Ejercicio Práctica 1.}\label{ejercicio-pruxe1ctica-1.}}
 
 Cambia el directorio de trabajo a una carpeta en tu escritorio (puedes
 usar MyApps) y comprueba cuál es el directorio actual
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Cambiar el directorio de trabajo}
 \FunctionTok{setwd}\NormalTok{(}\StringTok{"C:\textasciitilde{}/Documentos"}\NormalTok{)}
 
 \CommentTok{\#Tu dirección en MyApps será diferente, la virgulilla (Alt Gr+4) }
@@ -1496,7 +1496,7 @@ la ruta y el nombre del archivo sean correctos y que el archivo se haya
 guardado en el lugar correcto.
 
 \hypertarget{tipos-de-objetos-en-r.}{%
-\chapter{1.Tipos de objetos en R.}\label{tipos-de-objetos-en-r.}}
+\chapter{Tipos de objetos en R.}\label{tipos-de-objetos-en-r.}}
 
 R es capaz de gestionar diversos tipos de datos, que se organizan en
 distintas estructuras de datos. A continuación se presenta una tabla que
@@ -1582,7 +1582,7 @@ Contenedor flexible que puede almacenar elementos de diferentes tipos
 \end{longtable}
 
 \hypertarget{operadores-buxe1sicos-en-r}{%
-\section{2. Operadores básicos en R}\label{operadores-buxe1sicos-en-r}}
+\section{Operadores básicos en R}\label{operadores-buxe1sicos-en-r}}
 
 Vamos a hacer un resumen de los principales operadores y las funciones
 matemáticas más utilizadas en R
@@ -1670,7 +1670,7 @@ max() & Encuentra el máximo valor en un conjunto de números & max(c(1,
 \end{longtable}
 
 \hypertarget{vectores}{%
-\section{3. Vectores}\label{vectores}}
+\section{Vectores}\label{vectores}}
 
 Un \textbf{vector} es una secuencia ordenada de datos del mismo tipo
 (siendo éstos númericos, cadenas, fechas, etc). Es la estructura de
@@ -1855,8 +1855,8 @@ normal con la función \texttt{rnorm}
 \end{Shaded}
 
 \begin{verbatim}
- [1] 54.16499 47.06818 65.14691 49.08496 48.57680 44.00905 53.18747 46.50637
- [9] 53.56464 49.88831
+ [1] 42.90267 44.91192 54.14296 49.63508 50.24794 60.07675 40.91548 41.43366
+ [9] 52.69584 51.37956
 \end{verbatim}
 
 Se puede crear un vector con elementos repetidos en forma de series con
@@ -2031,7 +2031,11 @@ uno menor
 
 Aviso en v1*v2 : longitud de objeto mayor no es múltiplo de la longitud
 de uno menor. Multiplica último valor de v2, por el primero de V1
-(``reciclaje''). \#No ocurriría si v1 y v2 tuviesen igual tamaño.
+(``reciclaje'').
+
+\begin{verbatim}
+No ocurriría si v1 y v2 tuviesen igual tamaño.
+\end{verbatim}
 
 Se pueden elevar al cuadrado los términos de un vector
 
@@ -2310,13 +2314,13 @@ Posiciones de los elementos \textgreater2 y \textless= 8 sabiendo que
 existen valores ausentes.
 
 \hypertarget{matrices}{%
-\section{4. Matrices}\label{matrices}}
+\section{Matrices}\label{matrices}}
 
 En R, una matriz es una colección bidimensional de elementos que deben
 ser del mismo tipo (numérico, carácter, lógico, etc.).
 
 \hypertarget{creaciuxf3n-de-matrices}{%
-\subsection{4.1 Creación de matrices}\label{creaciuxf3n-de-matrices}}
+\subsection{Creación de matrices}\label{creaciuxf3n-de-matrices}}
 
 La función \texttt{matrix()} es la forma más común de crear matrices en
 R.
@@ -2374,8 +2378,7 @@ La función \texttt{matrix()} se puede sustituir con la instrucción
 \end{verbatim}
 
 \hypertarget{operaciones-con-matrices}{%
-\subsection{4.2 Operaciones con
-matrices}\label{operaciones-con-matrices}}
+\subsection{Operaciones con matrices}\label{operaciones-con-matrices}}
 
 Las funciones básicas explicadas se pueden emplear en una matriz
 
@@ -2693,10 +2696,10 @@ Columna 1 Columna 2
 \end{verbatim}
 
 \hypertarget{ejercicios}{%
-\section{5. Ejercicios}\label{ejercicios}}
+\section{Ejercicios}\label{ejercicios}}
 
 \hypertarget{ejercicios-con-vectores}{%
-\subsection{5.1 Ejercicios con vectores}\label{ejercicios-con-vectores}}
+\subsection{Ejercicios con vectores}\label{ejercicios-con-vectores}}
 
 Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos
 veces. Luego, encuentra la suma, la media y la desviación estándar de
@@ -2852,7 +2855,7 @@ que ejecutes el código
 \end{Shaded}
 
 \hypertarget{ejercicios-con-matrices}{%
-\subsection{5.2 Ejercicios con matrices}\label{ejercicios-con-matrices}}
+\subsection{Ejercicios con matrices}\label{ejercicios-con-matrices}}
 
 Crea una matriz \texttt{m1} de dimensiones 5x5 con los números del 1 al
 25 creados por filas
@@ -2986,14 +2989,11 @@ Añade a \texttt{m1} una fila con los valores 26, 27, 28 , 29 y 30.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{section}{%
-\section{}\label{section}}
-
-\hypertarget{ejercicios-1}{%
-\chapter{Ejercicios}\label{ejercicios-1}}
+\hypertarget{ejercicios-pruxe1ctica-2.}{%
+\chapter{Ejercicios Práctica 2.}\label{ejercicios-pruxe1ctica-2.}}
 
 \hypertarget{ejercicios-con-vectores-1}{%
-\subsection{1 Ejercicios con vectores}\label{ejercicios-con-vectores-1}}
+\subsection{Ejercicios con vectores}\label{ejercicios-con-vectores-1}}
 
 Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos
 veces. Luego, encuentra la suma, la media y la desviación estándar de
@@ -3149,7 +3149,7 @@ que ejecutes el código
 \end{Shaded}
 
 \hypertarget{ejercicios-con-matrices-1}{%
-\subsection{2 Ejercicios con matrices}\label{ejercicios-con-matrices-1}}
+\subsection{Ejercicios con matrices}\label{ejercicios-con-matrices-1}}
 
 Crea una matriz \texttt{m1} de dimensiones 5x5 con los números del 1 al
 25 creados por filas
@@ -3283,13 +3283,10 @@ Añade a \texttt{m1} una fila con los valores 26, 27, 28 , 29 y 30.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{section-1}{%
-\section{}\label{section-1}}
-
 \bookmarksetup{startatroot}
 
-\hypertarget{section-2}{%
-\chapter{}\label{section-2}}
+\hypertarget{section}{%
+\chapter{}\label{section}}
 
 
 \backmatter

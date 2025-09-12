@@ -14,9 +14,9 @@
 # editor: visual
 ---
 
-## Ejercicios
+## Ejercicios Práctica 2.
 
-### 1 Ejercicios con vectores
+### Ejercicios con vectores
 
 Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos veces.
 Luego, encuentra la suma, la media y la desviación estándar de los valores en el vector.
@@ -155,7 +155,7 @@ print(v_ordenado)
 # Ejemplo de salida: 2  6  7 19 35 48 55 63 74 80
 ```
 
-### 2 Ejercicios con matrices
+### Ejercicios con matrices
 
 Crea una matriz `m1` de dimensiones 5x5 con los números del 1 al 25 creados por filas
 
@@ -278,4 +278,4 @@ print(m1_mod)
 
 ```
 
-## 
+

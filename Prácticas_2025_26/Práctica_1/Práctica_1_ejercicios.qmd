@@ -15,7 +15,7 @@
 
 ---
 
-## 
+# Ejercicio Práctica 1.
 
 Cambia el directorio de trabajo a una carpeta en tu escritorio (puedes usar MyApps) y comprueba cuál es el directorio actual
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Apuntes Prácticas de la asignatura de Bioestadística - 2&nbsp; 1. ¿Qué es R y cómo funciona R?</title>
+<title>Apuntes Prácticas de la asignatura de Bioestadística - 2&nbsp; ¿Qué es R y cómo funciona R?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">1. ¿Qué es R y cómo funciona R?</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es R y cómo funciona R?</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -172,22 +172,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../Prácticas_2025_26/Práctica_1/Práctica_1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">1. ¿Qué es R y cómo funciona R?</span></a>
+  <a href="../../Prácticas_2025_26/Práctica_1/Práctica_1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es R y cómo funciona R?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../Prácticas_2025_26/Práctica_1/Práctica_1_ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cambiar el directorio de trabajo</span></a>
+  <a href="../../Prácticas_2025_26/Práctica_1/Práctica_1_ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ejercicio Práctica 1.</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../Prácticas_2025_26/Práctica_2/Práctica_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">1.Tipos de objetos en R.</span></a>
+  <a href="../../Prácticas_2025_26/Práctica_2/Práctica_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Tipos de objetos en R.</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../Prácticas_2025_26/Práctica_2/Práctica_2_ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ejercicios</span></a>
+  <a href="../../Prácticas_2025_26/Práctica_2/Práctica_2_ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ejercicios Práctica 2.</span></a>
   </div>
 </li>
       </ul>
@@ -208,22 +208,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#un-poco-de-historia" id="toc-un-poco-de-historia" class="nav-link active" data-scroll-target="#un-poco-de-historia"><span class="toc-section-number">2.0.1</span>  1.1 Un poco de historia</a></li>
   <li><a href="#cómo-funciona-r" id="toc-cómo-funciona-r" class="nav-link" data-scroll-target="#cómo-funciona-r"><span class="toc-section-number">2.0.2</span>  1.2 Cómo funciona R</a></li>
-  <li><a href="#comenzando-a-trabajar-con-r" id="toc-comenzando-a-trabajar-con-r" class="nav-link" data-scroll-target="#comenzando-a-trabajar-con-r"><span class="toc-section-number">2.1</span>  2. Comenzando a trabajar con R</a>
+  <li><a href="#comenzando-a-trabajar-con-r" id="toc-comenzando-a-trabajar-con-r" class="nav-link" data-scroll-target="#comenzando-a-trabajar-con-r"><span class="toc-section-number">2.1</span>  Comenzando a trabajar con R</a>
   <ul class="collapse">
-  <li><a href="#instalación-de-r" id="toc-instalación-de-r" class="nav-link" data-scroll-target="#instalación-de-r"><span class="toc-section-number">2.1.1</span>  2.1 Instalación de R</a></li>
-  <li><a href="#rstudio-una-interfaz-para-usar-r" id="toc-rstudio-una-interfaz-para-usar-r" class="nav-link" data-scroll-target="#rstudio-una-interfaz-para-usar-r"><span class="toc-section-number">2.1.2</span>  2.2 RStudio: una interfaz para usar R</a></li>
-  <li><a href="#establecer-el-directorio-de-trabajo" id="toc-establecer-el-directorio-de-trabajo" class="nav-link" data-scroll-target="#establecer-el-directorio-de-trabajo"><span class="toc-section-number">2.1.3</span>  2.3 Establecer el directorio de trabajo</a></li>
-  <li><a href="#instalación-y-uso-de-paquetes" id="toc-instalación-y-uso-de-paquetes" class="nav-link" data-scroll-target="#instalación-y-uso-de-paquetes"><span class="toc-section-number">2.1.4</span>  2.4 Instalación y uso de paquetes</a></li>
-  <li><a href="#la-ayuda-en-r" id="toc-la-ayuda-en-r" class="nav-link" data-scroll-target="#la-ayuda-en-r"><span class="toc-section-number">2.1.5</span>  2.5 La ayuda en R</a></li>
+  <li><a href="#instalación-de-r" id="toc-instalación-de-r" class="nav-link" data-scroll-target="#instalación-de-r"><span class="toc-section-number">2.1.1</span>  Instalación de R</a></li>
+  <li><a href="#rstudio-una-interfaz-para-usar-r" id="toc-rstudio-una-interfaz-para-usar-r" class="nav-link" data-scroll-target="#rstudio-una-interfaz-para-usar-r"><span class="toc-section-number">2.1.2</span>  RStudio: una interfaz para usar R</a></li>
+  <li><a href="#establecer-el-directorio-de-trabajo" id="toc-establecer-el-directorio-de-trabajo" class="nav-link" data-scroll-target="#establecer-el-directorio-de-trabajo"><span class="toc-section-number">2.1.3</span>  Establecer el directorio de trabajo</a></li>
+  <li><a href="#instalación-y-uso-de-paquetes" id="toc-instalación-y-uso-de-paquetes" class="nav-link" data-scroll-target="#instalación-y-uso-de-paquetes"><span class="toc-section-number">2.1.4</span>  Instalación y uso de paquetes</a></li>
+  <li><a href="#la-ayuda-en-r" id="toc-la-ayuda-en-r" class="nav-link" data-scroll-target="#la-ayuda-en-r"><span class="toc-section-number">2.1.5</span>  La ayuda en R</a></li>
   </ul></li>
-  <li><a href="#operando-con-r." id="toc-operando-con-r." class="nav-link" data-scroll-target="#operando-con-r."><span class="toc-section-number">2.2</span>  3. Operando con R.</a>
+  <li><a href="#operando-con-r." id="toc-operando-con-r." class="nav-link" data-scroll-target="#operando-con-r."><span class="toc-section-number">2.2</span>  Operando con R.</a>
   <ul class="collapse">
   <li><a href="#las-líneas-de-código-en-r" id="toc-las-líneas-de-código-en-r" class="nav-link" data-scroll-target="#las-líneas-de-código-en-r"><span class="toc-section-number">2.2.1</span>  3.1 Las líneas de código en R</a></li>
   <li><a href="#creación-de-objetos-con-r" id="toc-creación-de-objetos-con-r" class="nav-link" data-scroll-target="#creación-de-objetos-con-r"><span class="toc-section-number">2.2.2</span>  3.2 Creación de objetos con R</a></li>
   <li><a href="#las-funciones-en-r" id="toc-las-funciones-en-r" class="nav-link" data-scroll-target="#las-funciones-en-r"><span class="toc-section-number">2.2.3</span>  3.3 Las funciones en R</a></li>
   </ul></li>
-  <li><a href="#guardando-el-trabajo-realizado" id="toc-guardando-el-trabajo-realizado" class="nav-link" data-scroll-target="#guardando-el-trabajo-realizado"><span class="toc-section-number">2.3</span>  4. Guardando el trabajo realizado</a></li>
-  <li><a href="#recuperando-archivos" id="toc-recuperando-archivos" class="nav-link" data-scroll-target="#recuperando-archivos"><span class="toc-section-number">2.4</span>  5. Recuperando archivos</a></li>
+  <li><a href="#guardando-el-trabajo-realizado" id="toc-guardando-el-trabajo-realizado" class="nav-link" data-scroll-target="#guardando-el-trabajo-realizado"><span class="toc-section-number">2.3</span>  Guardando el trabajo realizado</a></li>
+  <li><a href="#recuperando-archivos" id="toc-recuperando-archivos" class="nav-link" data-scroll-target="#recuperando-archivos"><span class="toc-section-number">2.4</span>  Recuperando archivos</a></li>
   </ul>
 </nav>
     </div>
@@ -232,7 +232,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">1. ¿Qué es R y cómo funciona R?</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">¿Qué es R y cómo funciona R?</span></h1>
 </div>
 
 
@@ -275,9 +275,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Este enfoque estructurado y accesible de R fomenta tanto el aprendizaje rápido como la exploración más profunda del código. Los usuarios pueden comenzar realizando operaciones básicas, pero también tienen la libertad de explorar cómo se construyen las funciones y modificarlas si es necesario, lo que convierte a R en una herramienta altamente flexible para el análisis de datos.</p>
 </section>
 <section id="comenzando-a-trabajar-con-r" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="comenzando-a-trabajar-con-r"><span class="header-section-number">2.1</span> 2. Comenzando a trabajar con R</h2>
+<h2 data-number="2.1" class="anchored" data-anchor-id="comenzando-a-trabajar-con-r"><span class="header-section-number">2.1</span> Comenzando a trabajar con R</h2>
 <section id="instalación-de-r" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="instalación-de-r"><span class="header-section-number">2.1.1</span> 2.1 Instalación de R</h3>
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="instalación-de-r"><span class="header-section-number">2.1.1</span> Instalación de R</h3>
 <p>Para instalar R vamos a la página web de&nbsp;R project: <a href="http://www.r-project.org/"><strong>http://www.r-project.org</strong></a><strong>.</strong></p>
 <p><img src="Imagenes/CRAN_2.jpeg" class="img-fluid"></p>
 <p>Después seleccionamos el “espejo” más conveniente, en nuestro país una opción adecuada está en la Red Iris The Comprehensive R Archive Network (rediris.es) <a href="https://cran.rediris.es/" class="uri">https://cran.rediris.es/</a>. Allí nos descargaremos el formato conveniente en función del sistema operativo.</p>
@@ -285,7 +285,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Al instalar R, el <strong>paquete base</strong> se incluye automáticamente. Este paquete proporciona herramientas esenciales para manipular datos, realizar cálculos estadísticos y crear gráficos. No es necesario instalarlo por separado, ya que está disponible desde el inicio para que puedas empezar a trabajar con R de inmediato.</p>
 </section>
 <section id="rstudio-una-interfaz-para-usar-r" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="rstudio-una-interfaz-para-usar-r"><span class="header-section-number">2.1.2</span> 2.2 RStudio: una interfaz para usar R</h3>
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="rstudio-una-interfaz-para-usar-r"><span class="header-section-number">2.1.2</span> RStudio: una interfaz para usar R</h3>
 <p>Aunque puedes ejecutar R directamente desde la línea de comandos, <strong>RStudio</strong> es una interfaz gráfica que facilita el uso de R, especialmente para principiantes.</p>
 <p>RStudio se descarga desde su página oficial <a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a></p>
 <p>Pero también puedes encontrarla en MyApps</p>
@@ -346,7 +346,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </section>
 <section id="establecer-el-directorio-de-trabajo" class="level3" data-number="2.1.3">
-<h3 data-number="2.1.3" class="anchored" data-anchor-id="establecer-el-directorio-de-trabajo"><span class="header-section-number">2.1.3</span> 2.3 Establecer el directorio de trabajo</h3>
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="establecer-el-directorio-de-trabajo"><span class="header-section-number">2.1.3</span> Establecer el directorio de trabajo</h3>
 <p>Antes de empezar a trabajar en R, debes fijar el directorio donde se guardarán tus archivos. Hay dos maneras de hacerlo:</p>
 <ol type="1">
 <li><p><strong>Fijar el directorio manualmente</strong>: Usa la función <code>setwd("C:/ruta del directorio de trabajo")</code> para establecer la ruta de trabajo. Para verificar la ruta actual, usa <code>getwd()</code>, y para listar los archivos en el directorio, utiliza <code>dir()</code>.</p></li>
@@ -359,7 +359,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>C:\\Users\\Usuario\\Documents\\Archivo.txt</code>.</p>
 </section>
 <section id="instalación-y-uso-de-paquetes" class="level3" data-number="2.1.4">
-<h3 data-number="2.1.4" class="anchored" data-anchor-id="instalación-y-uso-de-paquetes"><span class="header-section-number">2.1.4</span> 2.4 Instalación y uso de paquetes</h3>
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="instalación-y-uso-de-paquetes"><span class="header-section-number">2.1.4</span> Instalación y uso de paquetes</h3>
 <p>Un paquete es un conjunto de funciones, datos y documentación que están organizados para realizar tareas específicas. <strong>R</strong> viene con algunos paquetes preinstalados, pero puedes descargar e instalar muchos más desde repositorios en línea o desde archivos locales en tu computadora. Para la instalación desde repositorios necesitarás una conexión a Internet, pero puedes hacerlo desde directorios locales si ya tienes el archivo del paquete en tu computadora.</p>
 <p><u>Paquetes base</u></p>
 <p>Los paquetes “base” ya vienen preinstalados con <strong>R</strong> y se pueden cargar directamente usando la función <code>library()</code>. Por ejemplo:</p>
@@ -390,7 +390,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Una vez instalado, un paquete se guarda en una carpeta específica dentro del directorio R HOME/library, que es el directorio donde R está instalado. Cada paquete contiene sus funciones organizadas en subdirectorios. Por ejemplo, el paquete base (parte del núcleo de R) está ubicado en <code>R HOME/library/base/R/base</code>, y contiene un archivo en formato ASCII que incluye todas las funciones del paquete.</p>
 </section>
 <section id="la-ayuda-en-r" class="level3" data-number="2.1.5">
-<h3 data-number="2.1.5" class="anchored" data-anchor-id="la-ayuda-en-r"><span class="header-section-number">2.1.5</span> 2.5 La ayuda en R</h3>
+<h3 data-number="2.1.5" class="anchored" data-anchor-id="la-ayuda-en-r"><span class="header-section-number">2.1.5</span> La ayuda en R</h3>
 <p>Existen diversas formas de buscar ayuda en R</p>
 <ul>
 <li><code>help(función)</code> o <code>?función</code>: Ayuda para una función.</li>
@@ -449,7 +449,7 @@ NULL</code></pre>
 </section>
 </section>
 <section id="operando-con-r." class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="operando-con-r."><span class="header-section-number">2.2</span> 3. Operando con R.</h2>
+<h2 data-number="2.2" class="anchored" data-anchor-id="operando-con-r."><span class="header-section-number">2.2</span> Operando con R.</h2>
 <p>En <strong>R</strong>, el lenguaje es <strong>case-sensitive</strong>, lo que significa que distingue entre mayúsculas y minúsculas, haciendo que <code>Variable</code>, <code>variable</code>, y <code>VARIABLE</code> se consideren nombres distintos. Los nombres de objetos no pueden contener espacios; en su lugar, se deben usar guiones bajos (<code>_</code>) o la notación de camello (<code>camelCase</code>) para separar palabras (esto último lo usamos menos). Además, los nombres deben comenzar con una letra o un punto seguido de una letra, y pueden incluir letras, números, y puntos o guiones bajos después del primer carácter. Nombres que comienzan con números o que contienen espacios o caracteres especiales generarán errores.</p>
 <p>Los caracteres reservados como <code>=</code>, <code>$</code>, <code>&amp;</code>, y <code>*</code>, así como caracteres especiales como <code>ä</code>, <code>ü</code>, <code>í</code>, no están permitidos en los nombres de objetos, ya que pueden causar errores o comportamientos inesperados.</p>
 <section id="las-líneas-de-código-en-r" class="level3" data-number="2.2.1">
@@ -622,7 +622,7 @@ z :  num 30</code></pre>
 </section>
 </section>
 <section id="guardando-el-trabajo-realizado" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="guardando-el-trabajo-realizado"><span class="header-section-number">2.3</span> 4. Guardando el trabajo realizado</h2>
+<h2 data-number="2.3" class="anchored" data-anchor-id="guardando-el-trabajo-realizado"><span class="header-section-number">2.3</span> Guardando el trabajo realizado</h2>
 <p>En RStudio, existen varias formas de <strong>guardar tu trabajo</strong> dependiendo de lo que deseas conservar (scripts, resultados, gráficos, etc.). Aquí se explican las principales opciones:</p>
 <p><u>1. Guardar scripts o archivos de código R</u></p>
 <p>El código que escribes en el editor de scripts de RStudio (los archivos con extensión <code>.R</code>) se puede guardar fácilmente como un archivo de texto. Basta con ir al menú File &gt; Save o usar el atajo de teclado Ctrl + S (Windows)</p>
@@ -655,7 +655,7 @@ z :  num 30</code></pre>
 </div>
 </section>
 <section id="recuperando-archivos" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="recuperando-archivos"><span class="header-section-number">2.4</span> 5. Recuperando archivos</h2>
+<h2 data-number="2.4" class="anchored" data-anchor-id="recuperando-archivos"><span class="header-section-number">2.4</span> Recuperando archivos</h2>
 <p>A veces necesitamos volver a abrir un archivo o recuperar la ruta donde guardamos nuestro trabajo en R. Para hacerlo de manera rápida, podemos aprovechar el portapapeles de Windows y algunas funciones de R.</p>
 <p><strong>Usando el portapapeles</strong></p>
 <p>En Windows, la función <code>readClipboard()</code> permite leer directamente lo que tenemos copiado en el portapapeles. Esto resulta útil cuando copiamos la ruta de un archivo desde el explorador de Windows y queremos usarla en R.</p>
@@ -837,7 +837,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../Prácticas_2025_26/Práctica_1/Práctica_1_ejercicios.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cambiar el directorio de trabajo</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ejercicio Práctica 1.</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

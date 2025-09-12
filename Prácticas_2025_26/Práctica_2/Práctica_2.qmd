@@ -14,7 +14,7 @@
 # editor: visual
 ---
 
-## 1.Tipos de objetos en R.
+## Tipos de objetos en R.
 
 R es capaz de gestionar diversos tipos de datos, que se organizan en distintas estructuras de datos.
 A continuación se presenta una tabla que describe los tipos de datos básicos en R:
@@ -42,7 +42,7 @@ La siguiente tabla muestra las principales estructuras de datos que maneja R.
 | TS | Numérico, Carácter, Complejo, Lógico | Serie temporal (time series), un conjunto de datos ordenados por tiempo, del mismo tipo (numérico, carácter, complejo, lógico). | No | 1D (univariada) o 2D (multivariada) |
 | Lista | Numérico, Carácter, Complejo, Lógico, Función, Expresión, etc. | Contenedor flexible que puede almacenar elementos de diferentes tipos (numérico, carácter, complejo, lógico, función, expresión, etc.). | Sí | 1D (pero puede contener estructuras de cualquier dimensión) |
 
-## 2. Operadores básicos en R
+## Operadores básicos en R
 
 Vamos a hacer un resumen de los principales operadores y las funciones matemáticas más utilizadas en R
 
@@ -87,12 +87,12 @@ Ahora vamos a recordar las funciones matemáticas básicas más utilizadas
 | min() | Encuentra el mínimo valor en un conjunto de números | min(c(1, 2, 3)) | 1 |
 | max() | Encuentra el máximo valor en un conjunto de números | max(c(1, 2, 3)) | 3 |
 
-## 3. Vectores
+## Vectores
 
-Un **vector** es una secuencia ordenada de datos del mismo tipo (siendo éstos númericos, cadenas, fechas, etc).
-Es la estructura de datos más sencilla.
-Un simple valor (por ejemplo el número 5) constituye un vector numérico.
-Los escalares son vectores de longitud 1
+  Un **vector** es una secuencia ordenada de datos del mismo tipo (siendo éstos númericos, cadenas, fechas, etc).
+  Es la estructura de datos más sencilla.
+  Un simple valor (por ejemplo el número 5) constituye un vector numérico.
+  Los escalares son vectores de longitud 1
 
 ```{r}
 x<- 5
@@ -278,7 +278,8 @@ v1*v2
 
 Aviso en v1\*v2 : longitud de objeto mayor no es múltiplo de la longitud de uno menor.
 Multiplica último valor de v2, por el primero de V1 ("reciclaje").
-#No ocurriría si v1 y v2 tuviesen igual tamaño.
+
+    No ocurriría si v1 y v2 tuviesen igual tamaño.
 
 Se pueden elevar al cuadrado los términos de un vector
 
@@ -398,11 +399,11 @@ which(!is.na(v3) & v3 < 2 | v3 >= 8)
 
 Posiciones de los elementos \>2 y \<= 8 sabiendo que existen valores ausentes.
 
-## 4. Matrices
+## Matrices
 
 En R, una matriz es una colección bidimensional de elementos que deben ser del mismo tipo (numérico, carácter, lógico, etc.).
 
-### 4.1 Creación de matrices
+### Creación de matrices
 
 La función `matrix()` es la forma más común de crear matrices en R.
 
@@ -426,7 +427,7 @@ dim(x) <- c(5, 3)
 x
 ```
 
-### 4.2 Operaciones con matrices
+### Operaciones con matrices
 
 Las funciones básicas explicadas se pueden emplear en una matriz
 
@@ -509,9 +510,9 @@ m3[3,c("Columna 1","Columna 2")] # La fila 3 y todas las columnas, llamadas por 
 
 ```
 
-## 5. Ejercicios
+## Ejercicios
 
-### 5.1 Ejercicios con vectores
+### Ejercicios con vectores
 
 Crea un vector v1 en el que se repita la secuencia 1, 2, 3, 4, 5 dos veces.
 Luego, encuentra la suma, la media y la desviación estándar de los valores en el vector.
@@ -650,7 +651,7 @@ print(v_ordenado)
 # Ejemplo de salida: 2  6  7 19 35 48 55 63 74 80
 ```
 
-### 5.2 Ejercicios con matrices
+### Ejercicios con matrices
 
 Crea una matriz `m1` de dimensiones 5x5 con los números del 1 al 25 creados por filas
 
@@ -773,4 +774,4 @@ print(m1_mod)
 
 ```
 
-## 
+

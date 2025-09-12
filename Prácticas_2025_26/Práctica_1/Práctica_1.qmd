@@ -14,9 +14,8 @@
 # editor: source
 ---
 
-## 
 
-## 1. ¿Qué es R y cómo funciona R?
+## ¿Qué es R y cómo funciona R?
 
 R es un lenguaje de programación y un entorno de software creado con el propósito de facilitar el análisis estadístico, la visualización de datos y la manipulación de información en distintos formatos.
 Desde su origen, se ha consolidado como una de las herramientas más utilizadas en disciplinas como la estadística, la ciencia de datos, las ciencias de la salud, la economía y muchas otras áreas que requieren un manejo intensivo de datos.
@@ -101,9 +100,8 @@ Si se omiten los paréntesis, en lugar de ejecutar la función, R muestra su def
 Este enfoque estructurado y accesible de R fomenta tanto el aprendizaje rápido como la exploración más profunda del código.
 Los usuarios pueden comenzar realizando operaciones básicas, pero también tienen la libertad de explorar cómo se construyen las funciones y modificarlas si es necesario, lo que convierte a R en una herramienta altamente flexible para el análisis de datos.
 
-## 2. Comenzando a trabajar con R
-
-### 2.1 Instalación de R
+## Comenzando a trabajar con R
+### Instalación de R
 
 Para instalar R vamos a la página web de R project: [**http://www.r-project.org**](http://www.r-project.org/)**.**
 
@@ -118,7 +116,7 @@ Al instalar R, el **paquete base** se incluye automáticamente.
 Este paquete proporciona herramientas esenciales para manipular datos, realizar cálculos estadísticos y crear gráficos.
 No es necesario instalarlo por separado, ya que está disponible desde el inicio para que puedas empezar a trabajar con R de inmediato.
 
-### 2.2 RStudio: una interfaz para usar R
+### RStudio: una interfaz para usar R
 
 Aunque puedes ejecutar R directamente desde la línea de comandos, **RStudio** es una interfaz gráfica que facilita el uso de R, especialmente para principiantes.
 
@@ -183,7 +181,7 @@ Entre las pestañas destacadas se encuentran:
 
 -   **Help**: Proporciona asistencia sobre funciones específicas, facilitando la consulta de documentación y ayuda relacionada con el uso de diversas funciones en R.
 
-### 2.3 Establecer el directorio de trabajo
+### Establecer el directorio de trabajo
 
 Antes de empezar a trabajar en R, debes fijar el directorio donde se guardarán tus archivos.
 Hay dos maneras de hacerlo:
@@ -209,7 +207,7 @@ o
 
 `C:\\Users\\Usuario\\Documents\\Archivo.txt`.
 
-### 2.4 Instalación y uso de paquetes
+### Instalación y uso de paquetes
 
 Un paquete es un conjunto de funciones, datos y documentación que están organizados para realizar tareas específicas.
 **R** viene con algunos paquetes preinstalados, pero puedes descargar e instalar muchos más desde repositorios en línea o desde archivos locales en tu computadora.
@@ -260,7 +258,7 @@ Una vez instalado, un paquete se guarda en una carpeta específica dentro del di
 Cada paquete contiene sus funciones organizadas en subdirectorios.
 Por ejemplo, el paquete base (parte del núcleo de R) está ubicado en `R HOME/library/base/R/base`, y contiene un archivo en formato ASCII que incluye todas las funciones del paquete.
 
-### 2.5 La ayuda en R
+### La ayuda en R
 
 Existen diversas formas de buscar ayuda en R
 
@@ -333,7 +331,7 @@ Recuerda que en RStudio en el panel de la parte inferior derecha hay también un
 
 ![](Imagenes/Ayuda%20RStudio.jpg)
 
-## 3. Operando con R.
+## Operando con R.
 
 En **R**, el lenguaje es **case-sensitive**, lo que significa que distingue entre mayúsculas y minúsculas, haciendo que `Variable`, `variable`, y `VARIABLE` se consideren nombres distintos.
 Los nombres de objetos no pueden contener espacios; en su lugar, se deben usar guiones bajos (`_`) o la notación de camello (`camelCase`) para separar palabras (esto último lo usamos menos).
@@ -490,7 +488,7 @@ Al permitir que las tareas complejas se dividan en bloques más manejables, las 
 Esto no solo mejora la legibilidad y el mantenimiento del código, sino que también optimiza el uso de recursos tanto del programador como del sistema.
 Además, el uso de argumentos y opciones dentro de las funciones brinda flexibilidad, permitiendo personalizar su comportamiento según las necesidades del análisis, lo que las convierte en un componente clave para escribir código adaptable y robusto.
 
-## 4. Guardando el trabajo realizado
+## Guardando el trabajo realizado
 
 En RStudio, existen varias formas de **guardar tu trabajo** dependiendo de lo que deseas conservar (scripts, resultados, gráficos, etc.).
 Aquí se explican las principales opciones:
@@ -555,7 +553,7 @@ write_xlsx(mis_datos, "mis_datos.xlsx")
 
 ```
 
-## 5. Recuperando archivos
+## Recuperando archivos
 
 A veces necesitamos volver a abrir un archivo o recuperar la ruta donde guardamos nuestro trabajo en R.
 Para hacerlo de manera rápida, podemos aprovechar el portapapeles de Windows y algunas funciones de R.
