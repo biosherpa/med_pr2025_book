@@ -106,7 +106,9 @@ print(mayores10)  # Imprime: 11 12 13 14 15
 ```
 
 Crea un vector lógico `vlog (TRUE, FALSE, TRUE, TRUE, FALSE)` .
+
 Realiza las siguientes operaciones: calcula la cantidad de `TRUE` en el vector, verifica si todos los valores en el vector son `TRUE`, verifica si al menos uno de los valores en el vector es `TRUE`.
+
 
 ```{r, eval=FALSE}
 # Crear el vector
@@ -127,7 +129,9 @@ print(al_menos_un_true)  # Imprime: TRUE
 ```
 
 Vamos a crear un vector de 10 números aleatorios `v_aleat` y encuentra el valor máximo y mínimo.
+
 Después ordena el vector de menor a mayor.
+
 Ten en cuenta que los resultados pueden ser diferentes cada vez que ejecutes el código
 
 ```{r, eval=FALSE}

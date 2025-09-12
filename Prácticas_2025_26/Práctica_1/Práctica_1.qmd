@@ -14,8 +14,7 @@
 # editor: source
 ---
 
-
-## ¿Qué es R y cómo funciona R?
+# ¿Qué es R y cómo funciona R?
 
 R es un lenguaje de programación y un entorno de software creado con el propósito de facilitar el análisis estadístico, la visualización de datos y la manipulación de información en distintos formatos.
 Desde su origen, se ha consolidado como una de las herramientas más utilizadas en disciplinas como la estadística, la ciencia de datos, las ciencias de la salud, la economía y muchas otras áreas que requieren un manejo intensivo de datos.
@@ -29,7 +28,7 @@ Estos paquetes permiten realizar desde análisis estadísticos avanzados hasta l
 
 Gracias a esta combinación de flexibilidad, interactividad y ecosistema colaborativo, R se ha convertido en una herramienta indispensable tanto para quienes se inician en el análisis de datos, como es nuestro caso, como para profesionales que trabajan en proyectos de investigación o en aplicaciones prácticas de gran escala.
 
-### 1.1 Un poco de historia
+### Un poco de historia
 
 La historia de **R** comienza en 1992, cuando Robert Gentleman y Ross Ihaka, del Departamento de Estadística de la Universidad de Auckland (Nueva Zelanda), iniciaron el desarrollo de un nuevo lenguaje de programación orientado al análisis estadístico.
 Sin embargo, sus orígenes se remontan más atrás, ya que R tiene sus raíces en el **lenguaje S**, creado a finales de los años setenta por John Chambers y su equipo en los Laboratorios Bell (hoy Alcatel-Lucent) en Nueva Jersey.
@@ -70,7 +69,7 @@ Además, la comunidad organiza conferencias sobre R en todo el mundo, ofreciendo
 Si estás comenzando con R, seguramente encontrarás un paquete que se ajuste a tus necesidades.
 La comunidad ha desarrollado miles de herramientas que amplían las capacidades de R, con CRAN albergando casi 20.000 paquetes.
 
-### 1.2 Cómo funciona R
+### Cómo funciona R
 
 R trabaja con objetos (variables, datos, funciones, resultados) que se almacenan en la memoria activa y se manipulan mediante operadores y funciones.
 Los resultados también son objetos que pueden analizarse.
@@ -100,8 +99,8 @@ Si se omiten los paréntesis, en lugar de ejecutar la función, R muestra su def
 Este enfoque estructurado y accesible de R fomenta tanto el aprendizaje rápido como la exploración más profunda del código.
 Los usuarios pueden comenzar realizando operaciones básicas, pero también tienen la libertad de explorar cómo se construyen las funciones y modificarlas si es necesario, lo que convierte a R en una herramienta altamente flexible para el análisis de datos.
 
-## Comenzando a trabajar con R
-### Instalación de R
+# Comenzando a trabajar con R
+## Instalación de R
 
 Para instalar R vamos a la página web de R project: [**http://www.r-project.org**](http://www.r-project.org/)**.**
 
@@ -116,7 +115,7 @@ Al instalar R, el **paquete base** se incluye automáticamente.
 Este paquete proporciona herramientas esenciales para manipular datos, realizar cálculos estadísticos y crear gráficos.
 No es necesario instalarlo por separado, ya que está disponible desde el inicio para que puedas empezar a trabajar con R de inmediato.
 
-### RStudio: una interfaz para usar R
+## RStudio: una interfaz para usar R
 
 Aunque puedes ejecutar R directamente desde la línea de comandos, **RStudio** es una interfaz gráfica que facilita el uso de R, especialmente para principiantes.
 
@@ -181,7 +180,7 @@ Entre las pestañas destacadas se encuentran:
 
 -   **Help**: Proporciona asistencia sobre funciones específicas, facilitando la consulta de documentación y ayuda relacionada con el uso de diversas funciones en R.
 
-### Establecer el directorio de trabajo
+## Establecer el directorio de trabajo
 
 Antes de empezar a trabajar en R, debes fijar el directorio donde se guardarán tus archivos.
 Hay dos maneras de hacerlo:
@@ -207,7 +206,7 @@ o
 
 `C:\\Users\\Usuario\\Documents\\Archivo.txt`.
 
-### Instalación y uso de paquetes
+## Instalación y uso de paquetes
 
 Un paquete es un conjunto de funciones, datos y documentación que están organizados para realizar tareas específicas.
 **R** viene con algunos paquetes preinstalados, pero puedes descargar e instalar muchos más desde repositorios en línea o desde archivos locales en tu computadora.
@@ -258,7 +257,7 @@ Una vez instalado, un paquete se guarda en una carpeta específica dentro del di
 Cada paquete contiene sus funciones organizadas en subdirectorios.
 Por ejemplo, el paquete base (parte del núcleo de R) está ubicado en `R HOME/library/base/R/base`, y contiene un archivo en formato ASCII que incluye todas las funciones del paquete.
 
-### La ayuda en R
+## La ayuda en R
 
 Existen diversas formas de buscar ayuda en R
 
@@ -331,7 +330,7 @@ Recuerda que en RStudio en el panel de la parte inferior derecha hay también un
 
 ![](Imagenes/Ayuda%20RStudio.jpg)
 
-## Operando con R.
+# Operando con R.
 
 En **R**, el lenguaje es **case-sensitive**, lo que significa que distingue entre mayúsculas y minúsculas, haciendo que `Variable`, `variable`, y `VARIABLE` se consideren nombres distintos.
 Los nombres de objetos no pueden contener espacios; en su lugar, se deben usar guiones bajos (`_`) o la notación de camello (`camelCase`) para separar palabras (esto último lo usamos menos).
@@ -340,7 +339,7 @@ Nombres que comienzan con números o que contienen espacios o caracteres especia
 
 Los caracteres reservados como `=`, `$`, `&`, y `*`, así como caracteres especiales como `ä`, `ü`, `í`, no están permitidos en los nombres de objetos, ya que pueden causar errores o comportamientos inesperados.
 
-### 3.1 Las líneas de código en R
+### Las líneas de código en R
 
 En R, como ya señalamos, los comandos se pueden separar por punto y coma (`;`) o por saltos de línea.
 Esto permite flexibilidad en cómo se estructuran y escriben los comandos en el código.
@@ -385,7 +384,7 @@ z <- x + y
 z
 ```
 
-### 3.2 Creación de objetos con R
+### Creación de objetos con R
 
 En **R**, los objetos se crean y asignan utilizando el operador `<-`, que es la forma más común de asignar valores a variables.
 Los objetos pueden tener diferentes tipos de datos, como numérico, carácter, lógico o complejo, y cada uno tiene atributos que definen su naturaleza y tamaño.
@@ -460,7 +459,7 @@ rm (y,A)
 rm (list= ls())
 ```
 
-### 3.3 Las funciones en R
+### Las funciones en R
 
 En **R**, las funciones son bloques de código reutilizables diseñados para realizar tareas específicas y pueden ser una herramienta poderosa en el análisis de datos.
 Cada función en **R** tiene una estructura compuesta por tres partes principales: el nombre de la función, los argumentos y las opciones.

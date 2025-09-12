@@ -1,9 +1,10 @@
 ---
-title: "<span style ='font-size:16px; font-weight:bold;'>Prefacio</span>"
-subtitle: "Asignatura de Bioestadística. Grado de Medicina. URJC."
+# title: "<span style ='font-size:16px; font-weight:bold;'>Prefacio</span>"
+# subtitle: "Asignatura de Bioestadística. Grado de Medicina. URJC."
 ---
+# Prefacio {.unnumbered}
 
-En este sitio web encontrarás lo fundamental de las prácticas de la asignatura de Bioestadística del grado de medicina de la URJC para el curso 2023-2024.
+En este sitio web encontrarás lo fundamental de las prácticas de la asignatura de Bioestadística del grado de medicina de la URJC para el curso `r paste0(lubridate::year(Sys.Date()),"-",lubridate::year(Sys.Date())+1)`.
 
 **ALGUNAS RECOMENDACIONES**
 

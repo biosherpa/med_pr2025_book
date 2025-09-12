@@ -14,9 +14,12 @@ book:
       chapters: 
         - Prácticas_2025_26/Práctica_1/Práctica_1.qmd
         - Prácticas_2025_26/Práctica_1/Práctica_1_ejercicios.qmd
+    - part: "Objetos y Operadores en R. Vectores y Matrices."
+      chapters:
         - Prácticas_2025_26/Práctica_2/Práctica_2.qmd
         - Prácticas_2025_26/Práctica_2/Práctica_2_ejercicios.qmd
-          
+    - references.qmd
+     
           
     # - Practicas_2024_25/Practica_3/Practica_3_pdf.qmd
     #   chapters:
@@ -56,7 +59,6 @@ book:
     # - Práctica 13_ejercicios.qmd 
     # - Práctica 14.qmd 
     # - Práctica 14_ejercicios.qmd 
-    - references.qmd
 
 lang: es
 bibliography: references.bib
